@@ -1,0 +1,54 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успешно",
+    "cancel": "Отмена",
+    "apply": "Применить",
+    "reset": "Сбросить",
+    "save": "Сохранить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "search": "Поиск",
+    "filter": "Фильтр"
+  },
+  "auth": {
+    "login": "Вход",
+    "register": "Регистрация",
+    "email": "Email",
+    "password": "Пароль",
+    "fullName": "Полное имя",
+    "phone": "Номер телефона",
+    "confirmPassword": "Подтвердите пароль",
+    "loginButton": "Войти",
+    "registerButton": "Зарегистрироваться",
+    "logout": "Выход",
+    "logoutConfirm": "Вы уверены, что хотите выйти?"
+  },
+  "home": {
+    "title": "Главная",
+    "noJobs": "Вакансии не найдены",
+    "searchPlaceholder": "Поиск вакансий..."
+  },
+  "job": {
+    "title": "Название вакансии",
+    "description": "Описание",
+    "salary": "Зарплата",
+    "location": "Местоположение",
+    "category": "Категория",
+    "employmentType": "Тип занятости",
+    "fullTime": "Полный рабочий день",
+    "partTime": "Неполный рабочий день",
+    "contact": "Контакты",
+    "call": "Позвонить",
+    "email": "Отправить Email",
+    "postJob": "Разместить вакансию",
+    "myJobs": "Мои вакансии"
+  },
+  "profile": {
+    "title": "Профиль",
+    "information": "Информация",
+    "registeredDate": "Дата регистрации"
+  }
+}
+

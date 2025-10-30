@@ -1,0 +1,54 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "reset": "Reset",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "confirmPassword": "Confirm Password",
+    "loginButton": "Login",
+    "registerButton": "Register",
+    "logout": "Logout",
+    "logoutConfirm": "Are you sure you want to logout?"
+  },
+  "home": {
+    "title": "Home",
+    "noJobs": "No job listings found",
+    "searchPlaceholder": "Search for jobs..."
+  },
+  "job": {
+    "title": "Job Title",
+    "description": "Description",
+    "salary": "Salary",
+    "location": "Location",
+    "category": "Category",
+    "employmentType": "Employment Type",
+    "fullTime": "Full Time",
+    "partTime": "Part Time",
+    "contact": "Contact",
+    "call": "Call",
+    "email": "Send Email",
+    "postJob": "Post Job",
+    "myJobs": "My Jobs"
+  },
+  "profile": {
+    "title": "Profile",
+    "information": "Information",
+    "registeredDate": "Registration Date"
+  }
+}
+

@@ -1,0 +1,54 @@
+{
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik",
+    "success": "Muvaffaqiyatli",
+    "cancel": "Bekor qilish",
+    "apply": "Qo'llash",
+    "reset": "Tozalash",
+    "save": "Saqlash",
+    "delete": "O'chirish",
+    "edit": "Tahrirlash",
+    "search": "Qidirish",
+    "filter": "Filtrlash"
+  },
+  "auth": {
+    "login": "Tizimga kirish",
+    "register": "Ro'yxatdan o'tish",
+    "email": "Email",
+    "password": "Parol",
+    "fullName": "To'liq ism",
+    "phone": "Telefon raqami",
+    "confirmPassword": "Parolni tasdiqlash",
+    "loginButton": "Kirish",
+    "registerButton": "Ro'yxatdan o'tish",
+    "logout": "Chiqish",
+    "logoutConfirm": "Tizimdan chiqmoqchimisiz?"
+  },
+  "home": {
+    "title": "Bosh sahifa",
+    "noJobs": "Ish e'lonlari topilmadi",
+    "searchPlaceholder": "Ish qidirish..."
+  },
+  "job": {
+    "title": "Ish nomi",
+    "description": "Tavsif",
+    "salary": "Maosh",
+    "location": "Manzil",
+    "category": "Kategoriya",
+    "employmentType": "Ish turi",
+    "fullTime": "To'liq kunlik",
+    "partTime": "Yarim kunlik",
+    "contact": "Bog'lanish",
+    "call": "Qo'ng'iroq qilish",
+    "email": "Email yuborish",
+    "postJob": "E'lon berish",
+    "myJobs": "Mening e'lonlarim"
+  },
+  "profile": {
+    "title": "Profil",
+    "information": "Ma'lumotlar",
+    "registeredDate": "Ro'yxatdan o'tgan sana"
+  }
+}
+
