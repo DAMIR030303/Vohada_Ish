@@ -35,8 +35,8 @@ export const HomeScreen: React.FC = () => {
     console.log('HomeScreen - Jobs:', jobs.length, 'Loading:', loading);
   }
 
-  // Tab bar balandligi: iOS 88px, Android 64px
-  const tabBarHeight = Platform.OS === 'ios' ? 88 : 64;
+  // Tab bar balandligi: iOS 88px, Android 60px
+  const tabBarHeight = Platform.OS === 'ios' ? 88 : 60;
 
   // Featured job card bosilganda
   const handleFeaturedJobPress = useCallback((jobId: string) => {

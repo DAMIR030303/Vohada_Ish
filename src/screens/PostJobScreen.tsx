@@ -19,8 +19,8 @@ export const PostJobScreen: React.FC = () => {
   const { refreshUserJobs } = useJobs();
   const [loading, setLoading] = useState(false);
 
-  // Tab bar balandligi: iOS 88px, Android 80px
-  const tabBarHeight = Platform.OS === 'ios' ? 88 : 80;
+  // Tab bar balandligi: iOS 88px, Android 60px
+  const tabBarHeight = Platform.OS === 'ios' ? 88 : 60;
   const [formData, setFormData] = useState({
     title: '',
     description: '',

@@ -29,15 +29,15 @@ export const FeaturedJobCard: React.FC<FeaturedJobCardProps> = ({
   onPress,
   style,
 }) => {
-  // Gradient ranglarni tanlash
+  // Gradient ranglarni tanlash - Logo ranglaridan foydalanish
   const getGradientColors = (): [string, string] => {
     switch (job.badge) {
       case 'TOP':
-        return ['#FF6B6B', '#EE5A6F'];
+        return [colors.accentLight, colors.accent]; // #52B788 → #40916C (eng yorqin)
       case 'PREMIUM':
-        return ['#6366F1', '#8B5CF6'];
+        return [colors.primary, colors.primaryDark]; // #1B4332 → #0F2419 (quyuq, premium)
       case 'YANGI':
-        return ['#10B981', '#14B8A6'];
+        return [colors.primaryLight, colors.accent]; // #2D5A3D → #40916C (yangi uchun)
       default:
         return [colors.primary, colors.accent];
     }

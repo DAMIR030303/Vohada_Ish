@@ -25,11 +25,11 @@ export const TabBarButton: React.FC<TabBarButtonProps> = ({
       <View style={[styles.iconContainer, focused && styles.iconContainerFocused]}>
         <MaterialCommunityIcons
           name={iconName as any}
-          size={focused ? 28 : 24}
+          size={focused ? 26 : 22}
           color={focused ? colors.primary : colors.textSecondary}
         />
       </View>
-      <Text style={[styles.label, focused && styles.labelFocused]} numberOfLines={2}>
+      <Text style={[styles.label, focused && styles.labelFocused]} numberOfLines={1}>
         {label}
       </Text>
     </View>
@@ -43,29 +43,30 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 4,
+    marginBottom: 2,
     backgroundColor: 'transparent',
   },
   iconContainerFocused: {
     backgroundColor: colors.primary + '15', // 15% opacity
   },
   label: {
-    fontSize: 9,
+    fontSize: 8.5,
     fontWeight: '500',
     color: colors.textSecondary,
-    marginTop: 2,
+    marginTop: 1,
     textAlign: 'center',
     paddingHorizontal: 2,
+    lineHeight: 11,
   },
   labelFocused: {
     fontWeight: '700',
     color: colors.primary,
-    fontSize: 10,
+    fontSize: 9,
   },
 });
 

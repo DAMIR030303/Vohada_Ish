@@ -22,8 +22,8 @@ export const SearchScreen: React.FC = () => {
   const { jobs, loading, filters, setFilters, refreshJobs } = useJobs();
   const [showFilterModal, setShowFilterModal] = useState(false);
 
-  // Tab bar balandligi: iOS 88px, Android 64px
-  const tabBarHeight = Platform.OS === 'ios' ? 88 : 64;
+  // Tab bar balandligi: iOS 88px, Android 60px
+  const tabBarHeight = Platform.OS === 'ios' ? 88 : 60;
 
   const handleCategoryPress = (categoryId: string) => {
     setFilters({

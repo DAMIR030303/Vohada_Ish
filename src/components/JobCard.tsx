@@ -34,28 +34,28 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
     navigation.navigate('JobDetails', { jobId: job.id });
   };
 
-  // Kategoriya bo'yicha gradient ranglar va icon
+  // Kategoriya bo'yicha gradient ranglar va icon - Logo ranglaridan foydalanish
   const getCategoryStyle = () => {
     const styles = {
       IT: {
-        gradient: ['#667eea', '#764ba2'] as [string, string],
+        gradient: [colors.primary, colors.accent] as [string, string], // #1B4332 → #40916C
         icon: 'laptop' as const,
-        iconBg: 'rgba(255, 255, 255, 0.2)',
+        iconBg: 'rgba(255, 255, 255, 0.25)',
       },
       Dizayn: {
-        gradient: ['#f093fb', '#f5576c'] as [string, string],
+        gradient: [colors.primaryDark, colors.primary] as [string, string], // #0F2419 → #1B4332
         icon: 'palette' as const,
-        iconBg: 'rgba(255, 255, 255, 0.2)',
+        iconBg: 'rgba(255, 255, 255, 0.25)',
       },
       Marketing: {
-        gradient: ['#4facfe', '#00f2fe'] as [string, string],
+        gradient: [colors.accent, colors.accentLight] as [string, string], // #40916C → #52B788
         icon: 'bullhorn' as const,
-        iconBg: 'rgba(255, 255, 255, 0.2)',
+        iconBg: 'rgba(255, 255, 255, 0.25)',
       },
       default: {
-        gradient: [colors.primary, colors.accent] as [string, string],
+        gradient: [colors.primaryLight, colors.accent] as [string, string], // #2D5A3D → #40916C
         icon: 'briefcase' as const,
-        iconBg: 'rgba(255, 255, 255, 0.2)',
+        iconBg: 'rgba(255, 255, 255, 0.25)',
       },
     };
     
