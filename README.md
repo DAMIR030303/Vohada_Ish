@@ -19,14 +19,31 @@ React Native + TypeScript + Expo bilan yaratilgan ish e'lonlari mobil ilovasi.
 npm install
 ```
 
-2. Firebase konfiguratsiyasini sozlash:
-   - `.env.example` faylini `.env` ga nusxalang
-   - Firebase loyihangizdan kerakli ma'lumotlarni qo'ying
-
-3. Ilovani ishga tushirish:
+2. Ilovani ishga tushirish (Demo mode - Firebase'siz):
 ```bash
 npm start
 ```
+
+### Demo Mode (Default)
+
+Ilova hozir **demo mode**'da ishlaydi - Firebase'siz, AsyncStorage bilan. Bu demo uchun yetarli:
+- ✅ Ro'yxatdan o'tish va kirish ishlaydi
+- ✅ Ish e'lonlarini ko'rish va qo'shish mumkin
+- ✅ Barcha ma'lumotlar AsyncStorage'da saqlanadi
+- ✅ Mock data bilan tayyor demo mavjud
+
+### Firebase'ni yoqish
+
+Firebase allaqachon sozlangan! ✅
+
+`.env` faylida Firebase config ma'lumotlari mavjud. Ilova avtomatik ravishda:
+- `.env` faylida `EXPO_PUBLIC_FIREBASE_API_KEY` bo'lsa → Firebase ishlatadi
+- Aks holda → Mock/Demo mode ishlaydi
+
+**Firebase Console'da qilish kerak:**
+1. **Authentication** → Email/Password yoqing
+2. **Firestore Database** → Yaratib, Test mode'da qoldiring
+3. Ilovani qayta ishga tushiring: `npm start -- --clear`
 
 ## Struktura
 

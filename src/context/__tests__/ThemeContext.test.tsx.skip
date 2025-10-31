@@ -1,0 +1,267 @@
+/**
+ * ThemeContext Tests
+ */
+
+import React from 'react';
+import { renderHook, act } from '@testing-library/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Appearance } from 'react-native';
+
+import { ThemeProvider, useTheme, ThemeMode } from '../ThemeContext';
+import { brandColors } from '../../constants/colors';
+
+// Mock AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+}));
+
+// Mock Appearance
+jest.mock('react-native', () => ({
+  ...jest.requireActual('react-native'),
+  Appearance: {
+    getColorScheme: jest.fn(() => 'light'),
+    addChangeListener: jest.fn(() => ({ remove: jest.fn() })),
+  },
+}));
+
+describe('ThemeContext', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+    (Appearance.getColorScheme as jest.Mock).mockReturnValue('light');
+  });
+
+  it('provides default theme values', () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    expect(result.current.themeMode).toBe('system');
+    expect(result.current.isDarkMode).toBe(false);
+    expect(result.current.colors.primary).toBe(brandColors.primary);
+    expect(typeof result.current.setThemeMode).toBe('function');
+  });
+
+  it('loads saved theme mode from AsyncStorage', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('dark');
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    // Wait for async loading
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    expect(result.current.themeMode).toBe('dark');
+  });
+
+  it('sets theme mode and saves to AsyncStorage', async () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await act(async () => {
+      await result.current.setThemeMode('dark');
+    });
+
+    expect(result.current.themeMode).toBe('dark');
+    expect(AsyncStorage.setItem).toHaveBeenCalledWith('@theme_mode', 'dark');
+  });
+
+  it('determines dark mode correctly for system theme', () => {
+    (Appearance.getColorScheme as jest.Mock).mockReturnValue('dark');
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    expect(result.current.isDarkMode).toBe(true);
+  });
+
+  it('returns light colors for light theme', () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    act(() => {
+      result.current.setThemeMode('light');
+    });
+
+    expect(result.current.colors.primary).toBe(brandColors.primary);
+    expect(result.current.colors.background).toBe('#FAFBFC');
+    expect(result.current.colors.surface).toBe(brandColors.white);
+  });
+
+  it('returns dark colors for dark theme', async () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await act(async () => {
+      await result.current.setThemeMode('dark');
+    });
+
+    expect(result.current.colors.primary).toBe(brandColors.accentLight);
+    expect(result.current.colors.background).toBe('#0A0F0C');
+    expect(result.current.colors.surface).toBe('#1A2B20');
+  });
+
+  it('listens to system appearance changes', () => {
+    const mockAddListener = jest.fn();
+    (Appearance.addChangeListener as jest.Mock).mockImplementation(mockAddListener);
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    renderHook(() => useTheme(), { wrapper });
+
+    expect(mockAddListener).toHaveBeenCalledWith(expect.any(Function));
+  });
+
+  it('handles AsyncStorage errors gracefully', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockRejectedValue(new Error('Storage error'));
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    expect(result.current.themeMode).toBe('system'); // Should fallback to default
+    expect(consoleSpy).toHaveBeenCalledWith('Error loading theme mode:', expect.any(Error));
+
+    consoleSpy.mockRestore();
+  });
+
+  it('handles setThemeMode errors gracefully', async () => {
+    (AsyncStorage.setItem as jest.Mock).mockRejectedValue(new Error('Save error'));
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await act(async () => {
+      await result.current.setThemeMode('dark');
+    });
+
+    expect(result.current.themeMode).toBe('dark'); // Should still update state
+    expect(consoleSpy).toHaveBeenCalledWith('Error saving theme mode:', expect.any(Error));
+
+    consoleSpy.mockRestore();
+  });
+
+  it('ignores invalid saved theme modes', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('invalid-theme');
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    expect(result.current.themeMode).toBe('system'); // Should keep default
+  });
+
+  it('supports all theme modes', async () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    const modes: ThemeMode[] = ['light', 'dark', 'system'];
+
+    for (const mode of modes) {
+      await act(async () => {
+        await result.current.setThemeMode(mode);
+      });
+
+      expect(result.current.themeMode).toBe(mode);
+    }
+  });
+
+  it('cleans up appearance listener on unmount', () => {
+    const mockRemove = jest.fn();
+    (Appearance.addChangeListener as jest.Mock).mockReturnValue({ remove: mockRemove });
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { unmount } = renderHook(() => useTheme(), { wrapper });
+
+    unmount();
+
+    expect(mockRemove).toHaveBeenCalled();
+  });
+
+  it('throws error when used outside provider', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+    expect(() => {
+      renderHook(() => useTheme());
+    }).toThrow('useTheme must be used within a ThemeProvider');
+
+    consoleSpy.mockRestore();
+  });
+
+  it('provides brand colors in light theme', () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    act(() => {
+      result.current.setThemeMode('light');
+    });
+
+    expect(result.current.colors.primary).toBe(brandColors.primary);
+    expect(result.current.colors.accent).toBe(brandColors.accent);
+    expect(result.current.colors.success).toBe(brandColors.accentLight);
+  });
+
+  it('provides appropriate colors in dark theme', async () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await act(async () => {
+      await result.current.setThemeMode('dark');
+    });
+
+    expect(result.current.colors.primary).toBe(brandColors.accentLight);
+    expect(result.current.colors.text).toBe(brandColors.white);
+    expect(result.current.colors.border).toBe('#2D4A35');
+  });
+});

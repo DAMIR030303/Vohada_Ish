@@ -1,108 +1,27 @@
 /**
  * Autentifikatsiya servisi
+ * 
+ * Firebase yoqilgan bo'lsa Firebase versiyasini, aks holda Mock versiyasini ishlatadi
  */
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-  User as FirebaseUser,
-} from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+// Ikkala versiyani ham import qilish
+import * as firebaseAuth from './firebaseAuthService';
+import * as mockAuth from './mockAuthService';
 
-import { User } from '../types';
+// Firebase API key mavjud bo'lsa Firebase, aks holda Mock
+const useFirebase = !!process.env.EXPO_PUBLIC_FIREBASE_API_KEY;
 
-import { auth, db } from './firebase';
+// Runtime'da tanlash
+const authService = useFirebase ? firebaseAuth : mockAuth;
 
-/**
- * Ro'yxatdan o'tish
- */
-export const register = async (
-  email: string,
-  password: string,
-  fullName: string,
-  phone?: string,
-): Promise<User> => {
-  try {
-    // Firebase Auth orqali ro'yxatdan o'tish
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    const firebaseUser = userCredential.user;
+// Re-export
+export const getUserData = authService.getUserData;
+export const login = authService.login;
+export const logout = authService.logout;
+export const register = authService.register;
+export const resetPassword = authService.resetPassword;
 
-    // Profilni yangilash
-    await updateProfile(firebaseUser, {
-      displayName: fullName,
-    });
-
-    // Firestore'da foydalanuvchi ma'lumotlarini saqlash
-    const userData: Omit<User, 'id'> = {
-      email,
-      fullName,
-      phone,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    await setDoc(doc(db, 'users', firebaseUser.uid), userData);
-
-    return {
-      id: firebaseUser.uid,
-      ...userData,
-    };
-  } catch (error) {
-    throw error;
-  }
-};
-
-/**
- * Kirish
- */
-export const login = async (
-  email: string,
-  password: string,
-): Promise<FirebaseUser> => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    );
-    return userCredential.user;
-  } catch (error) {
-    throw error;
-  }
-};
-
-/**
- * Chiqish
- */
-export const logout = async (): Promise<void> => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    throw error;
-  }
-};
-
-/**
- * Foydalanuvchi ma'lumotlarini olish
- */
-export const getUserData = async (userId: string): Promise<User | null> => {
-  try {
-    const userDoc = await getDoc(doc(db, 'users', userId));
-    if (userDoc.exists()) {
-      return {
-        id: userDoc.id,
-        ...userDoc.data(),
-      } as User;
-    }
-    return null;
-  } catch (error) {
-    throw error;
-  }
-};
-
+// confirmResetPassword faqat Firebase mode'da mavjud
+export const confirmResetPassword = useFirebase 
+  ? (firebaseAuth as typeof firebaseAuth & { confirmResetPassword: typeof firebaseAuth.confirmResetPassword }).confirmResetPassword
+  : undefined;

@@ -1,0 +1,71 @@
+/**
+ * Zamonaviy Tab Bar Button komponenti
+ */
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { colors } from '../constants/colors';
+
+interface TabBarButtonProps {
+  label: string;
+  iconName: string;
+  focused: boolean;
+  onPress: () => void;
+}
+
+export const TabBarButton: React.FC<TabBarButtonProps> = ({
+  label,
+  iconName,
+  focused,
+  onPress,
+}) => {
+  return (
+    <View style={styles.container}>
+      <View style={[styles.iconContainer, focused && styles.iconContainerFocused]}>
+        <MaterialCommunityIcons
+          name={iconName as any}
+          size={focused ? 28 : 24}
+          color={focused ? colors.primary : colors.textSecondary}
+        />
+      </View>
+      <Text style={[styles.label, focused && styles.labelFocused]} numberOfLines={2}>
+        {label}
+      </Text>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+    backgroundColor: 'transparent',
+  },
+  iconContainerFocused: {
+    backgroundColor: colors.primary + '15', // 15% opacity
+  },
+  label: {
+    fontSize: 9,
+    fontWeight: '500',
+    color: colors.textSecondary,
+    marginTop: 2,
+    textAlign: 'center',
+    paddingHorizontal: 2,
+  },
+  labelFocused: {
+    fontWeight: '700',
+    color: colors.primary,
+    fontSize: 10,
+  },
+});
+

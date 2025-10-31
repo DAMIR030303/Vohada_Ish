@@ -3,19 +3,24 @@
  */
 
 import React, { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '../constants/colors';
 import { useAuth } from '../context/AuthContext';
 import { useJobs } from '../context/JobContext';
 import { createJob } from '../services/jobService';
+import { horizontalPadding, verticalPadding } from '../utils/responsive';
 import { isValidEmail, isValidPhone } from '../utils/validation';
 
 export const PostJobScreen: React.FC = () => {
   const { user } = useAuth();
   const { refreshUserJobs } = useJobs();
   const [loading, setLoading] = useState(false);
+
+  // Tab bar balandligi: iOS 88px, Android 80px
+  const tabBarHeight = Platform.OS === 'ios' ? 88 : 80;
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -99,7 +104,12 @@ export const PostJobScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <SafeAreaView style={styles.safeArea} edges={['left', 'right', 'top']}>
+      <ScrollView 
+        style={styles.container} 
+        contentContainerStyle={[styles.content, { paddingBottom: tabBarHeight + 20 }]}
+        showsVerticalScrollIndicator={false}
+      >
       <TextInput
         label="Ish nomi *"
         value={formData.title}
@@ -184,20 +194,29 @@ export const PostJobScreen: React.FC = () => {
         loading={loading}
         disabled={loading}
         style={styles.submitButton}
+        contentStyle={styles.buttonContent}
+        labelStyle={styles.buttonLabel}
+        buttonColor={colors.primary}
       >
         Joylashtirish
       </Button>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
   content: {
-    padding: 16,
+    paddingHorizontal: horizontalPadding(16),
+    paddingVertical: verticalPadding(16),
   },
   input: {
     marginBottom: 16,
@@ -211,7 +230,22 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 8,
-    marginBottom: 32,
+    marginBottom: 8,
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  buttonContent: {
+    paddingVertical: 10,
+    paddingHorizontal: 24,
+  },
+  buttonLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.5,
   },
 });
 

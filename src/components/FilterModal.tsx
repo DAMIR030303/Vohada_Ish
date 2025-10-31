@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 
 import { categories } from '../constants/categories';
@@ -126,10 +126,23 @@ export const FilterModal: React.FC<FilterModalProps> = ({
             </View>
           </ScrollView>
           <View style={styles.actions}>
-            <Button mode="outlined" onPress={handleReset} style={styles.button}>
+            <Button
+              mode="outlined"
+              onPress={handleReset}
+              style={styles.buttonOutlined}
+              contentStyle={styles.buttonContent}
+              labelStyle={styles.buttonLabelOutlined}
+            >
               Tozalash
             </Button>
-            <Button mode="contained" onPress={handleApply} style={styles.button}>
+            <Button
+              mode="contained"
+              onPress={handleApply}
+              style={styles.button}
+              contentStyle={styles.buttonContent}
+              labelStyle={styles.buttonLabel}
+              buttonColor={colors.primary}
+            >
               Qo&apos;llash
             </Button>
           </View>
@@ -177,6 +190,38 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  buttonOutlined: {
+    flex: 1,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    elevation: 1,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  buttonContent: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  buttonLabel: {
+    fontSize: 15,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  buttonLabelOutlined: {
+    fontSize: 15,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    color: colors.primary,
   },
 });
 
