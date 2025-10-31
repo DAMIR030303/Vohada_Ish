@@ -30,8 +30,13 @@ export const HomeScreen: React.FC = () => {
   const { jobs, loading, refreshJobs } = useJobs();
   const navigation = useNavigation();
 
-  // Tab bar balandligi: iOS 88px, Android 80px
-  const tabBarHeight = Platform.OS === 'ios' ? 88 : 80;
+  // Debug
+  if (__DEV__) {
+    console.log('HomeScreen - Jobs:', jobs.length, 'Loading:', loading);
+  }
+
+  // Tab bar balandligi: iOS 88px, Android 64px
+  const tabBarHeight = Platform.OS === 'ios' ? 88 : 64;
 
   // Featured job card bosilganda
   const handleFeaturedJobPress = useCallback((jobId: string) => {
@@ -48,7 +53,7 @@ export const HomeScreen: React.FC = () => {
   ), [handleFeaturedJobPress]);
 
   // Regular job render item
-  const renderJob = useCallback(({ item }: any) => (
+  const renderJob = useCallback(({ item }: { item: any }) => (
     <JobCard job={item} />
   ), []);
 
@@ -100,9 +105,13 @@ export const HomeScreen: React.FC = () => {
               />
             ) : (
               // Jobs list
-              jobs.map((job) => (
-                <JobCard key={job.id} job={job} />
-              ))
+              <FlatList
+                data={jobs}
+                renderItem={renderJob}
+                keyExtractor={(item) => item.id}
+                scrollEnabled={false}
+                showsVerticalScrollIndicator={false}
+              />
             )}
           </View>
         </ScrollView>
@@ -125,11 +134,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionTitle: {
-    fontSize: fontSize(20),
-    fontWeight: '700',
+    fontSize: fontSize(22),
+    fontWeight: '800',
     color: colors.text,
     marginBottom: 16,
     marginLeft: horizontalPadding(16),
+    letterSpacing: -0.5,
   },
   featuredList: {
     paddingLeft: horizontalPadding(16),

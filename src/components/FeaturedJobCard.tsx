@@ -33,7 +33,7 @@ export const FeaturedJobCard: React.FC<FeaturedJobCardProps> = ({
   const getGradientColors = (): [string, string] => {
     switch (job.badge) {
       case 'TOP':
-        return [colors.primary, colors.accent];
+        return ['#FF6B6B', '#EE5A6F'];
       case 'PREMIUM':
         return ['#6366F1', '#8B5CF6'];
       case 'YANGI':
@@ -47,13 +47,16 @@ export const FeaturedJobCard: React.FC<FeaturedJobCardProps> = ({
   const formatSalary = () => {
     if (!job.salary) return 'Kelishilgan holda';
     
-    const min = Math.floor(job.salary.min / 1000000);
+    const min = job.salary.min ? Math.floor(job.salary.min / 1000000) : 0;
     const max = job.salary.max ? Math.floor(job.salary.max / 1000000) : null;
     
-    if (max) {
+    if (max && min) {
       return `${min}-${max} mln UZS`;
     }
-    return `${min}+ mln UZS`;
+    if (min) {
+      return `${min}+ mln UZS`;
+    }
+    return 'Kelishilgan holda';
   };
 
   const gradientColors = getGradientColors();
@@ -139,10 +142,10 @@ export const FeaturedJobCard: React.FC<FeaturedJobCardProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 280,
-    height: 180,
+    width: 300,
+    height: 200,
     marginRight: 16,
-    borderRadius: 20,
+    borderRadius: 24,
     overflow: 'hidden',
     // Shadow
     ...Platform.select({
@@ -150,13 +153,13 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
-          height: 4,
+          height: 8,
         },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
+        shadowOpacity: 0.35,
+        shadowRadius: 16,
       },
       android: {
-        elevation: 8,
+        elevation: 12,
       },
     }),
   },
@@ -166,68 +169,70 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
-    padding: 16,
+    padding: 20,
+    borderRadius: 24,
   },
   badge: {
     position: 'absolute',
-    top: 12,
-    right: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.25)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.4)',
+    top: 16,
+    right: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
   },
   badgeText: {
-    fontSize: fontSize(11),
-    fontWeight: '700',
+    fontSize: fontSize(12),
+    fontWeight: '800',
     color: '#FFFFFF',
-    letterSpacing: 0.5,
+    letterSpacing: 1,
   },
   content: {
     flex: 1,
     justifyContent: 'space-between',
   },
   logoContainer: {
-    width: 56,
-    height: 56,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 16,
+    width: 60,
+    height: 60,
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1.5,
+    borderColor: 'rgba(255, 255, 255, 0.4)',
   },
   title: {
-    fontSize: fontSize(18),
-    fontWeight: '700',
+    fontSize: fontSize(19),
+    fontWeight: '800',
     color: '#FFFFFF',
-    marginTop: 12,
-    lineHeight: 24,
+    marginTop: 14,
+    lineHeight: 26,
   },
   company: {
-    fontSize: fontSize(14),
-    fontWeight: '500',
-    color: 'rgba(255, 255, 255, 0.9)',
-    marginTop: 4,
+    fontSize: fontSize(15),
+    fontWeight: '600',
+    color: 'rgba(255, 255, 255, 0.95)',
+    marginTop: 6,
   },
   bottomInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 14,
+    gap: 8,
   },
   infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+    gap: 6,
   },
   infoText: {
-    fontSize: fontSize(12),
+    fontSize: fontSize(13),
     fontWeight: '600',
     color: 'rgba(255, 255, 255, 0.95)',
-    marginLeft: 4,
   },
 });
 
