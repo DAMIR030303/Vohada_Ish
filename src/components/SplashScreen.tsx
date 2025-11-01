@@ -3,18 +3,18 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import { 
-  Animated, 
-  StyleSheet, 
-  Text, 
-  View, 
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  View,
   Dimensions,
   StatusBar,
-  Platform 
+  Platform,
 } from 'react-native';
 
-import { useTheme } from '../context/ThemeContext';
 import { brandColors } from '../constants/colors';
+import { useTheme } from '../context/ThemeContext';
 import { fontSize } from '../utils/responsive';
 
 interface SplashScreenProps {
@@ -22,14 +22,14 @@ interface SplashScreenProps {
   duration?: number;
 }
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
   onAnimationEnd,
-  duration = 2500,
+  duration: _duration = 2500,
 }) => {
   const { colors } = useTheme();
-  
+
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
@@ -47,7 +47,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
         duration: 300,
         useNativeDriver: false,
       }),
-      
+
       // 2. Logo appears with scale and fade
       Animated.parallel([
         Animated.timing(logoOpacity, {
@@ -62,7 +62,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           useNativeDriver: true,
         }),
       ]),
-      
+
       // 3. Text slides up and fades in
       Animated.parallel([
         Animated.timing(textOpacity, {
@@ -76,10 +76,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           useNativeDriver: true,
         }),
       ]),
-      
+
       // 4. Hold for a moment
       Animated.delay(800),
-      
+
       // 5. Fade out everything
       Animated.parallel([
         Animated.timing(fadeAnim, {
@@ -127,12 +127,12 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
   return (
     <View style={[styles.container, dynamicStyles.container]}>
-      <StatusBar 
-        backgroundColor={brandColors.primary} 
-        barStyle="light-content" 
+      <StatusBar
+        backgroundColor={brandColors.primary}
+        barStyle="light-content"
         translucent={false}
       />
-      
+
       {/* Animated Background */}
       <Animated.View
         style={[
@@ -159,11 +159,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       >
         {/* Logo Text - VohadaIsh brand */}
         <View style={styles.logoTextContainer}>
-          <Text style={[styles.logoText, dynamicStyles.logoText]}>
-            VOHADA
-          </Text>
+          <Text style={[styles.logoText, dynamicStyles.logoText]}>VOHADA</Text>
           <View style={styles.logoUnderline} />
-          <Text style={[styles.logoText, styles.logoTextSecondary, dynamicStyles.logoText]}>
+          <Text
+            style={[
+              styles.logoText,
+              styles.logoTextSecondary,
+              dynamicStyles.logoText,
+            ]}
+          >
             ISH
           </Text>
         </View>

@@ -47,7 +47,10 @@ export const register = async (
 /**
  * Kirish
  */
-export const login = async (email: string, _password: string): Promise<User> => {
+export const login = async (
+  email: string,
+  _password: string,
+): Promise<User> => {
   // Demo uchun - users ro'yxatidan topamiz
   const usersJson = await AsyncStorage.getItem(USERS_STORAGE_KEY);
   const users: User[] = usersJson ? JSON.parse(usersJson) : [...mockUsers];
@@ -106,9 +109,9 @@ export const resetPassword = async (email: string): Promise<void> => {
   // Demo uchun - email tekshirish
   const usersJson = await AsyncStorage.getItem(USERS_STORAGE_KEY);
   const users: User[] = usersJson ? JSON.parse(usersJson) : [...mockUsers];
-  
+
   const userExists = users.some((u) => u.email === email);
-  
+
   if (!userExists) {
     // Demo uchun - har doim muvaffaqiyatli qaytarish
     // Haqiqiy loyihada email'ga yuborish kerak
@@ -116,7 +119,7 @@ export const resetPassword = async (email: string): Promise<void> => {
   } else {
     console.log(`Demo mode: Parolni tiklash email yuborildi: ${email}`);
   }
-  
+
   // Demo uchun - haqiqiy email yuborilmaydi
   // Faqat console'ga log yozamiz
 };
@@ -137,4 +140,3 @@ export const getCurrentUser = async (): Promise<User | null> => {
   }
   return null;
 };
-

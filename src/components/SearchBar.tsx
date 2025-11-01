@@ -3,7 +3,13 @@
  */
 
 import React, { useState } from 'react';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -38,16 +44,23 @@ export const SearchBar: React.FC<SearchBarProps> = ({ compact = false }) => {
 
   // Status bar va notch uchun padding
   const topPadding = compact
-    ? (Platform.OS === 'ios' ? 8 : 12)
-    : (Platform.OS === 'ios' 
-        ? Math.max(insets.top, 8) 
-        : Math.max(insets.top + 4, 28));
+    ? Platform.OS === 'ios'
+      ? 8
+      : 12
+    : Platform.OS === 'ios'
+      ? Math.max(insets.top, 8)
+      : Math.max(insets.top + 4, 28);
 
   const bottomPadding = compact ? 8 : 12;
   const searchHeight = compact ? 44 : 48;
 
   return (
-    <View style={[styles.container, { paddingTop: topPadding, paddingBottom: bottomPadding }]}>
+    <View
+      style={[
+        styles.container,
+        { paddingTop: topPadding, paddingBottom: bottomPadding },
+      ]}
+    >
       <View style={styles.searchContainer}>
         <Searchbar
           placeholder="Ish qidirish..."
@@ -61,18 +74,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({ compact = false }) => {
           accessibilityRole="search"
           accessibilityLabel="Ish e'lonlarini qidirish"
           accessibilityHint="Ish nomi, kompaniya yoki joylashuv bo'yicha qidiring"
-          clearIcon={() => searchQuery ? (
-            <TouchableOpacity 
-              onPress={handleClear} 
-              activeOpacity={0.7}
-              accessible={true}
-              accessibilityRole="button"
-              accessibilityLabel="Qidiruv matnini tozalash"
-              accessibilityHint="Kiritilgan matnni o'chirish uchun bosing"
-            >
-              <Text style={styles.clearIcon}>✕</Text>
-            </TouchableOpacity>
-          ) : null}
+          clearIcon={() =>
+            searchQuery ? (
+              <TouchableOpacity
+                onPress={handleClear}
+                activeOpacity={0.7}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel="Qidiruv matnini tozalash"
+                accessibilityHint="Kiritilgan matnni o'chirish uchun bosing"
+              >
+                <Text style={styles.clearIcon}>✕</Text>
+              </TouchableOpacity>
+            ) : null
+          }
         />
       </View>
     </View>
@@ -134,4 +149,3 @@ const styles = StyleSheet.create({
     padding: 4,
   },
 });
-

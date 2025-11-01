@@ -18,12 +18,12 @@ Config faylni olishdan keyin, quyidagi ma'lumotlarni ko'rasiz:
 
 ```javascript
 const firebaseConfig = {
-  apiKey: "AIza...",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
+  apiKey: 'AIza...',
+  authDomain: 'your-project.firebaseapp.com',
+  projectId: 'your-project-id',
+  storageBucket: 'your-project.appspot.com',
+  messagingSenderId: '123456789',
+  appId: '1:123456789:web:abcdef',
 };
 ```
 
@@ -104,14 +104,16 @@ npm start -- --clear
 ## Muammolarni Hal Qilish
 
 ### Firebase xatosi: "invalid-api-key"
+
 - `.env` faylida barcha ma'lumotlar to'g'ri kiritilganligini tekshiring
 - Ilovani qayta ishga tushiring: `npm start -- --clear`
 
 ### Authentication ishlamayapti
+
 - Firebase Console'da Authentication yoqilganligini tekshiring
 - Email/Password sign-in method yoqilganligini tekshiring
 
 ### Firestore xatolari
+
 - Firestore Database yaratilganligini tekshiring
 - Database rules to'g'ri sozlanganligini tekshiring
-

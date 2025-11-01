@@ -95,4 +95,3 @@ export const sendLocalNotification = async (
     console.error('Send notification error:', error);
   }
 };
-

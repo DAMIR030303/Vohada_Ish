@@ -4,7 +4,8 @@
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+
 import { colors } from '../constants/colors';
 
 interface TabBarButtonProps {
@@ -18,18 +19,23 @@ export const TabBarButton: React.FC<TabBarButtonProps> = ({
   label,
   iconName,
   focused,
-  onPress,
+  onPress: _onPress,
 }) => {
   return (
     <View style={styles.container}>
-      <View style={[styles.iconContainer, focused && styles.iconContainerFocused]}>
+      <View
+        style={[styles.iconContainer, focused && styles.iconContainerFocused]}
+      >
         <MaterialCommunityIcons
           name={iconName as any}
           size={focused ? 26 : 22}
           color={focused ? colors.primary : colors.textSecondary}
         />
       </View>
-      <Text style={[styles.label, focused && styles.labelFocused]} numberOfLines={1}>
+      <Text
+        style={[styles.label, focused && styles.labelFocused]}
+        numberOfLines={1}
+      >
         {label}
       </Text>
     </View>
@@ -69,4 +75,3 @@ const styles = StyleSheet.create({
     fontSize: 9,
   },
 });
-

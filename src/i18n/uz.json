@@ -28,7 +28,29 @@
   "home": {
     "title": "Bosh sahifa",
     "noJobs": "Ish e'lonlari topilmadi",
-    "searchPlaceholder": "Ish qidirish..."
+    "searchPlaceholder": "Ish qidirish...",
+    "welcome": "Assalomu alaykum, {{name}}!",
+    "welcomeGuest": "Bosh sahifa",
+    "totalJobs": "Aktiv ishlar",
+    "newToday": "Bugun yangi",
+    "companies": "Kompaniyalar",
+    "categories": "Kategoriyalar",
+    "allCategories": "Barcha kategoriyalar",
+    "viewAll": "Barchasini ko'rish",
+    "recommended": "Siz uchun",
+    "popularCompanies": "Ommabop kompaniyalar",
+    "quickFilters": "Tezkor filtrlar",
+    "allRegions": "Barcha viloyatlar",
+    "allTypes": "Barcha turlar",
+    "featuredJobs": "Mashhur ish e'lonlari",
+    "allJobs": "Barcha ishlar",
+    "activeJobs": "Faol e'lonlar",
+    "selectRegion": "Viloyatni tanlang",
+    "selectType": "Ish turini tanlang",
+    "selectCategory": "Kategoriya tanlang",
+    "employmentType": "Ish turi",
+    "login": "Kirish",
+    "jobsCount": "{{count}} ta ish"
   },
   "job": {
     "title": "Ish nomi",
@@ -45,10 +67,26 @@
     "postJob": "E'lon berish",
     "myJobs": "Mening e'lonlarim"
   },
+  "messages": {
+    "title": "Xabarlar",
+    "noConversations": "Xabarlar yo'q",
+    "noConversationsDesc": "Hali hech kim bilan yozishmagan ekansiz",
+    "startMessaging": "Yozishni boshlash uchun biror ish e'loniga murojaat qiling",
+    "typing": "yozmoqda...",
+    "online": "Onlayn",
+    "offline": "Offlayn",
+    "lastSeen": "Oxirgi kirish",
+    "messageInput": "Xabar yozing...",
+    "send": "Yuborish",
+    "delivered": "Yetkazildi",
+    "read": "O'qildi",
+    "unread": "O'qilmagan",
+    "today": "Bugun",
+    "yesterday": "Kecha"
+  },
   "profile": {
     "title": "Profil",
     "information": "Ma'lumotlar",
     "registeredDate": "Ro'yxatdan o'tgan sana"
   }
 }
-

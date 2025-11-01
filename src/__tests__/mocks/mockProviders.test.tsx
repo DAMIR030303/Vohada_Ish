@@ -1,12 +1,13 @@
 /**
  * Mock Providers test
- * 
+ *
  * @description Mock providers exportlarini tekshirish
  */
 
+import { render } from '@testing-library/react-native';
 import React from 'react';
 import { Text } from 'react-native';
-import { render } from '@testing-library/react-native';
+
 import {
   MockAuthProvider,
   MockJobProvider,
@@ -15,7 +16,7 @@ import {
 } from '../../test-utils/mockProviders';
 
 describe('Mock Providers', () => {
-  it('barcha mock providerlar mavjud bo\'lishi kerak', () => {
+  it("barcha mock providerlar mavjud bo'lishi kerak", () => {
     expect(MockAuthProvider).toBeDefined();
     expect(MockJobProvider).toBeDefined();
     expect(MockThemeProvider).toBeDefined();
@@ -27,7 +28,7 @@ describe('Mock Providers', () => {
     const { getByText } = render(
       <MockAuthProvider>
         <TestComponent />
-      </MockAuthProvider>
+      </MockAuthProvider>,
     );
     expect(getByText('Test')).toBeTruthy();
   });
@@ -37,7 +38,7 @@ describe('Mock Providers', () => {
     const { getByText } = render(
       <MockJobProvider>
         <TestComponent />
-      </MockJobProvider>
+      </MockJobProvider>,
     );
     expect(getByText('Test')).toBeTruthy();
   });
@@ -47,7 +48,7 @@ describe('Mock Providers', () => {
     const { getByText } = render(
       <MockThemeProvider>
         <TestComponent />
-      </MockThemeProvider>
+      </MockThemeProvider>,
     );
     expect(getByText('Test')).toBeTruthy();
   });
@@ -57,9 +58,8 @@ describe('Mock Providers', () => {
     const { getByText } = render(
       <MockTransitionProvider>
         <TestComponent />
-      </MockTransitionProvider>
+      </MockTransitionProvider>,
     );
     expect(getByText('Test')).toBeTruthy();
   });
 });
-

@@ -14,35 +14,9 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 import { User } from '../types';
+import { checkFirebaseConfig } from '../utils/firebaseHelpers';
 
 import { auth, db } from './firebase';
-
-/**
- * Firebase konfiguratsiyasini tekshirish
- */
-const checkFirebaseConfig = () => {
-  if (!auth || !db) {
-    // Firebase konfiguratsiyasi topilmadi - aniq xatolik xabari
-    const error = new Error(
-      'Firebase konfiguratsiyasi topilmadi.\n\n' +
-      'Iltimos, quyidagi qadamlarni bajaring:\n' +
-      '1. .env faylini yarating (loyiha ildizida)\n' +
-      '2. Firebase Console\'dan ma\'lumotlarni oling\n' +
-      '3. .env fayliga quyidagilarni qo\'ying:\n' +
-      '   EXPO_PUBLIC_FIREBASE_API_KEY=your_api_key\n' +
-      '   EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain\n' +
-      '   EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_project_id\n' +
-      '   EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket\n' +
-      '   EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id\n' +
-      '   EXPO_PUBLIC_FIREBASE_APP_ID=your_app_id\n' +
-      '4. Expo server\'ni qayta ishga tushiring: npm start -- --clear'
-    );
-    // Firebase xatosi formatida qaytarish
-    (error as any).code = 'auth/configuration-not-found';
-    (error as any).message = 'Firebase: Error (auth/configuration-not-found)';
-    throw error;
-  }
-};
 
 /**
  * Ro'yxatdan o'tish
@@ -53,7 +27,7 @@ export const register = async (
   fullName: string,
   phone?: string,
 ): Promise<User> => {
-  checkFirebaseConfig();
+  checkFirebaseConfig(true);
   try {
     // Firebase Auth orqali ro'yxatdan o'tish
     const userCredential = await createUserWithEmailAndPassword(
@@ -95,7 +69,7 @@ export const login = async (
   email: string,
   password: string,
 ): Promise<FirebaseUser> => {
-  checkFirebaseConfig();
+  checkFirebaseConfig(true);
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth!,
@@ -112,7 +86,7 @@ export const login = async (
  * Chiqish
  */
 export const logout = async (): Promise<void> => {
-  checkFirebaseConfig();
+  checkFirebaseConfig(true);
   try {
     await signOut(auth!);
   } catch (error) {
@@ -124,7 +98,7 @@ export const logout = async (): Promise<void> => {
  * Parolni tiklash email yuborish
  */
 export const resetPassword = async (email: string): Promise<void> => {
-  checkFirebaseConfig();
+  checkFirebaseConfig(true);
   try {
     // Firebase Console'da Action URL sozlang:
     // Custom URL: vohadaish://reset-password?oobCode=%OOB_CODE%&mode=resetPassword
@@ -145,7 +119,7 @@ export const confirmResetPassword = async (
   oobCode: string,
   newPassword: string,
 ): Promise<void> => {
-  checkFirebaseConfig();
+  checkFirebaseConfig(true);
   try {
     await confirmPasswordReset(auth!, oobCode, newPassword);
   } catch (error) {
@@ -172,7 +146,9 @@ export const getUserData = async (userId: string): Promise<User | null> => {
     // Agar user dokumenti bo'lmasa, null qaytarish
     // AuthContext'da Firebase Auth ma'lumotlaridan yaratiladi
     if (__DEV__) {
-      console.warn(`User document not found in Firestore for userId: ${userId}`);
+      console.warn(
+        `User document not found in Firestore for userId: ${userId}`,
+      );
     }
     return null;
   } catch (error) {
@@ -180,4 +156,3 @@ export const getUserData = async (userId: string): Promise<User | null> => {
     throw error;
   }
 };
-

@@ -1,0 +1,14 @@
+{
+  "role": "test.setup",
+  "description": "O'rnatadi va sozlaydi: Jest, Detox, ESLint, Husky, Prettier va TypeScript. Barcha test dependency'larni o'rnatadi va konfiguratsiya fayllarni yaratadi.",
+  "command": "pnpm install --save-dev jest @testing-library/react-native @testing-library/jest-native @types/jest jest-circus detox eslint prettier husky lint-staged typescript @typescript-eslint/parser @typescript-eslint/eslint-plugin",
+  "files": [
+    "jest.config.js",
+    "detox.config.js",
+    ".eslintrc.js",
+    "tsconfig.json",
+    ".husky/pre-commit",
+    ".husky/pre-push"
+  ],
+  "notes": "Bu role loyihaga barcha test vositalarini o'rnatadi va sozlaydi."
+}

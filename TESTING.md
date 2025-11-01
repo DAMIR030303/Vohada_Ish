@@ -36,16 +36,21 @@ VohadaIsh loyihasida to'liq test coverage tizimi sozlangan va faol ishlayapti.
 ### Testlarni Ishga Tushirish
 
 \`\`\`bash
+
 # Barcha testlar
+
 npm test
 
 # Coverage bilan
+
 npm run test:coverage
 
 # Watch mode (development)
+
 npm run test:watch
 
 # CI mode
+
 npm run test:ci
 \`\`\`
 
@@ -56,15 +61,15 @@ npm run test:ci
 
 ### Test Yozish
 
-Test yozish uchun \`src/__tests__/utils/testUtils.tsx\` dan foydalaning:
+Test yozish uchun \`src/**tests**/utils/testUtils.tsx\` dan foydalaning:
 
 \`\`\`typescript
-import { renderWithProviders, createMockJob } from '@/__tests__/utils/testUtils';
+import { renderWithProviders, createMockJob } from '@/**tests**/utils/testUtils';
 
 it('test nomi', () => {
-  const mockJob = createMockJob();
-  const { getByText } = renderWithProviders(<Component />);
-  expect(getByText('Title')).toBeTruthy();
+const mockJob = createMockJob();
+const { getByText } = renderWithProviders(<Component />);
+expect(getByText('Title')).toBeTruthy();
 });
 \`\`\`
 
@@ -82,4 +87,3 @@ it('test nomi', () => {
 2. Qolgan component testlari (14 ta)
 3. Integration testlar (3 ta)
 4. Coverage 80%+ ga yetkazish
-

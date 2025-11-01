@@ -15,7 +15,7 @@ const MockAuthContext = createContext({
   updateProfile: jest.fn(),
 });
 
-export const MockAuthProvider: React.FC<{ 
+export const MockAuthProvider: React.FC<{
   children: React.ReactNode;
   value?: any;
 }> = ({ children, value }) => {
@@ -50,7 +50,7 @@ const MockJobContext = createContext({
   refreshUserJobs: jest.fn(),
 });
 
-export const MockJobProvider: React.FC<{ 
+export const MockJobProvider: React.FC<{
   children: React.ReactNode;
   value?: any;
 }> = ({ children, value }) => {
@@ -100,7 +100,7 @@ const MockThemeContext = createContext({
   },
 });
 
-export const MockThemeProvider: React.FC<{ 
+export const MockThemeProvider: React.FC<{
   children: React.ReactNode;
   value?: any;
 }> = ({ children, value }) => {
@@ -148,7 +148,7 @@ const MockTransitionContext = createContext({
   setAnimationsEnabled: jest.fn(),
 });
 
-export const MockTransitionProvider: React.FC<{ 
+export const MockTransitionProvider: React.FC<{
   children: React.ReactNode;
   value?: any;
 }> = ({ children, value }) => {

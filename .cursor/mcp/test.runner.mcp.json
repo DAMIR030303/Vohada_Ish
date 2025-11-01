@@ -1,0 +1,11 @@
+{
+  "role": "test.runner",
+  "description": "Barcha testlarni ishga tushiradi va hisobot yaratadi. Unit testlar (Jest), E2E testlar (Detox), lint va type check bajaradi.",
+  "command": "pnpm run lint && pnpm run typecheck && pnpm test && pnpm run e2e",
+  "script": "test:full",
+  "output": {
+    "format": "markdown",
+    "file": "test-report-{timestamp}.md"
+  },
+  "notes": "Bu role barcha testlarni ketma-ket ishga tushiradi va natijalarni markdown formatida saqlaydi."
+}

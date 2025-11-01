@@ -37,7 +37,7 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
             duration: 1000,
             useNativeDriver: false,
           }),
-        ])
+        ]),
       ).start();
     };
 
@@ -70,23 +70,48 @@ export const JobCardSkeleton: React.FC = () => {
     <View style={styles.skeletonCard}>
       <View style={styles.skeletonContent}>
         {/* Title */}
-        <SkeletonLoader width="70%" height={20} borderRadius={6} style={styles.skeletonTitle} />
-        
+        <SkeletonLoader
+          width="70%"
+          height={20}
+          borderRadius={6}
+          style={styles.skeletonTitle}
+        />
+
         {/* Company */}
-        <SkeletonLoader width="50%" height={16} borderRadius={4} style={styles.skeletonCompany} />
-        
+        <SkeletonLoader
+          width="50%"
+          height={16}
+          borderRadius={4}
+          style={styles.skeletonCompany}
+        />
+
         {/* Description lines */}
-        <SkeletonLoader width="100%" height={14} borderRadius={4} style={styles.skeletonDescription} />
-        <SkeletonLoader width="80%" height={14} borderRadius={4} style={styles.skeletonDescription} />
-        
+        <SkeletonLoader
+          width="100%"
+          height={14}
+          borderRadius={4}
+          style={styles.skeletonDescription}
+        />
+        <SkeletonLoader
+          width="80%"
+          height={14}
+          borderRadius={4}
+          style={styles.skeletonDescription}
+        />
+
         {/* Meta info */}
         <View style={styles.skeletonMeta}>
           <SkeletonLoader width="40%" height={12} borderRadius={4} />
           <SkeletonLoader width="30%" height={12} borderRadius={4} />
         </View>
-        
+
         {/* Salary */}
-        <SkeletonLoader width="60%" height={16} borderRadius={6} style={styles.skeletonSalary} />
+        <SkeletonLoader
+          width="60%"
+          height={16}
+          borderRadius={6}
+          style={styles.skeletonSalary}
+        />
       </View>
     </View>
   );
@@ -96,10 +121,10 @@ export const JobCardSkeleton: React.FC = () => {
 export const SearchBarSkeleton: React.FC = () => {
   return (
     <View style={styles.searchBarContainer}>
-      <SkeletonLoader 
-        width="100%" 
-        height={48} 
-        borderRadius={16} 
+      <SkeletonLoader
+        width="100%"
+        height={48}
+        borderRadius={16}
         style={styles.searchBarSkeleton}
       />
     </View>

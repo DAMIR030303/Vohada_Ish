@@ -1,11 +1,12 @@
 /**
  * Sound Effects utility testlari
- * 
+ *
  * @description Sound effects funksiyalarini test qilish
  * Coverage target: 85%+
  */
 
 import * as ExpoAV from 'expo-av';
+
 import {
   initializeSounds,
   playSound,
@@ -25,7 +26,7 @@ describe('Sound Effects Utils', () => {
   });
 
   describe('initializeSounds', () => {
-    it('sound manager\'ni muvaffaqiyatli ishga tushirish kerak', async () => {
+    it("sound manager'ni muvaffaqiyatli ishga tushirish kerak", async () => {
       await initializeSounds();
 
       expect(ExpoAV.Audio.setAudioModeAsync).toHaveBeenCalledWith({
@@ -40,27 +41,29 @@ describe('Sound Effects Utils', () => {
     it('xato yuz berganda console.warn chaqirilishi kerak', async () => {
       // Clean up va yangi instance yaratish uchun
       await cleanupSounds();
-      
+
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
       (ExpoAV.Audio.setAudioModeAsync as jest.Mock).mockRejectedValueOnce(
-        new Error('Audio error')
+        new Error('Audio error'),
       );
 
       await initializeSounds();
 
       expect(consoleSpy).toHaveBeenCalled();
       consoleSpy.mockRestore();
-      
+
       // Keyingi testlar uchun restore qilish
-      (ExpoAV.Audio.setAudioModeAsync as jest.Mock).mockResolvedValue(undefined);
+      (ExpoAV.Audio.setAudioModeAsync as jest.Mock).mockResolvedValue(
+        undefined,
+      );
     });
 
     it('bir necha marta chaqirilganda faqat bir marta initialize qilish kerak', async () => {
       jest.clearAllMocks();
-      
+
       // Cleanup qilib, tozadan boshlaymiz
       await cleanupSounds();
-      
+
       // Birinchi marta initialize
       await initializeSounds();
       // Ikkinchi va uchinchi marta (isInitialized=true bo'lgani uchun qayta initialize qilmasligi kerak)
@@ -77,7 +80,7 @@ describe('Sound Effects Utils', () => {
       await initializeSounds();
     });
 
-    it('sound\'ni muvaffaqiyatli ijro etish kerak', async () => {
+    it("sound'ni muvaffaqiyatli ijro etish kerak", async () => {
       await playSound(SoundType.TAP, 0.5);
 
       // playSystemSound chaqirilishi kerak (lekin bu private method)
@@ -87,10 +90,10 @@ describe('Sound Effects Utils', () => {
 
     it('xato yuz berganda console.warn chaqirilishi kerak', async () => {
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-      
+
       // Mock error
       await playSound(SoundType.TAP, 0.5);
-      
+
       // Agar error bo'lsa, warn chaqiriladi
       // Hozircha error bo'lmasligi kerak
       consoleSpy.mockRestore();
@@ -112,7 +115,7 @@ describe('Sound Effects Utils', () => {
       await initializeSounds();
     });
 
-    it('sound\'ni o\'chirish va yoqish kerak', () => {
+    it("sound'ni o'chirish va yoqish kerak", () => {
       setSoundEnabled(false);
       expect(isSoundEnabled()).toBe(false);
 
@@ -195,7 +198,7 @@ describe('Sound Effects Utils', () => {
       await soundEffects.confirmAction();
       jest.advanceTimersByTime(250);
       jest.useRealTimers();
-      
+
       expect(true).toBe(true);
     });
 
@@ -204,7 +207,7 @@ describe('Sound Effects Utils', () => {
       await soundEffects.deleteAction();
       jest.advanceTimersByTime(200);
       jest.useRealTimers();
-      
+
       expect(true).toBe(true);
     });
   });
@@ -213,22 +216,21 @@ describe('Sound Effects Utils', () => {
     it('initialize qilinmasdan playSound chaqirilganda xato bermasligi kerak', async () => {
       // Cleanup qilamiz
       await cleanupSounds();
-      
+
       // Yangi instance yaratilguncha kutamiz
       await playSound(SoundType.TAP);
-      
+
       expect(true).toBe(true);
     });
 
-    it('sound o\'chirilgan bo\'lsa, playSound ishlamasligi kerak', async () => {
+    it("sound o'chirilgan bo'lsa, playSound ishlamasligi kerak", async () => {
       await initializeSounds();
       setSoundEnabled(false);
-      
+
       await playSound(SoundType.TAP);
-      
+
       // Xatolar bo'lmasligi kerak
       expect(true).toBe(true);
     });
   });
 });
-

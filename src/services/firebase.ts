@@ -6,7 +6,6 @@ import { initializeApp } from 'firebase/app';
 import { Auth, getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Firebase v12'da AsyncStorage persistence avtomatik qo'llaniladi
 // Expo muhitida @react-native-async-storage/async-storage avtomatik ishlatiladi
@@ -35,7 +34,7 @@ if (__DEV__) {
 }
 
 // Konfiguratsiyani validatsiya qilish
-const isFirebaseConfigured = 
+const isFirebaseConfigured =
   firebaseConfig.apiKey &&
   firebaseConfig.authDomain &&
   firebaseConfig.projectId &&
@@ -46,8 +45,8 @@ const isFirebaseConfigured =
 if (!isFirebaseConfigured) {
   console.warn(
     '⚠️ Firebase konfiguratsiyasi topilmadi. ' +
-    'Iltimos, .env faylida EXPO_PUBLIC_FIREBASE_* o\'zgaruvchilarini to\'ldiring ' +
-    'va Expo server\'ni qayta ishga tushiring: npm start -- --clear'
+      "Iltimos, .env faylida EXPO_PUBLIC_FIREBASE_* o'zgaruvchilarini to'ldiring " +
+      "va Expo server'ni qayta ishga tushiring: npm start -- --clear",
   );
 }
 
@@ -71,20 +70,25 @@ try {
 }
 
 // Auth ni AsyncStorage bilan initialize qilish
-// Firebase v12 da AsyncStorage avtomatik aniqlanadi
 let auth: Auth | null = null;
 let db: ReturnType<typeof getFirestore> | null = null;
 let storage: ReturnType<typeof getStorage> | null = null;
 
 if (app && isFirebaseConfigured) {
   try {
-    // Firebase Auth'ni initialize qilish
-    // Firebase v12'da AsyncStorage avtomatik ishlatiladi
-    auth = getAuth(app);
-    
+    // Firebase Auth'ni AsyncStorage persistence bilan initialize qilish
+    try {
+      auth = initializeAuth(app, {
+        persistence: getReactNativePersistence(AsyncStorage),
+      });
+    } catch (error) {
+      // Auth allaqachon initialize qilingan bo'lsa, getAuth ishlatamiz
+      auth = getAuth(app);
+    }
+
     db = getFirestore(app);
     storage = getStorage(app);
-    
+
     if (__DEV__) {
       console.log('✅ Firebase services initialized successfully');
       console.log('Auth:', !!auth);
@@ -92,7 +96,10 @@ if (app && isFirebaseConfigured) {
       console.log('Storage:', !!storage);
     }
   } catch (error) {
-    console.error('❌ Firebase service\'larni initialize qilishda xatolik:', error);
+    console.error(
+      "❌ Firebase service'larni initialize qilishda xatolik:",
+      error,
+    );
     // Xatolik bo'lsa, service'larni null qilib qoldiramiz
     auth = null;
     db = null;
@@ -119,4 +126,3 @@ export { db };
 export { storage };
 
 export default app;
-

@@ -4,18 +4,19 @@
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
-import { Animated, Platform, StyleSheet, Text, View, Modal } from 'react-native';
-import { 
-  LongPressGestureHandler, 
+import { Animated, Platform, StyleSheet, Text, Modal } from 'react-native';
+import {
+  LongPressGestureHandler,
   State,
-  LongPressGestureHandlerStateChangeEvent 
+  LongPressGestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
 
-import { AnimatedTouchable, ScaleInView } from './AnimatedComponents';
 import { useTheme } from '../context/ThemeContext';
-import { fontSize } from '../utils/responsive';
 import { hapticFeedback } from '../utils/haptics';
+import { fontSize } from '../utils/responsive';
 import { soundEffects } from '../utils/soundEffects';
+
+import { AnimatedTouchable, ScaleInView } from './AnimatedComponents';
 
 interface MenuAction {
   id: string;
@@ -44,19 +45,19 @@ export const LongPressMenu: React.FC<LongPressMenuProps> = ({
 
   const onLongPress = (event: LongPressGestureHandlerStateChangeEvent) => {
     if (disabled) return;
-    
+
     if (event.nativeEvent.state === State.ACTIVE) {
       // Get touch position
       const { absoluteX, absoluteY } = event.nativeEvent;
       setMenuPosition({ x: absoluteX, y: absoluteY });
-      
+
       // Trigger feedback
       hapticFeedback.longPress();
       soundEffects.selection();
-      
+
       // Show menu with animation
       setMenuVisible(true);
-      
+
       // Scale animation for pressed item
       Animated.sequence([
         Animated.timing(scaleAnim, {

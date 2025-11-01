@@ -25,4 +25,3 @@ Hech qanday Firebase konfiguratsiyasi kerak emas! ✅
 ## Firebase'ni Keyinroq Yoqish
 
 Firebase'ni yoqish uchun `FIREBASE_SETUP.md` faylini o'qing.
-

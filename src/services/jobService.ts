@@ -1,6 +1,6 @@
 /**
  * Ish e'lonlari servisi
- * 
+ *
  * Firebase yoqilgan bo'lsa Firebase versiyasini, aks holda Mock versiyasini ishlatadi
  */
 

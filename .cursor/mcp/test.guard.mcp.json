@@ -1,0 +1,13 @@
+{
+  "role": "test.guard",
+  "description": "Commit'dan oldin tekshiradi; agar test yiqilsa, commit'ni bloklaydi. Husky pre-commit hook'da ishlaydi.",
+  "command": "pnpm run precommit",
+  "hook": "pre-commit",
+  "checks": [
+    "lint-staged (lint va format)",
+    "typecheck (TypeScript)",
+    "test (Jest unit testlar)"
+  ],
+  "onFailure": "block",
+  "notes": "Bu role commit'ni oldini oladi va faqat barcha testlar o'tgandan keyin commit'ga ruxsat beradi."
+}

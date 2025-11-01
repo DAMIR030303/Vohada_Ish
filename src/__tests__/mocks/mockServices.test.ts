@@ -1,6 +1,6 @@
 /**
  * Mock Services test
- * 
+ *
  * @description Mock services exportlarini tekshirish
  */
 
@@ -14,7 +14,7 @@ import {
 } from '../../test-utils/mockServices';
 
 describe('Mock Services', () => {
-  it('barcha mock exportlar mavjud bo\'lishi kerak', () => {
+  it("barcha mock exportlar mavjud bo'lishi kerak", () => {
     expect(mockHaptics).toBeDefined();
     expect(mockSoundEffects).toBeDefined();
     expect(mockFirebaseAuth).toBeDefined();
@@ -23,16 +23,15 @@ describe('Mock Services', () => {
     expect(mockNavigation).toBeDefined();
   });
 
-  it('mockHaptics funksiyalarga ega bo\'lishi kerak', () => {
+  it("mockHaptics funksiyalarga ega bo'lishi kerak", () => {
     expect(mockHaptics.impactAsync).toBeDefined();
     expect(mockHaptics.notificationAsync).toBeDefined();
     expect(mockHaptics.selectionAsync).toBeDefined();
   });
 
-  it('mockSoundEffects funksiyalarga ega bo\'lishi kerak', () => {
+  it("mockSoundEffects funksiyalarga ega bo'lishi kerak", () => {
     expect(mockSoundEffects.tap).toBeDefined();
     expect(mockSoundEffects.success).toBeDefined();
     expect(mockSoundEffects.error).toBeDefined();
   });
 });
-

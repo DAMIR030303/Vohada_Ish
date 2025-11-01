@@ -42,8 +42,12 @@ export interface Message {
   id: string;
   conversationId: string;
   senderId: string;
+  senderName: string;
+  senderAvatar?: string;
   receiverId: string;
   content: string;
+  type: 'text' | 'image' | 'file'; // Message turi
+  mediaUrl?: string; // Rasm yoki fayl URL
   read: boolean;
   createdAt: Date;
 }
@@ -51,8 +55,23 @@ export interface Message {
 export interface Conversation {
   id: string;
   participants: string[]; // User IDs
+  participantDetails?: Record<
+    string,
+    {
+      name: string;
+      avatar?: string;
+      online?: boolean;
+    }
+  >; // Tez ko'rsatish uchun
   jobId?: string; // Agar ish e'loniga bog'liq bo'lsa
-  lastMessage?: Message;
+  jobTitle?: string; // Ish nomi (context uchun)
+  lastMessage?: {
+    content: string;
+    senderId: string;
+    createdAt: Date;
+  };
+  unreadCount?: Record<string, number>; // Har bir user uchun unread count
+  typing?: Record<string, boolean>; // Har bir user yozayaptimi
   createdAt: Date;
   updatedAt: Date;
 }
@@ -67,3 +86,26 @@ export interface FilterOptions {
   searchQuery?: string;
 }
 
+export interface Company {
+  id: string;
+  name: string;
+  logo?: string;
+  description?: string;
+  jobCount: number;
+}
+
+export interface PromoBanner {
+  id: string;
+  title: string;
+  subtitle: string;
+  imageUrl?: string;
+  lottieAnimation?: string;
+  action: 'login' | 'register' | 'postJob';
+  backgroundColor: string;
+}
+
+export interface HomeStats {
+  totalJobs: number;
+  newToday: number;
+  companiesCount: number;
+}

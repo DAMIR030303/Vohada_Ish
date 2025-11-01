@@ -1,14 +1,11 @@
 /**
  * FirebaseJobService testlari
- * 
+ *
  * @description Firebase Job service funksiyalarini to'liq test qilish
  * Coverage target: 90%+
  */
 
 // Mock must come before imports
-jest.mock('firebase/firestore');
-jest.mock('../firebase');
-
 import {
   collection,
   addDoc,
@@ -22,6 +19,8 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 
+import { Job } from '../../types';
+import { db } from '../firebase';
 import {
   createJob,
   updateJob,
@@ -30,8 +29,9 @@ import {
   getJobs,
   getUserJobs,
 } from '../firebaseJobService';
-import { db } from '../firebase';
-import { Job } from '../../types';
+
+jest.mock('firebase/firestore');
+jest.mock('../firebase');
 
 describe('FirebaseJobService', () => {
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('FirebaseJobService', () => {
   });
 
   describe('createJob', () => {
-    it('yangi ish e\'lonini yaratish kerak', async () => {
+    it("yangi ish e'lonini yaratish kerak", async () => {
       const mockJobData: Omit<Job, 'id' | 'createdAt' | 'updatedAt'> = {
         title: 'React Developer',
         description: 'Looking for experienced React developer',
@@ -60,7 +60,10 @@ describe('FirebaseJobService', () => {
       const mockDocRef = { id: 'job-123' };
       (addDoc as jest.Mock).mockResolvedValue(mockDocRef);
       (collection as jest.Mock).mockReturnValue('jobs-collection');
-      (Timestamp.now as jest.Mock) = jest.fn(() => ({ seconds: 123, nanoseconds: 0 }));
+      (Timestamp.now as jest.Mock) = jest.fn(() => ({
+        seconds: 123,
+        nanoseconds: 0,
+      }));
 
       const result = await createJob(mockJobData);
 
@@ -78,7 +81,7 @@ describe('FirebaseJobService', () => {
   });
 
   describe('updateJob', () => {
-    it('ish e\'lonini yangilash kerak', async () => {
+    it("ish e'lonini yangilash kerak", async () => {
       (updateDoc as jest.Mock).mockResolvedValue(undefined);
 
       await updateJob('job-123', { title: 'Updated Title' });
@@ -90,14 +93,14 @@ describe('FirebaseJobService', () => {
       const error = new Error('Update failed');
       (updateDoc as jest.Mock).mockRejectedValue(error);
 
-      await expect(
-        updateJob('job-123', { title: 'Updated' })
-      ).rejects.toThrow('Update failed');
+      await expect(updateJob('job-123', { title: 'Updated' })).rejects.toThrow(
+        'Update failed',
+      );
     });
   });
 
   describe('deleteJob', () => {
-    it('ish e\'lonini o\'chirish kerak', async () => {
+    it("ish e'lonini o'chirish kerak", async () => {
       (deleteDoc as jest.Mock).mockResolvedValue(undefined);
 
       await deleteJob('job-123');
@@ -114,7 +117,7 @@ describe('FirebaseJobService', () => {
   });
 
   describe('getJob', () => {
-    it('ish e\'lonini olish kerak', async () => {
+    it("ish e'lonini olish kerak", async () => {
       const mockJobData = {
         title: 'React Developer',
         description: 'Job description',
@@ -139,7 +142,7 @@ describe('FirebaseJobService', () => {
       expect(result?.title).toBe('React Developer');
     });
 
-    it('mavjud bo\'lmagan ish uchun null qaytarish kerak', async () => {
+    it("mavjud bo'lmagan ish uchun null qaytarish kerak", async () => {
       const mockDoc = {
         exists: () => false,
       };
@@ -160,7 +163,7 @@ describe('FirebaseJobService', () => {
   });
 
   describe('getJobs', () => {
-    it('aktiv ish e\'lonlarini olish kerak', async () => {
+    it("aktiv ish e'lonlarini olish kerak", async () => {
       const mockJobs = [
         {
           id: 'job-1',
@@ -203,7 +206,7 @@ describe('FirebaseJobService', () => {
       expect(result[1].id).toBe('job-2');
     });
 
-    it('kategoriya filtri bilan ish e\'lonlarini olish kerak', async () => {
+    it("kategoriya filtri bilan ish e'lonlarini olish kerak", async () => {
       const mockQuerySnapshot = {
         forEach: jest.fn(),
       };
@@ -219,7 +222,7 @@ describe('FirebaseJobService', () => {
       expect(where).toHaveBeenCalledWith('category', '==', 'technology');
     });
 
-    it('region filtri bilan ish e\'lonlarini olish kerak', async () => {
+    it("region filtri bilan ish e'lonlarini olish kerak", async () => {
       const mockQuerySnapshot = {
         forEach: jest.fn(),
       };
@@ -274,7 +277,7 @@ describe('FirebaseJobService', () => {
       expect(result[0].title).toBe('React Developer');
     });
 
-    it('permissions xatosi bo\'lsa bo\'sh array qaytarish kerak', async () => {
+    it("permissions xatosi bo'lsa bo'sh array qaytarish kerak", async () => {
       const error = new Error('Permission denied');
       (error as any).code = 'permission-denied';
       (getDocs as jest.Mock).mockRejectedValue(error);
@@ -284,7 +287,7 @@ describe('FirebaseJobService', () => {
       expect(result).toEqual([]);
     });
 
-    it('index xatosi bo\'lsa bo\'sh array qaytarish kerak', async () => {
+    it("index xatosi bo'lsa bo'sh array qaytarish kerak", async () => {
       const error = new Error('Index required');
       (error as any).code = 'failed-precondition';
       (getDocs as jest.Mock).mockRejectedValue(error);
@@ -296,7 +299,7 @@ describe('FirebaseJobService', () => {
   });
 
   describe('getUserJobs', () => {
-    it('foydalanuvchining ish e\'lonlarini olish kerak', async () => {
+    it("foydalanuvchining ish e'lonlarini olish kerak", async () => {
       const mockJobs = [
         {
           id: 'job-1',
@@ -338,7 +341,7 @@ describe('FirebaseJobService', () => {
       expect(result[0].id).toBe('job-1');
     });
 
-    it('permissions xatosi bo\'lsa bo\'sh array qaytarish kerak', async () => {
+    it("permissions xatosi bo'lsa bo'sh array qaytarish kerak", async () => {
       const error = new Error('Permission denied');
       (error as any).code = 'permission-denied';
       (getDocs as jest.Mock).mockRejectedValue(error);
@@ -357,7 +360,7 @@ describe('FirebaseJobService', () => {
   });
 
   describe('checkFirebaseConfig', () => {
-    it('Firebase konfiguratsiyasi bo\'lmasa xato tashlash kerak', async () => {
+    it("Firebase konfiguratsiyasi bo'lmasa xato tashlash kerak", async () => {
       // Mock qilingan db null bo'lganda xatolik qaytishi kerak
       // Bu test qismi skip qilinmoqda, chunki db readonly
       // va uni test muhitida null qilib o'rnatish mumkin emas
@@ -365,4 +368,3 @@ describe('FirebaseJobService', () => {
     });
   });
 });
-

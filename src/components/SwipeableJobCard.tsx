@@ -4,19 +4,20 @@
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useRef } from 'react';
-import { Animated, Platform, StyleSheet, Text, View } from 'react-native';
-import { 
-  PanGestureHandler, 
+import { Animated, StyleSheet, Text, View } from 'react-native';
+import {
+  PanGestureHandler,
   PanGestureHandlerGestureEvent,
-  State 
+  State,
 } from 'react-native-gesture-handler';
 
-import { AnimatedTouchable } from './AnimatedComponents';
 import { useTheme } from '../context/ThemeContext';
 import { Job } from '../types';
-import { fontSize } from '../utils/responsive';
 import { hapticFeedback } from '../utils/haptics';
+import { fontSize } from '../utils/responsive';
 import { soundEffects } from '../utils/soundEffects';
+
+import { AnimatedTouchable } from './AnimatedComponents';
 
 interface SwipeableJobCardProps {
   job: Job;
@@ -28,7 +29,7 @@ interface SwipeableJobCardProps {
 }
 
 const SWIPE_THRESHOLD = 100;
-const ACTION_WIDTH = 80;
+// const ACTION_WIDTH = 80;
 
 export const SwipeableJobCard: React.FC<SwipeableJobCardProps> = ({
   job,
@@ -45,20 +46,23 @@ export const SwipeableJobCard: React.FC<SwipeableJobCardProps> = ({
 
   const onGestureEvent = Animated.event(
     [{ nativeEvent: { translationX: translateX } }],
-    { useNativeDriver: true }
+    { useNativeDriver: true },
   );
 
   const onHandlerStateChange = (event: PanGestureHandlerGestureEvent) => {
     if (event.nativeEvent.state === State.END) {
       const { translationX: translation, velocityX } = event.nativeEvent;
-      
+
       // Determine swipe direction and action
-      if (Math.abs(translation) > SWIPE_THRESHOLD || Math.abs(velocityX) > 500) {
+      if (
+        Math.abs(translation) > SWIPE_THRESHOLD ||
+        Math.abs(velocityX) > 500
+      ) {
         if (translation > 0) {
           // Swipe right - Save action
           handleSwipeAction('save');
         } else {
-          // Swipe left - Share action  
+          // Swipe left - Share action
           handleSwipeAction('share');
         }
       } else {
@@ -148,11 +152,7 @@ export const SwipeableJobCard: React.FC<SwipeableJobCardProps> = ({
 
   const rightAction = () => (
     <View style={[styles.rightAction, { backgroundColor: colors.primary }]}>
-      <MaterialCommunityIcons
-        name="share"
-        size={24}
-        color={colors.surface}
-      />
+      <MaterialCommunityIcons name="share" size={24} color={colors.surface} />
       <Text style={[styles.actionText, { color: colors.surface }]}>
         Ulashish
       </Text>
@@ -189,10 +189,7 @@ export const SwipeableJobCard: React.FC<SwipeableJobCardProps> = ({
           style={[
             dynamicStyles.gestureContainer,
             {
-              transform: [
-                { translateX },
-                { scale },
-              ],
+              transform: [{ translateX }, { scale }],
               opacity,
             },
           ]}

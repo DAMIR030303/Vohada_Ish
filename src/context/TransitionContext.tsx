@@ -2,12 +2,18 @@
  * Transition Context - Screen transitions'ni boshqarish
  */
 
-import React, { createContext, useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useContext, useState } from 'react';
 
 import { transitionConfigs } from '../utils/screenTransitions';
 
-export type TransitionType = 'ios' | 'android' | 'modal' | 'bouncy' | 'flip' | 'cube';
+export type TransitionType =
+  | 'ios'
+  | 'android'
+  | 'modal'
+  | 'bouncy'
+  | 'flip'
+  | 'cube';
 
 interface TransitionContextType {
   currentTransition: TransitionType;
@@ -17,7 +23,9 @@ interface TransitionContextType {
   setAnimationsEnabled: (enabled: boolean) => void;
 }
 
-const TransitionContext = createContext<TransitionContextType | undefined>(undefined);
+const TransitionContext = createContext<TransitionContextType | undefined>(
+  undefined,
+);
 
 const TRANSITION_STORAGE_KEY = '@transition_type';
 const ANIMATIONS_STORAGE_KEY = '@animations_enabled';
@@ -25,7 +33,8 @@ const ANIMATIONS_STORAGE_KEY = '@animations_enabled';
 export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentTransition, setCurrentTransition] = useState<TransitionType>('ios');
+  const [currentTransition, setCurrentTransition] =
+    useState<TransitionType>('ios');
   const [isAnimationsEnabled, setIsAnimationsEnabledState] = useState(true);
 
   // Load saved transition settings
@@ -36,11 +45,14 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({
           AsyncStorage.getItem(TRANSITION_STORAGE_KEY),
           AsyncStorage.getItem(ANIMATIONS_STORAGE_KEY),
         ]);
-        
-        if (savedTransition && Object.keys(transitionConfigs).includes(savedTransition)) {
+
+        if (
+          savedTransition &&
+          Object.keys(transitionConfigs).includes(savedTransition)
+        ) {
           setCurrentTransition(savedTransition as TransitionType);
         }
-        
+
         if (savedAnimations !== null) {
           setIsAnimationsEnabledState(JSON.parse(savedAnimations));
         }
@@ -64,7 +76,10 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({
   const setAnimationsEnabled = async (enabled: boolean) => {
     try {
       setIsAnimationsEnabledState(enabled);
-      await AsyncStorage.setItem(ANIMATIONS_STORAGE_KEY, JSON.stringify(enabled));
+      await AsyncStorage.setItem(
+        ANIMATIONS_STORAGE_KEY,
+        JSON.stringify(enabled),
+      );
     } catch (error) {
       console.error('Error saving animations setting:', error);
     }
@@ -83,7 +98,7 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({
         }),
       };
     }
-    
+
     return transitionConfigs[currentTransition];
   };
 

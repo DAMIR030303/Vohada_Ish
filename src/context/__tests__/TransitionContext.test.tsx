@@ -1,15 +1,19 @@
 /**
  * TransitionContext testlari
- * 
+ *
  * @description TransitionContext funksiyalarini to'liq test qilish
  * Coverage target: 85%+
  */
 
-import React from 'react';
-import { renderHook, act, waitFor } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { renderHook, act, waitFor } from '@testing-library/react-native';
+import React from 'react';
 
-import { TransitionProvider, useTransition, TransitionType } from '../TransitionContext';
+import {
+  TransitionProvider,
+  useTransition,
+  TransitionType,
+} from '../TransitionContext';
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -24,7 +28,7 @@ describe('TransitionContext', () => {
   });
 
   describe('Provider initialization', () => {
-    it('default state ios transition bo\'lishi kerak', async () => {
+    it("default state ios transition bo'lishi kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -38,7 +42,7 @@ describe('TransitionContext', () => {
       expect(result.current.isAnimationsEnabled).toBe(true);
     });
 
-    it('saved transition AsyncStorage\'dan yuklash kerak', async () => {
+    it("saved transition AsyncStorage'dan yuklash kerak", async () => {
       (AsyncStorage.getItem as jest.Mock).mockImplementation((key) => {
         if (key === '@transition_type') {
           return Promise.resolve('android');
@@ -60,7 +64,7 @@ describe('TransitionContext', () => {
       });
     });
 
-    it('saved animations setting AsyncStorage\'dan yuklash kerak', async () => {
+    it("saved animations setting AsyncStorage'dan yuklash kerak", async () => {
       (AsyncStorage.getItem as jest.Mock).mockImplementation((key) => {
         if (key === '@animations_enabled') {
           return Promise.resolve('false');
@@ -101,7 +105,7 @@ describe('TransitionContext', () => {
   });
 
   describe('setTransition', () => {
-    it('transition o\'zgartirish va saqlash kerak', async () => {
+    it("transition o'zgartirish va saqlash kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -117,10 +121,13 @@ describe('TransitionContext', () => {
       });
 
       expect(result.current.currentTransition).toBe('android');
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith('@transition_type', 'android');
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+        '@transition_type',
+        'android',
+      );
     });
 
-    it('barcha transition turlarini qo\'llab-quvvatlash kerak', async () => {
+    it("barcha transition turlarini qo'llab-quvvatlash kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -131,7 +138,14 @@ describe('TransitionContext', () => {
         expect(result.current.currentTransition).toBe('ios');
       });
 
-      const transitions: TransitionType[] = ['ios', 'android', 'modal', 'bouncy', 'flip', 'cube'];
+      const transitions: TransitionType[] = [
+        'ios',
+        'android',
+        'modal',
+        'bouncy',
+        'flip',
+        'cube',
+      ];
 
       for (const transition of transitions) {
         await act(async () => {
@@ -144,7 +158,9 @@ describe('TransitionContext', () => {
 
     it('xato yuz berganda console.error chaqirilishi kerak', async () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-      (AsyncStorage.setItem as jest.Mock).mockRejectedValue(new Error('Storage error'));
+      (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
+        new Error('Storage error'),
+      );
 
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
@@ -164,7 +180,7 @@ describe('TransitionContext', () => {
       expect(result.current.currentTransition).toBe('android');
       expect(consoleSpy).toHaveBeenCalledWith(
         'Error saving transition type:',
-        expect.any(Error)
+        expect.any(Error),
       );
 
       consoleSpy.mockRestore();
@@ -172,7 +188,7 @@ describe('TransitionContext', () => {
   });
 
   describe('setAnimationsEnabled', () => {
-    it('animations\'ni yoqish/o\'chirish va saqlash kerak', async () => {
+    it("animations'ni yoqish/o'chirish va saqlash kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -190,7 +206,7 @@ describe('TransitionContext', () => {
       expect(result.current.isAnimationsEnabled).toBe(false);
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         '@animations_enabled',
-        'false'
+        'false',
       );
 
       await act(async () => {
@@ -200,13 +216,15 @@ describe('TransitionContext', () => {
       expect(result.current.isAnimationsEnabled).toBe(true);
       expect(AsyncStorage.setItem).toHaveBeenCalledWith(
         '@animations_enabled',
-        'true'
+        'true',
       );
     });
 
     it('xato yuz berganda console.error chaqirilishi kerak', async () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-      (AsyncStorage.setItem as jest.Mock).mockRejectedValue(new Error('Storage error'));
+      (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
+        new Error('Storage error'),
+      );
 
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
@@ -226,7 +244,7 @@ describe('TransitionContext', () => {
       expect(result.current.isAnimationsEnabled).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith(
         'Error saving animations setting:',
-        expect.any(Error)
+        expect.any(Error),
       );
 
       consoleSpy.mockRestore();
@@ -234,7 +252,7 @@ describe('TransitionContext', () => {
   });
 
   describe('getTransitionConfig', () => {
-    it('animations yoqilgan bo\'lsa transition config qaytarish kerak', async () => {
+    it("animations yoqilgan bo'lsa transition config qaytarish kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -252,7 +270,7 @@ describe('TransitionContext', () => {
       expect(typeof config.cardStyleInterpolator).toBe('function');
     });
 
-    it('animations o\'chirilgan bo\'lsa minimal config qaytarish kerak', async () => {
+    it("animations o'chirilgan bo'lsa minimal config qaytarish kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -274,7 +292,7 @@ describe('TransitionContext', () => {
       expect(typeof config.cardStyleInterpolator).toBe('function');
     });
 
-    it('turli transition turlari uchun to\'g\'ri config qaytarish kerak', async () => {
+    it("turli transition turlari uchun to'g'ri config qaytarish kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
       );
@@ -326,9 +344,11 @@ describe('TransitionContext', () => {
   });
 
   describe('Error handling', () => {
-    it('AsyncStorage xatolarini to\'g\'ri qayta ishlash kerak', async () => {
+    it("AsyncStorage xatolarini to'g'ri qayta ishlash kerak", async () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-      (AsyncStorage.getItem as jest.Mock).mockRejectedValue(new Error('Storage error'));
+      (AsyncStorage.getItem as jest.Mock).mockRejectedValue(
+        new Error('Storage error'),
+      );
 
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <TransitionProvider>{children}</TransitionProvider>
@@ -343,11 +363,10 @@ describe('TransitionContext', () => {
 
       expect(consoleSpy).toHaveBeenCalledWith(
         'Error loading transition settings:',
-        expect.any(Error)
+        expect.any(Error),
       );
 
       consoleSpy.mockRestore();
     });
   });
 });
-

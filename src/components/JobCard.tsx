@@ -2,18 +2,22 @@
  * Ish kartochkasi komponenti - Zamonaviy dizayn
  */
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { Job } from '../types';
+import {
+  formatCurrency,
+  formatRelativeTime,
+  truncateText,
+} from '../utils/formatters';
+import { fontSize } from '../utils/responsive';
 
 import { AnimatedTouchable, FadeInView } from './AnimatedComponents';
-import { useTheme } from '../context/ThemeContext';
-import { Job } from '../types';
-import { fontSize } from '../utils/responsive';
-import { formatCurrency, formatRelativeTime, truncateText } from '../utils/formatters';
 
 type RootStackParamList = {
   JobDetails: { jobId: string };
@@ -28,7 +32,6 @@ interface JobCardProps {
 
 export const JobCard: React.FC<JobCardProps> = ({ job }) => {
   const navigation = useNavigation<NavigationProp>();
-  const { colors } = useTheme();
 
   const handlePress = () => {
     navigation.navigate('JobDetails', { jobId: job.id });
@@ -38,27 +41,27 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
   const getCategoryStyle = () => {
     const styles = {
       IT: {
-        gradient: [colors.primary, colors.accent] as [string, string], // #1B4332 → #40916C
+        gradient: ['#1B4332', '#40916C'] as [string, string], // to'q yashildan yorqin yashilga
         icon: 'laptop' as const,
         iconBg: 'rgba(255, 255, 255, 0.25)',
       },
       Dizayn: {
-        gradient: [colors.primaryDark, colors.primary] as [string, string], // #0F2419 → #1B4332
+        gradient: ['#0F2419', '#1B4332'] as [string, string], // quyuq yashildan to'q yashilga
         icon: 'palette' as const,
         iconBg: 'rgba(255, 255, 255, 0.25)',
       },
       Marketing: {
-        gradient: [colors.accent, colors.accentLight] as [string, string], // #40916C → #52B788
+        gradient: ['#40916C', '#52B788'] as [string, string], // yorqin yashildan ochroq yashilga
         icon: 'bullhorn' as const,
         iconBg: 'rgba(255, 255, 255, 0.25)',
       },
       default: {
-        gradient: [colors.primaryLight, colors.accent] as [string, string], // #2D5A3D → #40916C
+        gradient: ['#2D5A3D', '#40916C'] as [string, string], // o'rtacha yashildan yorqin yashilga
         icon: 'briefcase' as const,
         iconBg: 'rgba(255, 255, 255, 0.25)',
       },
     };
-    
+
     return styles[job.category as keyof typeof styles] || styles.default;
   };
 
@@ -67,10 +70,10 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
   // Maoshni formatlash
   const formatSalary = () => {
     if (!job.salary) return 'Kelishilgan holda';
-    
+
     const min = job.salary.min ? Math.floor(job.salary.min / 1000000) : 0;
     const max = job.salary.max ? Math.floor(job.salary.max / 1000000) : null;
-    
+
     if (max && min) {
       return `${min}-${max} mln`;
     }
@@ -81,7 +84,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
   };
 
   // Accessibility labels
-  const salaryText = job.salary 
+  const salaryText = job.salary
     ? job.salary.min && job.salary.max
       ? `Maosh ${formatCurrency(job.salary.min)} dan ${formatCurrency(job.salary.max)} gacha`
       : job.salary.min
@@ -91,7 +94,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
 
   const locationText = `Joylashuv: ${job.region}${job.district ? `, ${job.district}` : ''}`;
   const timeText = `E'lon qilingan: ${formatRelativeTime(job.createdAt)}`;
-  
+
   const accessibilityLabel = [
     `Ish e'loni: ${job.title}`,
     job.companyName ? `Kompaniya: ${job.companyName}` : '',
@@ -99,13 +102,15 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
     locationText,
     timeText,
     salaryText,
-    'Batafsil ma\'lumot uchun bosing'
-  ].filter(Boolean).join('. ');
+    "Batafsil ma'lumot uchun bosing",
+  ]
+    .filter(Boolean)
+    .join('. ');
 
   return (
     <FadeInView>
-      <AnimatedTouchable 
-        onPress={handlePress} 
+      <AnimatedTouchable
+        onPress={handlePress}
         scaleValue={0.97}
         enableHaptic={true}
         hapticType="press"
@@ -125,14 +130,19 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
           >
             {/* Top section - Category icon & Badge */}
             <View style={styles.topRow}>
-              <View style={[styles.categoryIcon, { backgroundColor: categoryStyle.iconBg }]}>
+              <View
+                style={[
+                  styles.categoryIcon,
+                  { backgroundColor: categoryStyle.iconBg },
+                ]}
+              >
                 <MaterialCommunityIcons
                   name={categoryStyle.icon}
                   size={24}
                   color="#FFFFFF"
                 />
               </View>
-              
+
               {/* Time badge */}
               <View style={styles.timeBadge}>
                 <MaterialCommunityIcons
@@ -147,7 +157,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
             </View>
 
             {/* Job Title */}
-            <Text 
+            <Text
               style={styles.title}
               numberOfLines={2}
               accessible={true}
@@ -164,7 +174,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
                   size={16}
                   color="rgba(255, 255, 255, 0.9)"
                 />
-                <Text 
+                <Text
                   style={styles.company}
                   numberOfLines={1}
                   accessible={true}
@@ -176,8 +186,8 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
             )}
 
             {/* Description */}
-            <Text 
-              style={styles.description} 
+            <Text
+              style={styles.description}
               numberOfLines={2}
               accessible={true}
               accessibilityLabel={`Tavsif: ${job.description}`}
@@ -194,7 +204,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
                   size={16}
                   color="rgba(255, 255, 255, 0.95)"
                 />
-                <Text 
+                <Text
                   style={styles.locationText}
                   numberOfLines={1}
                   accessible={true}
@@ -213,7 +223,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
                     size={18}
                     color="#FFFFFF"
                   />
-                  <Text 
+                  <Text
                     style={styles.salaryText}
                     accessible={true}
                     accessibilityLabel={salaryText}

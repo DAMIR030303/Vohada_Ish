@@ -1,18 +1,18 @@
 /**
  * AuthContext testlari
- * 
+ *
  * @description AuthContext funksiyalarini to'liq test qilish
  * Coverage target: 90%+
  */
 
-import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import React from 'react';
 
-import { AuthProvider, useAuth } from '../AuthContext';
 import * as authService from '../../services/authService';
 import { auth } from '../../services/firebase';
 import { getCurrentUser } from '../../services/mockAuthService';
+import { AuthProvider, useAuth } from '../AuthContext';
 
 // Mock services
 jest.mock('../../services/authService');
@@ -42,7 +42,7 @@ describe('AuthContext', () => {
   });
 
   describe('Provider initialization', () => {
-    it('default state null user bo\'lishi kerak', async () => {
+    it("default state null user bo'lishi kerak", async () => {
       process.env.EXPO_PUBLIC_FIREBASE_API_KEY = undefined;
       mockGetCurrentUser.mockResolvedValue(null);
 
@@ -59,11 +59,11 @@ describe('AuthContext', () => {
       expect(result.current.user).toBeNull();
     });
 
-    it('Firebase mode\'da onAuthStateChanged chaqirilishi kerak', () => {
+    it("Firebase mode'da onAuthStateChanged chaqirilishi kerak", () => {
       // ESLATMA: Bu test skip qilinmoqda, chunki useFirebase o'zgaruvchisi
       // module import qilinganda eval qilinadi va runtime'da o'zgartirib bo'lmaydi.
       // Firebase mode ni test qilish uchun env var module import qilinishidan oldin o'rnatilishi kerak.
-      
+
       // Firebase mode mock setup tekshirilmoqda
       expect(auth).toBeDefined();
       expect(onAuthStateChanged).toBeDefined();
@@ -71,7 +71,7 @@ describe('AuthContext', () => {
   });
 
   describe('register', () => {
-    it('foydalanuvchini muvaffaqiyatli ro\'yxatdan o\'tkazish kerak', async () => {
+    it("foydalanuvchini muvaffaqiyatli ro'yxatdan o'tkazish kerak", async () => {
       process.env.EXPO_PUBLIC_FIREBASE_API_KEY = 'test-key';
       const newUser = {
         id: 'user-123',
@@ -93,14 +93,18 @@ describe('AuthContext', () => {
       });
 
       await act(async () => {
-        await result.current.register('test@example.com', 'password', 'Test User');
+        await result.current.register(
+          'test@example.com',
+          'password',
+          'Test User',
+        );
       });
 
       expect(mockRegister).toHaveBeenCalledWith(
         'test@example.com',
         'password',
         'Test User',
-        undefined
+        undefined,
       );
     });
 
@@ -120,7 +124,7 @@ describe('AuthContext', () => {
       });
 
       await expect(
-        result.current.register('test@example.com', 'password', 'Test User')
+        result.current.register('test@example.com', 'password', 'Test User'),
       ).rejects.toThrow('Registration failed');
     });
   });
@@ -167,7 +171,7 @@ describe('AuthContext', () => {
       });
 
       await expect(
-        result.current.login('test@example.com', 'password')
+        result.current.login('test@example.com', 'password'),
       ).rejects.toThrow('Login failed');
     });
   });
@@ -261,7 +265,7 @@ describe('AuthContext', () => {
       expect(result.current.user?.email).toBe('test@example.com');
     });
 
-    it.skip('Firestore\'da user bo\'lmasa Firebase Auth ma\'lumotlaridan yaratish kerak', async () => {
+    it.skip("Firestore'da user bo'lmasa Firebase Auth ma'lumotlaridan yaratish kerak", async () => {
       process.env.EXPO_PUBLIC_FIREBASE_API_KEY = 'test-key';
       const mockFirebaseUser: Partial<FirebaseUser> = {
         uid: 'user-123',
@@ -295,7 +299,7 @@ describe('AuthContext', () => {
       expect(result.current.user?.email).toBe('test@example.com');
     });
 
-    it.skip('user chiqib ketganda user null bo\'lishi kerak', async () => {
+    it.skip("user chiqib ketganda user null bo'lishi kerak", async () => {
       process.env.EXPO_PUBLIC_FIREBASE_API_KEY = 'test-key';
       let authCallback: any;
       (onAuthStateChanged as jest.Mock).mockImplementation((_, callback) => {
@@ -336,7 +340,7 @@ describe('AuthContext', () => {
   });
 
   describe('Mock mode', () => {
-    it('AsyncStorage\'dan user yuklash kerak', async () => {
+    it("AsyncStorage'dan user yuklash kerak", async () => {
       process.env.EXPO_PUBLIC_FIREBASE_API_KEY = undefined;
       const mockUser = {
         id: 'user-123',
@@ -428,4 +432,3 @@ describe('AuthContext', () => {
     });
   });
 });
-

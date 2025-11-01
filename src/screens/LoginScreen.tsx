@@ -5,13 +5,26 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '../constants/colors';
 import { useAuth } from '../context/AuthContext';
-import { fontSize, horizontalPadding, verticalPadding } from '../utils/responsive';
+import {
+  fontSize,
+  horizontalPadding,
+  verticalPadding,
+} from '../utils/responsive';
 import { isValidEmail } from '../utils/validation';
 
 type AuthStackParamList = {
@@ -47,7 +60,8 @@ export const LoginScreen: React.FC = () => {
       console.log('Login successful');
     } catch (error) {
       console.error('Login error:', error);
-      const message = error instanceof Error ? error.message : 'Kirishda xatolik yuz berdi';
+      const message =
+        error instanceof Error ? error.message : 'Kirishda xatolik yuz berdi';
       Alert.alert('Xatolik', message);
     } finally {
       setLoading(false);
@@ -89,7 +103,9 @@ export const LoginScreen: React.FC = () => {
               onPress={() => navigation.navigate('ForgotPassword')}
               style={styles.forgotPasswordLink}
             >
-              <Text style={styles.forgotPasswordText}>Parolni unutdingizmi?</Text>
+              <Text style={styles.forgotPasswordText}>
+                Parolni unutdingizmi?
+              </Text>
             </TouchableOpacity>
             <Button
               mode="contained"
@@ -109,7 +125,9 @@ export const LoginScreen: React.FC = () => {
             >
               <Text style={styles.registerText}>
                 Ro&apos;yxatdan o&apos;tmadingizmi?{' '}
-                <Text style={styles.registerLinkText}>Ro&apos;yxatdan o&apos;tish</Text>
+                <Text style={styles.registerLinkText}>
+                  Ro&apos;yxatdan o&apos;tish
+                </Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -188,4 +206,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-

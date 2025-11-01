@@ -45,10 +45,10 @@ export const categories = [
   },
   {
     id: 'education',
-    name: 'Ta\'lim',
+    name: "Ta'lim",
     icon: '📚',
     subcategories: [
-      'O\'qituvchi',
+      "O'qituvchi",
       'Mentor',
       'Tutor',
       'Education Manager',
@@ -117,7 +117,7 @@ export const categories = [
   },
   {
     id: 'admin',
-    name: 'Ma\'muriyat',
+    name: "Ma'muriyat",
     icon: '📋',
     subcategories: [
       'Office Manager',
@@ -147,4 +147,3 @@ export const categories = [
 ] as const;
 
 export type CategoryId = (typeof categories)[number]['id'];
-

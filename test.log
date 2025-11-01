@@ -1,0 +1,210 @@
+
+> vohadaish@1.0.0 test /home/damir/Desktop/Vohada_Ish/VohadaIsh
+> jest
+
+FAIL src/components/__tests__/MessageInput.test.tsx
+  ● MessageInput › calls onSend when send button is pressed
+
+    TypeError: Cannot read properties of undefined (reading 'ERROR')
+
+      79 |     } catch (error) {
+      80 |       console.error('Failed to send message:', error);
+    > 81 |       triggerHaptic(HapticType.ERROR);
+         |                                ^
+      82 |     }
+      83 |   };
+      84 |
+
+      at ERROR (src/components/MessageInput.tsx:81:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● MessageInput › clears input after sending
+
+    TypeError: Cannot read properties of undefined (reading 'ERROR')
+
+      79 |     } catch (error) {
+      80 |       console.error('Failed to send message:', error);
+    > 81 |       triggerHaptic(HapticType.ERROR);
+         |                                ^
+      82 |     }
+      83 |   };
+      84 |
+
+      at ERROR (src/components/MessageInput.tsx:81:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● MessageInput › trims message before sending
+
+    TypeError: Cannot read properties of undefined (reading 'ERROR')
+
+      79 |     } catch (error) {
+      80 |       console.error('Failed to send message:', error);
+    > 81 |       triggerHaptic(HapticType.ERROR);
+         |                                ^
+      82 |     }
+      83 |   };
+      84 |
+
+      at ERROR (src/components/MessageInput.tsx:81:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL src/components/__tests__/ConversationItem.test.tsx
+  ● ConversationItem › shows online indicator when user is online
+
+    No instances found with props: {"style":{"sample":{"backgroundColor":"#4CAF50"},"inverse":false}}
+
+      76 |     const { UNSAFE_getByProps } = renderComponent();
+      77 |     // Online indicator mavjudligini tekshirish
+    > 78 |     const onlineIndicator = UNSAFE_getByProps({
+         |                             ^
+      79 |       style: expect.objectContaining({
+      80 |         backgroundColor: '#4CAF50',
+      81 |       }),
+
+      at Object.UNSAFE_getByProps (src/components/__tests__/ConversationItem.test.tsx:78:29)
+
+PASS src/context/__tests__/JobContext.test.tsx
+PASS src/context/__tests__/AuthContext.test.tsx
+PASS src/__tests__/utils/testUtils.test.tsx
+PASS src/context/__tests__/TransitionContext.test.tsx
+PASS src/components/__tests__/Button.test.tsx
+PASS src/components/__tests__/ChatMessage.test.tsx
+PASS src/__tests__/mocks/mockProviders.test.tsx
+PASS src/utils/__tests__/soundEffects.test.ts
+  ● Console
+
+    console.log
+      Sound effects initialized - using system sounds
+
+      at SoundManager.log (src/utils/soundEffects.ts:55:15)
+
+    console.log
+      Sound effects initialized - using system sounds
+
+      at SoundManager.log (src/utils/soundEffects.ts:55:15)
+
+    console.log
+      Playing system sound: tap
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: tap
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: tap
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: success
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: error
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: notification
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Sound effects initialized - using system sounds
+
+      at SoundManager.log (src/utils/soundEffects.ts:55:15)
+
+    console.log
+      Sound effects initialized - using system sounds
+
+      at SoundManager.log (src/utils/soundEffects.ts:55:15)
+
+    console.log
+      Playing system sound: tap
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: button_press
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: selection
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: success
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: error
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: notification
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: swipe
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: refresh
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: tap
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: success
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: tap
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Playing system sound: error
+
+      at SoundManager.log [as playSystemSound] (src/utils/soundEffects.ts:81:15)
+
+    console.log
+      Sound effects initialized - using system sounds
+
+      at SoundManager.log (src/utils/soundEffects.ts:55:15)
+
+PASS src/services/__tests__/firebaseAuthService.test.ts
+PASS src/services/__tests__/firebaseJobService.test.ts
+PASS src/utils/__tests__/formatters.test.ts
+PASS src/utils/__tests__/screenTransitions.test.ts
+PASS src/utils/__tests__/responsive.test.ts
+PASS src/utils/__tests__/validation.test.ts
+PASS src/__tests__/mocks/mockServices.test.ts
+
+Test Suites: 2 failed, 15 passed, 17 total
+Tests:       4 failed, 5 skipped, 242 passed, 251 total
+Snapshots:   0 total
+Time:        2.122 s
+Ran all test suites.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.
+ ELIFECYCLE  Test failed. See above for more details.

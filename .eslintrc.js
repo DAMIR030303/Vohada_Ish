@@ -27,8 +27,10 @@ module.exports = {
       },
     ],
     'react/react-in-jsx-scope': 'off',
+    'react/no-unescaped-entities': 'warn', // JSX apostroflar uchun warning
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-explicit-any': 'warn', // any tiplar uchun warning (test fayllarda ko'p)
   },
   settings: {
     react: {
@@ -36,4 +38,3 @@ module.exports = {
     },
   },
 };
-

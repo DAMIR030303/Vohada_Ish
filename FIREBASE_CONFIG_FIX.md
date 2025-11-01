@@ -17,6 +17,7 @@ npm start -- --clear
 ```
 
 Yoki:
+
 ```bash
 # Expo cache'ni tozalash
 npx expo start --clear
@@ -85,7 +86,7 @@ npm start -- --clear
 ## Muammo Bo'lsa?
 
 Agar hali ham xato bo'lsa:
+
 1. Metro bundler cache'ni tozalash: `npx expo start --clear`
 2. Node modules'ni qayta o'rnatish: `rm -rf node_modules && npm install`
 3. Expo cache'ni tozalash: `npx expo start -c`
-

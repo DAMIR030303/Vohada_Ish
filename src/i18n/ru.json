@@ -1,4 +1,28 @@
 {
+  "home": {
+    "title": "Главная",
+    "welcome": "Здравствуйте, {name}!",
+    "welcomeGuest": "Здравствуйте!",
+    "noJobs": "Вакансии не найдены",
+    "searchPlaceholder": "Поиск работы...",
+    "totalJobs": "Всего вакансий",
+    "newToday": "Новых сегодня",
+    "companies": "Компании",
+    "categories": "Категории",
+    "viewAll": "Посмотреть все",
+    "recommended": "Для вас",
+    "popularCompanies": "Популярные компании",
+    "quickFilters": "Быстрые фильтры",
+    "allRegions": "Все регионы",
+    "allTypes": "Все типы",
+    "featuredJobs": "Популярные вакансии",
+    "allJobs": "Все вакансии",
+    "activeJobs": "Активные объявления",
+    "selectCategory": "Выберите категорию",
+    "selectRegion": "Выберите регион",
+    "employmentType": "Тип занятости",
+    "login": "Войти"
+  },
   "common": {
     "loading": "Загрузка...",
     "error": "Ошибка",
@@ -28,7 +52,25 @@
   "home": {
     "title": "Главная",
     "noJobs": "Вакансии не найдены",
-    "searchPlaceholder": "Поиск вакансий..."
+    "searchPlaceholder": "Поиск вакансий...",
+    "welcome": "Добро пожаловать, {{name}}!",
+    "welcomeGuest": "Главная",
+    "totalJobs": "Активные вакансии",
+    "newToday": "Новые сегодня",
+    "companies": "Компании",
+    "categories": "Категории",
+    "allCategories": "Все категории",
+    "viewAll": "Смотреть все",
+    "recommended": "Для вас",
+    "popularCompanies": "Популярные компании",
+    "quickFilters": "Быстрые фильтры",
+    "allRegions": "Все регионы",
+    "allTypes": "Все типы",
+    "featuredJobs": "Популярные вакансии",
+    "allJobs": "Все вакансии",
+    "selectRegion": "Выберите регион",
+    "selectType": "Выберите тип работы",
+    "jobsCount": "{{count}} вакансий"
   },
   "job": {
     "title": "Название вакансии",
@@ -45,10 +87,26 @@
     "postJob": "Разместить вакансию",
     "myJobs": "Мои вакансии"
   },
+  "messages": {
+    "title": "Сообщения",
+    "noConversations": "Нет сообщений",
+    "noConversationsDesc": "Вы еще никому не писали",
+    "startMessaging": "Откликайтесь на вакансии, чтобы начать общение",
+    "typing": "печатает...",
+    "online": "Онлайн",
+    "offline": "Оффлайн",
+    "lastSeen": "Был(а) в сети",
+    "messageInput": "Напишите сообщение...",
+    "send": "Отправить",
+    "delivered": "Доставлено",
+    "read": "Прочитано",
+    "unread": "Не прочитано",
+    "today": "Сегодня",
+    "yesterday": "Вчера"
+  },
   "profile": {
     "title": "Профиль",
     "information": "Информация",
     "registeredDate": "Дата регистрации"
   }
 }
-

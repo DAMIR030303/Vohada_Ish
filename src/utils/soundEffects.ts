@@ -3,7 +3,7 @@
  */
 
 import { Audio } from 'expo-av';
-import { Platform } from 'react-native';
+// import { Platform } from 'react-native';
 
 export enum SoundType {
   TAP = 'tap',
@@ -17,11 +17,11 @@ export enum SoundType {
 }
 
 // Sound configuration
-const SOUND_CONFIG = {
-  shouldDuckAndroid: true,
-  playThroughEarpieceAndroid: false,
-  staysActiveInBackground: false,
-};
+// const SOUND_CONFIG = {
+//   shouldDuckAndroid: true,
+//   playThroughEarpieceAndroid: false,
+//   staysActiveInBackground: false,
+// };
 
 class SoundManager {
   private sounds: Map<SoundType, Audio.Sound> = new Map();
@@ -30,7 +30,7 @@ class SoundManager {
 
   async initialize() {
     if (this.isInitialized) return;
-    
+
     try {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
@@ -39,7 +39,7 @@ class SoundManager {
         shouldDuckAndroid: true,
         playThroughEarpieceAndroid: false,
       });
-      
+
       // Preload sound effects
       await this.preloadSounds();
       this.isInitialized = true;
@@ -54,16 +54,16 @@ class SoundManager {
     if (__DEV__) {
       console.log('Sound effects initialized - using system sounds');
     }
-    
+
     // Mock sounds for now
     const soundTypes = Object.values(SoundType);
-    soundTypes.forEach(type => {
+    soundTypes.forEach((type) => {
       // Placeholder sound objects
       this.sounds.set(type, {} as Audio.Sound);
     });
   }
 
-  async playSound(type: SoundType, volume: number = 0.5) {
+  async playSound(type: SoundType, _volume = 0.5) {
     if (!this.isEnabled || !this.isInitialized) return;
 
     try {
@@ -149,22 +149,22 @@ export const soundEffects = {
   tap: () => playSound(SoundType.TAP, 0.3),
   buttonPress: () => playSound(SoundType.BUTTON_PRESS, 0.4),
   selection: () => playSound(SoundType.SELECTION, 0.3),
-  
+
   // Feedback sounds
   success: () => playSound(SoundType.SUCCESS, 0.6),
   error: () => playSound(SoundType.ERROR, 0.5),
   notification: () => playSound(SoundType.NOTIFICATION, 0.5),
-  
+
   // Gesture sounds
   swipe: () => playSound(SoundType.SWIPE, 0.2),
   refresh: () => playSound(SoundType.REFRESH, 0.4),
-  
+
   // Custom combinations
   confirmAction: async () => {
     await playSound(SoundType.TAP, 0.3);
     setTimeout(() => playSound(SoundType.SUCCESS, 0.4), 200);
   },
-  
+
   deleteAction: async () => {
     await playSound(SoundType.TAP, 0.3);
     setTimeout(() => playSound(SoundType.ERROR, 0.3), 150);

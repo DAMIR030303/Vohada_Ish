@@ -6,61 +6,62 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Platform, StyleSheet, Text, View, Switch } from 'react-native';
 
-import { AnimatedTouchable, ScaleInView } from './AnimatedComponents';
-import { useTransition, TransitionType } from '../context/TransitionContext';
 import { useTheme } from '../context/ThemeContext';
+import { useTransition, TransitionType } from '../context/TransitionContext';
 import { fontSize } from '../utils/responsive';
 
+import { AnimatedTouchable, ScaleInView } from './AnimatedComponents';
+
 export const TransitionSettings: React.FC = () => {
-  const { 
-    currentTransition, 
-    setTransition, 
-    isAnimationsEnabled, 
-    setAnimationsEnabled 
+  const {
+    currentTransition,
+    setTransition,
+    isAnimationsEnabled,
+    setAnimationsEnabled,
   } = useTransition();
   const { colors } = useTheme();
 
-  const transitionOptions: { 
-    type: TransitionType; 
-    label: string; 
+  const transitionOptions: {
+    type: TransitionType;
+    label: string;
     description: string;
     icon: string;
   }[] = [
-    { 
-      type: 'ios', 
-      label: 'iOS Style', 
+    {
+      type: 'ios',
+      label: 'iOS Style',
       description: 'Slide from right',
-      icon: 'apple'
+      icon: 'apple',
     },
-    { 
-      type: 'android', 
-      label: 'Android Style', 
+    {
+      type: 'android',
+      label: 'Android Style',
       description: 'Fade transition',
-      icon: 'android'
+      icon: 'android',
     },
-    { 
-      type: 'modal', 
-      label: 'Modal', 
+    {
+      type: 'modal',
+      label: 'Modal',
       description: 'Slide from bottom',
-      icon: 'window-maximize'
+      icon: 'window-maximize',
     },
-    { 
-      type: 'bouncy', 
-      label: 'Bouncy', 
+    {
+      type: 'bouncy',
+      label: 'Bouncy',
       description: 'Spring scale effect',
-      icon: 'bounce'
+      icon: 'bounce',
     },
-    { 
-      type: 'flip', 
-      label: '3D Flip', 
+    {
+      type: 'flip',
+      label: '3D Flip',
       description: 'Flip animation',
-      icon: 'flip-horizontal'
+      icon: 'flip-horizontal',
     },
-    { 
-      type: 'cube', 
-      label: 'Cube', 
+    {
+      type: 'cube',
+      label: 'Cube',
       description: '3D cube rotation',
-      icon: 'cube'
+      icon: 'cube',
     },
   ];
 
@@ -119,19 +120,26 @@ export const TransitionSettings: React.FC = () => {
             <Text style={[styles.switchLabel, dynamicStyles.switchLabel]}>
               Animatsiyalar
             </Text>
-            <Text style={[styles.switchDescription, dynamicStyles.switchDescription]}>
-              {isAnimationsEnabled ? 'Yoqilgan' : 'O\'chirilgan'}
+            <Text
+              style={[
+                styles.switchDescription,
+                dynamicStyles.switchDescription,
+              ]}
+            >
+              {isAnimationsEnabled ? 'Yoqilgan' : "O'chirilgan"}
             </Text>
           </View>
         </View>
         <Switch
           value={isAnimationsEnabled}
           onValueChange={setAnimationsEnabled}
-          trackColor={{ 
-            false: colors.border, 
-            true: colors.primaryLight 
+          trackColor={{
+            false: colors.border,
+            true: colors.primaryLight,
           }}
-          thumbColor={isAnimationsEnabled ? colors.primary : colors.textDisabled}
+          thumbColor={
+            isAnimationsEnabled ? colors.primary : colors.textDisabled
+          }
         />
       </View>
 
@@ -145,11 +153,12 @@ export const TransitionSettings: React.FC = () => {
                   styles.optionContainer,
                   dynamicStyles.optionContainer,
                   {
-                    borderColor: currentTransition === option.type 
-                      ? colors.primary 
-                      : colors.border,
+                    borderColor:
+                      currentTransition === option.type
+                        ? colors.primary
+                        : colors.border,
                     borderWidth: currentTransition === option.type ? 2 : 1,
-                  }
+                  },
                 ]}
                 onPress={() => setTransition(option.type)}
                 enableHaptic={true}
@@ -161,25 +170,30 @@ export const TransitionSettings: React.FC = () => {
                   name={option.icon as any}
                   size={24}
                   color={
-                    currentTransition === option.type 
-                      ? colors.primary 
+                    currentTransition === option.type
+                      ? colors.primary
                       : colors.textSecondary
                   }
                 />
                 <View style={styles.optionContent}>
-                  <Text 
+                  <Text
                     style={[
                       styles.optionTitle,
                       dynamicStyles.optionTitle,
-                      currentTransition === option.type && { 
+                      currentTransition === option.type && {
                         color: colors.primary,
-                        fontWeight: '600'
-                      }
+                        fontWeight: '600',
+                      },
                     ]}
                   >
                     {option.label}
                   </Text>
-                  <Text style={[styles.optionDescription, dynamicStyles.optionDescription]}>
+                  <Text
+                    style={[
+                      styles.optionDescription,
+                      dynamicStyles.optionDescription,
+                    ]}
+                  >
                     {option.description}
                   </Text>
                 </View>

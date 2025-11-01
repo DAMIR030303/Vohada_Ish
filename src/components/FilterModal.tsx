@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { Modal, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 
 import { categories } from '../constants/categories';
@@ -51,7 +51,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                   label={category.name}
                   value={category.id}
                   status={
-                    localFilters.category === category.id ? 'checked' : 'unchecked'
+                    localFilters.category === category.id
+                      ? 'checked'
+                      : 'unchecked'
                   }
                   onPress={() =>
                     setLocalFilters({
@@ -79,7 +81,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                     setLocalFilters({
                       ...localFilters,
                       region:
-                        localFilters.region === region.id ? undefined : region.id,
+                        localFilters.region === region.id
+                          ? undefined
+                          : region.id,
                     })
                   }
                 />
@@ -88,7 +92,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Ish turi</Text>
               <RadioButton.Item
-                label="To&apos;liq kunlik"
+                label="To'liq kunlik"
                 value="full-time"
                 status={
                   localFilters.employmentType === 'full-time'
@@ -224,4 +228,3 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
 });
-

@@ -2,6 +2,7 @@
  * Featured Job Card - Mashhur ish e'lonlari uchun zamonaviy kartochka
  */
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
@@ -12,9 +13,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { colors } from '../constants/colors';
 import { FeaturedJob } from '../services/mockData';
 import { fontSize } from '../utils/responsive';
 
@@ -33,23 +32,23 @@ export const FeaturedJobCard: React.FC<FeaturedJobCardProps> = ({
   const getGradientColors = (): [string, string] => {
     switch (job.badge) {
       case 'TOP':
-        return [colors.accentLight, colors.accent]; // #52B788 → #40916C (eng yorqin)
+        return ['#52B788', '#40916C']; // eng yorqin yashil gradient
       case 'PREMIUM':
-        return [colors.primary, colors.primaryDark]; // #1B4332 → #0F2419 (quyuq, premium)
+        return ['#1B4332', '#0F2419']; // quyuq, premium gradient
       case 'YANGI':
-        return [colors.primaryLight, colors.accent]; // #2D5A3D → #40916C (yangi uchun)
+        return ['#2D5A3D', '#40916C']; // yangi uchun gradient
       default:
-        return [colors.primary, colors.accent];
+        return ['#1B4332', '#40916C']; // standart gradient
     }
   };
 
   // Maoshni formatlash
   const formatSalary = () => {
     if (!job.salary) return 'Kelishilgan holda';
-    
+
     const min = job.salary.min ? Math.floor(job.salary.min / 1000000) : 0;
     const max = job.salary.max ? Math.floor(job.salary.max / 1000000) : null;
-    
+
     if (max && min) {
       return `${min}-${max} mln UZS`;
     }
@@ -235,4 +234,3 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.95)',
   },
 });
-

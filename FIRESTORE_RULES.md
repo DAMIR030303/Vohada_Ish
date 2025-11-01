@@ -29,26 +29,26 @@ service cloud.firestore {
       allow read: if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == userId;
     }
-    
+
     // Jobs collection
     match /jobs/{jobId} {
       // O'qish - hamma authenticated users uchun
       allow read: if request.auth != null;
-      
+
       // Yozish - faqat o'z e'lonini yaratish/yangilash
-      allow create: if request.auth != null 
+      allow create: if request.auth != null
                     && request.resource.data.postedBy == request.auth.uid;
-      
-      allow update, delete: if request.auth != null 
+
+      allow update, delete: if request.auth != null
                              && resource.data.postedBy == request.auth.uid;
     }
-    
+
     // Conversations collection
     match /conversations/{conversationId} {
-      allow read, write: if request.auth != null 
+      allow read, write: if request.auth != null
                          && request.auth.uid in resource.data.participants;
     }
-    
+
     // Messages collection
     match /messages/{messageId} {
       allow read, write: if request.auth != null;
@@ -67,6 +67,7 @@ service cloud.firestore {
 ## Muammo?
 
 Agar "Missing or insufficient permissions" xatosi bo'lsa:
+
 - Rules'ni tekshiring
 - Test mode'ni yoqing (development uchun)
 - Yoki production rules'ni sozlang va authenticated users uchun ruxsat bering

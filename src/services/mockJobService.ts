@@ -111,4 +111,3 @@ export const getUserJobs = async (userId: string): Promise<Job[]> => {
     .filter((job) => job.postedBy === userId)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 };
-

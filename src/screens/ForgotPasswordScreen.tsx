@@ -5,13 +5,26 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '../constants/colors';
 import { useAuth } from '../context/AuthContext';
-import { fontSize, horizontalPadding, verticalPadding } from '../utils/responsive';
+import {
+  fontSize,
+  horizontalPadding,
+  verticalPadding,
+} from '../utils/responsive';
 import { isValidEmail } from '../utils/validation';
 
 type AuthStackParamList = {
@@ -45,7 +58,7 @@ export const ForgotPasswordScreen: React.FC = () => {
       Alert.alert(
         'Muvaffaqiyatli',
         'Parolni tiklash havolasi email manzilingizga yuborildi. ' +
-        'Email qutisini tekshiring va havola orqali parolingizni yangilang.',
+          'Email qutisini tekshiring va havola orqali parolingizni yangilang.',
         [
           {
             text: 'OK',
@@ -54,7 +67,10 @@ export const ForgotPasswordScreen: React.FC = () => {
         ],
       );
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Parolni tiklashda xatolik yuz berdi';
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Parolni tiklashda xatolik yuz berdi';
       Alert.alert('Xatolik', message);
     } finally {
       setLoading(false);
@@ -74,39 +90,40 @@ export const ForgotPasswordScreen: React.FC = () => {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.content}>
-        <Text style={styles.title}>Parolni tiklash</Text>
-        <Text style={styles.subtitle}>
-          Email manzilingizni kiriting. Parolni tiklash havolasi email manzilingizga yuboriladi.
-        </Text>
-        <TextInput
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          mode="outlined"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          style={styles.input}
-        />
-        <Button
-          mode="contained"
-          onPress={handleResetPassword}
-          loading={loading}
-          disabled={loading}
-          style={styles.button}
-          contentStyle={styles.buttonContent}
-          labelStyle={styles.buttonLabel}
-          buttonColor={colors.primary}
-        >
-          Parolni tiklash havolasini yuborish
-        </Button>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
-          style={styles.backLink}
-        >
-          <Text style={styles.backText}>
-            Tizimga kirish sahifasiga qaytish
-          </Text>
-        </TouchableOpacity>
+            <Text style={styles.title}>Parolni tiklash</Text>
+            <Text style={styles.subtitle}>
+              Email manzilingizni kiriting. Parolni tiklash havolasi email
+              manzilingizga yuboriladi.
+            </Text>
+            <TextInput
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              mode="outlined"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              style={styles.input}
+            />
+            <Button
+              mode="contained"
+              onPress={handleResetPassword}
+              loading={loading}
+              disabled={loading}
+              style={styles.button}
+              contentStyle={styles.buttonContent}
+              labelStyle={styles.buttonLabel}
+              buttonColor={colors.primary}
+            >
+              Parolni tiklash havolasini yuborish
+            </Button>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Login')}
+              style={styles.backLink}
+            >
+              <Text style={styles.backText}>
+                Tizimga kirish sahifasiga qaytish
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -178,4 +195,3 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
-

@@ -100,3 +100,45 @@ export const truncateText = (text: string, maxLength: number): string => {
   return `${text.substring(0, maxLength)}...`;
 };
 
+/**
+ * Format time only (HH:MM)
+ */
+export const formatTime = (date: Date | string): string => {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return new Intl.DateTimeFormat('uz-UZ', {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(d);
+};
+
+/**
+ * Format distance to now - qisqa format (e.g., "2d", "1s", "3k")
+ * Qisqa format - chat ro'yxati uchun
+ */
+export const formatDistanceToNow = (date: Date | string): string => {
+  const now = new Date();
+  const then = typeof date === 'string' ? new Date(date) : date;
+  const diffInSeconds = Math.floor((now.getTime() - then.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return 'hozirgina';
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}d`; // daqiqa
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `${diffInHours}s`; // soat
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 7) {
+    return `${diffInDays}k`; // kun
+  }
+
+  // 7 kundan oshsa sana ko'rsatamiz
+  return formatDate(then);
+};

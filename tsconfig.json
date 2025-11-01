@@ -3,23 +3,21 @@
   "compilerOptions": {
     "strict": true,
     "moduleResolution": "bundler",
-    "types": [
-      "jest",
-      "@testing-library/jest-native"
-    ],
+    "types": ["jest", "@testing-library/jest-native"],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
     "**/__tests__/**",
     "**/*.test.ts",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "**/test-utils/**",
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "e2e/**"
   ]
 }

@@ -1,16 +1,17 @@
 /**
  * JobContext testlari
- * 
+ *
  * @description JobContext funksiyalarini to'liq test qilish
  * Coverage target: 90%+
  */
 
-import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react-native';
+import React from 'react';
 
-import { JobProvider, useJobs } from '../JobContext';
 import * as jobService from '../../services/jobService';
+import * as AuthContextModule from '../AuthContext';
 import { AuthProvider } from '../AuthContext';
+import { JobProvider, useJobs } from '../JobContext';
 
 // Mock services
 jest.mock('../../services/jobService');
@@ -21,8 +22,7 @@ jest.mock('../AuthContext', () => ({
 
 const mockGetJobs = jobService.getJobs as jest.Mock;
 const mockGetUserJobs = jobService.getUserJobs as jest.Mock;
-
-const { useAuth } = require('../AuthContext');
+const { useAuth } = AuthContextModule;
 
 describe('JobContext', () => {
   beforeEach(() => {
@@ -33,7 +33,7 @@ describe('JobContext', () => {
   });
 
   describe('Provider initialization', () => {
-    it('default state bo\'sh arrays bo\'lishi kerak', async () => {
+    it("default state bo'sh arrays bo'lishi kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <AuthProvider>
           <JobProvider>{children}</JobProvider>
@@ -81,7 +81,7 @@ describe('JobContext', () => {
   });
 
   describe('setFilters', () => {
-    it('filterlarni o\'zgartirish kerak', async () => {
+    it("filterlarni o'zgartirish kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <AuthProvider>
           <JobProvider>{children}</JobProvider>
@@ -101,9 +101,14 @@ describe('JobContext', () => {
       expect(result.current.filters.category).toBe('technology');
     });
 
-    it('filterlar o\'zgarganda jobs refresh qilish kerak', async () => {
+    it("filterlar o'zgarganda jobs refresh qilish kerak", async () => {
       const mockJobs = [
-        { id: 'job-1', title: 'Job 1', createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'job-1',
+          title: 'Job 1',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       mockGetJobs.mockResolvedValue(mockJobs);
 
@@ -119,22 +124,41 @@ describe('JobContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      mockGetJobs.mockResolvedValue([...mockJobs, { id: 'job-2', title: 'Job 2', createdAt: new Date(), updatedAt: new Date() }]);
+      mockGetJobs.mockResolvedValue([
+        ...mockJobs,
+        {
+          id: 'job-2',
+          title: 'Job 2',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ]);
 
       await act(async () => {
-        result.current.setFilters({ category: 'technology', region: 'Toshkent' });
+        result.current.setFilters({
+          category: 'technology',
+          region: 'Toshkent',
+        });
       });
 
       await waitFor(() => {
-        expect(mockGetJobs).toHaveBeenCalledWith({ category: 'technology', region: 'Toshkent' });
+        expect(mockGetJobs).toHaveBeenCalledWith({
+          category: 'technology',
+          region: 'Toshkent',
+        });
       });
     });
   });
 
   describe('refreshJobs', () => {
-    it('jobs\'larni yangilash kerak', async () => {
+    it("jobs'larni yangilash kerak", async () => {
       const mockJobs = [
-        { id: 'job-1', title: 'Job 1', createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'job-1',
+          title: 'Job 1',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       mockGetJobs.mockResolvedValue(mockJobs);
 
@@ -151,8 +175,18 @@ describe('JobContext', () => {
       });
 
       const newJobs = [
-        { id: 'job-1', title: 'Job 1', createdAt: new Date(), updatedAt: new Date() },
-        { id: 'job-2', title: 'Job 2', createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'job-1',
+          title: 'Job 1',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 'job-2',
+          title: 'Job 2',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       mockGetJobs.mockResolvedValue(newJobs);
 
@@ -197,7 +231,7 @@ describe('JobContext', () => {
       consoleSpy.mockRestore();
     });
 
-    it('loading state to\'g\'ri o\'zgarish kerak', async () => {
+    it("loading state to'g'ri o'zgarish kerak", async () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <AuthProvider>
           <JobProvider>{children}</JobProvider>
@@ -210,9 +244,7 @@ describe('JobContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      let loadingState = false;
       mockGetJobs.mockImplementation(() => {
-        loadingState = true;
         return Promise.resolve([]);
       });
 
@@ -227,7 +259,7 @@ describe('JobContext', () => {
   });
 
   describe('refreshUserJobs', () => {
-    it('user bo\'lsa user jobs\'larni yuklash kerak', async () => {
+    it("user bo'lsa user jobs'larni yuklash kerak", async () => {
       const mockUser = {
         id: 'user-123',
         email: 'test@example.com',
@@ -238,7 +270,13 @@ describe('JobContext', () => {
       useAuth.mockReturnValue({ user: mockUser });
 
       const mockUserJobs = [
-        { id: 'job-1', title: 'My Job', postedBy: 'user-123', createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'job-1',
+          title: 'My Job',
+          postedBy: 'user-123',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       mockGetUserJobs.mockResolvedValue(mockUserJobs);
 
@@ -266,7 +304,7 @@ describe('JobContext', () => {
       expect(result.current.userJobs[0].title).toBe('My Job');
     });
 
-    it('user bo\'lmasa bo\'sh array qaytarish kerak', async () => {
+    it("user bo'lmasa bo'sh array qaytarish kerak", async () => {
       useAuth.mockReturnValue({ user: null });
 
       const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -322,14 +360,17 @@ describe('JobContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      expect(consoleSpy).toHaveBeenCalledWith('Error fetching user jobs:', error);
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Error fetching user jobs:',
+        error,
+      );
 
       consoleSpy.mockRestore();
     });
   });
 
   describe('User dependency', () => {
-    it('user o\'zgarganda userJobs refresh qilish kerak', async () => {
+    it("user o'zgarganda userJobs refresh qilish kerak", async () => {
       useAuth.mockReturnValue({ user: null });
 
       const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -354,7 +395,13 @@ describe('JobContext', () => {
       useAuth.mockReturnValue({ user: mockUser });
 
       const mockUserJobs = [
-        { id: 'job-1', title: 'My Job', postedBy: 'user-123', createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'job-1',
+          title: 'My Job',
+          postedBy: 'user-123',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       mockGetUserJobs.mockResolvedValue(mockUserJobs);
 
@@ -396,4 +443,3 @@ describe('JobContext', () => {
     });
   });
 });
-

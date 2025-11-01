@@ -25,7 +25,7 @@ export const MyJobsScreen: React.FC = () => {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              {loading ? 'Yuklanmoqda...' : 'Sizning e\'lonlaringiz yo\'q'}
+              {loading ? 'Yuklanmoqda...' : "Sizning e'lonlaringiz yo'q"}
             </Text>
           </View>
         }
@@ -53,4 +53,3 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
 });
-

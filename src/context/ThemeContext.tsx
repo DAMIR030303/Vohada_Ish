@@ -2,19 +2,42 @@
  * Theme Context - Dark/Light mode uchun
  */
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Appearance, ColorSchemeName } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { brandColors } from '../constants/colors';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
+type ColorScheme = {
+  primary: string;
+  primaryDark: string;
+  primaryLight: string;
+  secondary: string;
+  secondaryDark: string;
+  secondaryLight: string;
+  accent: string;
+  error: string;
+  warning: string;
+  success: string;
+  info: string;
+  background: string;
+  surface: string;
+  text: string;
+  textSecondary: string;
+  textDisabled: string;
+  border: string;
+  divider: string;
+  shadow: string;
+};
+
 interface ThemeContextType {
   themeMode: ThemeMode;
   isDarkMode: boolean;
   setThemeMode: (mode: ThemeMode) => void;
-  colors: typeof lightColors;
+  colors: ColorScheme;
+  theme: ColorScheme; // Alias for colors (backward compatibility)
 }
 
 // Light theme colors - VohadaIsh brand
@@ -23,19 +46,19 @@ const lightColors = {
   primary: brandColors.primary,
   primaryDark: brandColors.primaryDark,
   primaryLight: brandColors.primaryLight,
-  
+
   // Complementary colors
-  secondary: '#D4A574',      // Warm beige complement
+  secondary: '#D4A574', // Warm beige complement
   secondaryDark: '#B8956A',
   secondaryLight: '#E0B885',
-  
+
   // Status colors
   accent: brandColors.accent,
   error: '#DC3545',
   warning: '#F59E0B',
   success: brandColors.accentLight,
   info: brandColors.accent,
-  
+
   // UI colors
   background: '#FAFBFC',
   surface: brandColors.white,
@@ -53,27 +76,27 @@ const darkColors = {
   primary: brandColors.accentLight,
   primaryDark: brandColors.accent,
   primaryLight: '#6FD89C',
-  
+
   // Complementary colors
   secondary: '#E0B885',
   secondaryDark: '#D4A574',
   secondaryLight: '#ECCC9A',
-  
+
   // Status colors
   accent: brandColors.accentLight,
   error: '#F87171',
   warning: '#FBBF24',
   success: '#6FD89C',
   info: brandColors.accentLight,
-  
+
   // UI colors
-  background: '#0A0F0C',     // Very dark green tint
-  surface: '#1A2B20',       // Dark green surface
+  background: '#0A0F0C', // Very dark green tint
+  surface: '#1A2B20', // Dark green surface
   text: brandColors.white,
   textSecondary: brandColors.gray[300],
   textDisabled: brandColors.gray[500],
-  border: '#2D4A35',        // Dark green border
-  divider: '#3A5A42',       // Darker green divider
+  border: '#2D4A35', // Dark green border
+  divider: '#3A5A42', // Darker green divider
   shadow: 'rgba(0, 0, 0, 0.4)',
 };
 
@@ -86,7 +109,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [themeMode, setThemeModeState] = useState<ThemeMode>('system');
   const [systemColorScheme, setSystemColorScheme] = useState<ColorSchemeName>(
-    Appearance.getColorScheme()
+    Appearance.getColorScheme(),
   );
 
   // Determine if dark mode should be active
@@ -139,6 +162,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
         isDarkMode,
         setThemeMode,
         colors,
+        theme: colors, // Alias for backward compatibility
       }}
     >
       {children}
@@ -155,4 +179,5 @@ export const useTheme = (): ThemeContextType => {
 };
 
 // Export colors for backward compatibility
-export const getColors = (isDark: boolean) => isDark ? darkColors : lightColors;
+export const getColors = (isDark: boolean) =>
+  isDark ? darkColors : lightColors;

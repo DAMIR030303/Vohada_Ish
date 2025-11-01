@@ -2,16 +2,18 @@
  * Custom Screen Transitions
  */
 
-import { Easing } from 'react-native';
-import { 
-  StackCardInterpolationProps, 
+import {
+  StackCardInterpolationProps,
   StackCardInterpolatedStyle,
-  TransitionSpec,
-  CardStyleInterpolator
 } from '@react-navigation/stack';
+import { Easing } from 'react-native';
+
+type StackCardStyleInterpolator = (
+  props: StackCardInterpolationProps,
+) => StackCardInterpolatedStyle;
 
 // Transition timing configurations
-export const transitionSpecs: { [key: string]: TransitionSpec } = {
+export const transitionSpecs = {
   // Fast transitions
   fast: {
     animation: 'timing',
@@ -20,7 +22,7 @@ export const transitionSpecs: { [key: string]: TransitionSpec } = {
       easing: Easing.out(Easing.poly(4)),
     },
   },
-  
+
   // Smooth transitions
   smooth: {
     animation: 'timing',
@@ -29,7 +31,7 @@ export const transitionSpecs: { [key: string]: TransitionSpec } = {
       easing: Easing.bezier(0.25, 0.46, 0.45, 0.94),
     },
   },
-  
+
   // Spring transitions
   spring: {
     animation: 'spring',
@@ -42,7 +44,7 @@ export const transitionSpecs: { [key: string]: TransitionSpec } = {
       restSpeedThreshold: 0.01,
     },
   },
-  
+
   // Bouncy transitions
   bouncy: {
     animation: 'spring',
@@ -60,9 +62,9 @@ export const transitionSpecs: { [key: string]: TransitionSpec } = {
 /**
  * Slide from right (default iOS style)
  */
-export const slideFromRight: CardStyleInterpolator = ({
+export const slideFromRight: StackCardStyleInterpolator = ({
   current,
-  next,
+  next: _next,
   layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
   return {
@@ -88,7 +90,7 @@ export const slideFromRight: CardStyleInterpolator = ({
 /**
  * Slide from left
  */
-export const slideFromLeft: CardStyleInterpolator = ({
+export const slideFromLeft: StackCardStyleInterpolator = ({
   current,
   layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
@@ -109,7 +111,7 @@ export const slideFromLeft: CardStyleInterpolator = ({
 /**
  * Slide from bottom (modal style)
  */
-export const slideFromBottom: CardStyleInterpolator = ({
+export const slideFromBottom: StackStackCardStyleInterpolator = ({
   current,
   layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
@@ -136,7 +138,7 @@ export const slideFromBottom: CardStyleInterpolator = ({
 /**
  * Slide from top
  */
-export const slideFromTop: CardStyleInterpolator = ({
+export const slideFromTop: StackCardStyleInterpolator = ({
   current,
   layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
@@ -157,7 +159,7 @@ export const slideFromTop: CardStyleInterpolator = ({
 /**
  * Fade transition
  */
-export const fadeTransition: CardStyleInterpolator = ({
+export const fadeTransition: StackCardStyleInterpolator = ({
   current,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
   return {
@@ -170,9 +172,9 @@ export const fadeTransition: CardStyleInterpolator = ({
 /**
  * Scale transition
  */
-export const scaleTransition: CardStyleInterpolator = ({
+export const scaleTransition: StackCardStyleInterpolator = ({
   current,
-  next,
+  next: _next,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
   return {
     cardStyle: {
@@ -192,9 +194,9 @@ export const scaleTransition: CardStyleInterpolator = ({
 /**
  * Flip transition (3D effect)
  */
-export const flipTransition: CardStyleInterpolator = ({
+export const flipTransition: StackCardStyleInterpolator = ({
   current,
-  layouts,
+  layouts: _layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
   return {
     cardStyle: {
@@ -214,12 +216,12 @@ export const flipTransition: CardStyleInterpolator = ({
 /**
  * Cube transition
  */
-export const cubeTransition: CardStyleInterpolator = ({
+export const cubeTransition: StackCardStyleInterpolator = ({
   current,
   layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
   const { width } = layouts.screen;
-  
+
   return {
     cardStyle: {
       transform: [
@@ -244,7 +246,7 @@ export const cubeTransition: CardStyleInterpolator = ({
 /**
  * Push transition (like iOS push)
  */
-export const pushTransition: CardStyleInterpolator = ({
+export const pushTransition: StackCardStyleInterpolator = ({
   current,
   next,
   layouts,
@@ -280,7 +282,7 @@ export const pushTransition: CardStyleInterpolator = ({
 /**
  * Zoom transition
  */
-export const zoomTransition: CardStyleInterpolator = ({
+export const zoomTransition: StackCardStyleInterpolator = ({
   current,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {
   return {
@@ -313,7 +315,7 @@ export const transitionConfigs = {
     },
     cardStyleInterpolator: slideFromRight,
   },
-  
+
   // Android-like transitions
   android: {
     transitionSpec: {
@@ -322,7 +324,7 @@ export const transitionConfigs = {
     },
     cardStyleInterpolator: fadeTransition,
   },
-  
+
   // Modal transitions
   modal: {
     transitionSpec: {
@@ -331,7 +333,7 @@ export const transitionConfigs = {
     },
     cardStyleInterpolator: slideFromBottom,
   },
-  
+
   // Bouncy transitions
   bouncy: {
     transitionSpec: {
@@ -340,7 +342,7 @@ export const transitionConfigs = {
     },
     cardStyleInterpolator: scaleTransition,
   },
-  
+
   // 3D transitions
   flip: {
     transitionSpec: {
@@ -349,7 +351,7 @@ export const transitionConfigs = {
     },
     cardStyleInterpolator: flipTransition,
   },
-  
+
   // Cube transitions
   cube: {
     transitionSpec: {

@@ -2,15 +2,15 @@
  * Test Utilities - VohadaIsh uchun
  */
 
-import React from 'react';
 import { render, RenderOptions } from '@testing-library/react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { ThemeProvider } from '../context/ThemeContext';
-import { TransitionProvider } from '../context/TransitionContext';
 import { AuthProvider } from '../context/AuthContext';
 import { JobProvider } from '../context/JobContext';
+import { ThemeProvider } from '../context/ThemeContext';
+import { TransitionProvider } from '../context/TransitionContext';
 
 /**
  * Custom render function with all providers
@@ -32,13 +32,10 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   };
 }
 
-const AllProviders: React.FC<{ 
+const AllProviders: React.FC<{
   children: React.ReactNode;
   options?: CustomRenderOptions;
-}> = ({ 
-  children, 
-  options = {} 
-}) => {
+}> = ({ children, options = {} }) => {
   const {
     withAuth = true,
     withJobs = true,
@@ -74,7 +71,7 @@ const AllProviders: React.FC<{
 
 export const renderWithProviders = (
   ui: React.ReactElement,
-  options: CustomRenderOptions = {}
+  options: CustomRenderOptions = {},
 ) => {
   return render(ui, {
     wrapper: ({ children }) => (
@@ -92,9 +89,7 @@ export const renderWithTheme = (ui: React.ReactElement) => {
     wrapper: ({ children }) => (
       <SafeAreaProvider>
         <ThemeProvider>
-          <PaperProvider>
-            {children}
-          </PaperProvider>
+          <PaperProvider>{children}</PaperProvider>
         </ThemeProvider>
       </SafeAreaProvider>
     ),
@@ -144,7 +139,7 @@ export const createMockJobs = (count = 5) => {
     createMockJob({
       id: `test-job-${index + 1}`,
       title: `Test Job ${index + 1}`,
-    })
+    }),
   );
 };
 

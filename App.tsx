@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider } from './src/context/AuthContext';
 import { JobProvider } from './src/context/JobContext';
+import { MessageProvider } from './src/context/MessageContext';
 import { ThemeProvider } from './src/context/ThemeContext';
 import { TransitionProvider } from './src/context/TransitionContext';
 import { AppNavigator } from './src/navigation/AppNavigator';
@@ -27,8 +28,10 @@ export default function App() {
           <PaperProvider>
             <AuthProvider>
               <JobProvider>
-                <AppNavigator />
-                <StatusBar style="auto" />
+                <MessageProvider>
+                  <AppNavigator />
+                  <StatusBar style="auto" />
+                </MessageProvider>
               </JobProvider>
             </AuthProvider>
           </PaperProvider>

@@ -5,7 +5,9 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+
 import { colors } from '../constants/colors';
+
 import { TabBarButton } from './TabBarButton';
 
 const icons: Record<string, { name: string; outline: string }> = {
@@ -24,13 +26,20 @@ const labels: Record<string, string> = {
   Profile: 'Profil',
 };
 
-export const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
+export const CustomTabBar: React.FC<BottomTabBarProps> = ({
+  state,
+  descriptors,
+  navigation,
+}) => {
   return (
     <View style={styles.container}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
-        const iconSet = icons[route.name] || { name: 'circle', outline: 'circle-outline' };
+        const iconSet = icons[route.name] || {
+          name: 'circle',
+          outline: 'circle-outline',
+        };
 
         const onPress = () => {
           const event = navigation.emit({
@@ -91,9 +100,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     position: 'absolute',
-    bottom: 0,
+    bottom: 15,
     left: 0,
     right: 0,
+    zIndex: 999,
   },
   tabButton: {
     flex: 1,
@@ -101,4 +111,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-

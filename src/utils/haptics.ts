@@ -34,10 +34,14 @@ export const triggerHaptic = async (type: HapticType = HapticType.LIGHT) => {
         await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
         break;
       case HapticType.SUCCESS:
-        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        await Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Success,
+        );
         break;
       case HapticType.WARNING:
-        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        await Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Warning,
+        );
         break;
       case HapticType.ERROR:
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -61,25 +65,25 @@ export const hapticFeedback = {
   touch: () => triggerHaptic(HapticType.LIGHT),
   press: () => triggerHaptic(HapticType.MEDIUM),
   longPress: () => triggerHaptic(HapticType.HEAVY),
-  
+
   // UI feedback
   selection: () => triggerHaptic(HapticType.SELECTION),
   success: () => triggerHaptic(HapticType.SUCCESS),
   warning: () => triggerHaptic(HapticType.WARNING),
   error: () => triggerHaptic(HapticType.ERROR),
-  
+
   // Custom patterns
   doubleTouch: async () => {
     await triggerHaptic(HapticType.LIGHT);
     setTimeout(() => triggerHaptic(HapticType.LIGHT), 100);
   },
-  
+
   confirmAction: async () => {
     await triggerHaptic(HapticType.MEDIUM);
     setTimeout(() => triggerHaptic(HapticType.SUCCESS), 150);
   },
-  
+
   swipeAction: () => triggerHaptic(HapticType.MEDIUM),
-  
+
   pullRefresh: () => triggerHaptic(HapticType.LIGHT),
 };

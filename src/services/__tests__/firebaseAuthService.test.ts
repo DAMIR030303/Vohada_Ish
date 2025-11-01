@@ -1,15 +1,11 @@
 /**
  * FirebaseAuthService testlari
- * 
+ *
  * @description Firebase Auth service funksiyalarini to'liq test qilish
  * Coverage target: 90%+
  */
 
 // Mock must come before imports
-jest.mock('firebase/auth');
-jest.mock('firebase/firestore');
-jest.mock('../firebase');
-
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -18,8 +14,9 @@ import {
   confirmPasswordReset,
   updateProfile,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { setDoc, getDoc } from 'firebase/firestore';
 
+import { auth, db } from '../firebase';
 import {
   register,
   login,
@@ -28,7 +25,10 @@ import {
   confirmResetPassword,
   getUserData,
 } from '../firebaseAuthService';
-import { auth, db } from '../firebase';
+
+jest.mock('firebase/auth');
+jest.mock('firebase/firestore');
+jest.mock('../firebase');
 
 describe('FirebaseAuthService', () => {
   beforeEach(() => {
@@ -36,12 +36,12 @@ describe('FirebaseAuthService', () => {
   });
 
   describe('register', () => {
-    it('yangi foydalanuvchini muvaffaqiyatli ro\'yxatdan o\'tkazish kerak', async () => {
+    it("yangi foydalanuvchini muvaffaqiyatli ro'yxatdan o'tkazish kerak", async () => {
       const mockUser = { uid: 'test-uid', email: 'test@example.com' };
       const mockUserCredential = { user: mockUser };
 
       (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue(
-        mockUserCredential
+        mockUserCredential,
       );
       (updateProfile as jest.Mock).mockResolvedValue(undefined);
       (setDoc as jest.Mock).mockResolvedValue(undefined);
@@ -50,13 +50,13 @@ describe('FirebaseAuthService', () => {
         'test@example.com',
         'password123',
         'Test User',
-        '+998901234567'
+        '+998901234567',
       );
 
       expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
         auth,
         'test@example.com',
-        'password123'
+        'password123',
       );
       expect(updateProfile).toHaveBeenCalledWith(mockUser, {
         displayName: 'Test User',
@@ -72,16 +72,16 @@ describe('FirebaseAuthService', () => {
       (createUserWithEmailAndPassword as jest.Mock).mockRejectedValue(error);
 
       await expect(
-        register('test@example.com', 'weak', 'Test User')
+        register('test@example.com', 'weak', 'Test User'),
       ).rejects.toThrow('Registration failed');
     });
 
-    it('telefon raqamisiz ro\'yxatdan o\'tkazish mumkin', async () => {
+    it("telefon raqamisiz ro'yxatdan o'tkazish mumkin", async () => {
       const mockUser = { uid: 'test-uid', email: 'test@example.com' };
       const mockUserCredential = { user: mockUser };
 
       (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue(
-        mockUserCredential
+        mockUserCredential,
       );
       (updateProfile as jest.Mock).mockResolvedValue(undefined);
       (setDoc as jest.Mock).mockResolvedValue(undefined);
@@ -89,7 +89,7 @@ describe('FirebaseAuthService', () => {
       const result = await register(
         'test@example.com',
         'password123',
-        'Test User'
+        'Test User',
       );
 
       expect(result.phone).toBeUndefined();
@@ -97,12 +97,12 @@ describe('FirebaseAuthService', () => {
   });
 
   describe('login', () => {
-    it('to\'g\'ri email va parol bilan kirish kerak', async () => {
+    it("to'g'ri email va parol bilan kirish kerak", async () => {
       const mockUser = { uid: 'test-uid', email: 'test@example.com' };
       const mockUserCredential = { user: mockUser };
 
       (signInWithEmailAndPassword as jest.Mock).mockResolvedValue(
-        mockUserCredential
+        mockUserCredential,
       );
 
       const result = await login('test@example.com', 'password123');
@@ -110,29 +110,29 @@ describe('FirebaseAuthService', () => {
       expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
         auth,
         'test@example.com',
-        'password123'
+        'password123',
       );
       expect(result.uid).toBe('test-uid');
       expect(result.email).toBe('test@example.com');
     });
 
-    it('noto\'g\'ri parol bilan xato qaytarish kerak', async () => {
+    it("noto'g'ri parol bilan xato qaytarish kerak", async () => {
       const error = new Error('Invalid password');
       (error as any).code = 'auth/invalid-credential';
       (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(error);
 
       await expect(
-        login('test@example.com', 'wrongpassword')
+        login('test@example.com', 'wrongpassword'),
       ).rejects.toThrow();
     });
 
-    it('mavjud bo\'lmagan email bilan xato qaytarish kerak', async () => {
+    it("mavjud bo'lmagan email bilan xato qaytarish kerak", async () => {
       const error = new Error('User not found');
       (error as any).code = 'auth/user-not-found';
       (signInWithEmailAndPassword as jest.Mock).mockRejectedValue(error);
 
       await expect(
-        login('notfound@example.com', 'password123')
+        login('notfound@example.com', 'password123'),
       ).rejects.toThrow();
     });
   });
@@ -166,11 +166,11 @@ describe('FirebaseAuthService', () => {
         {
           url: 'vohadaish://reset-password',
           handleCodeInApp: true,
-        }
+        },
       );
     });
 
-    it('mavjud bo\'lmagan email bilan xato qaytarish kerak', async () => {
+    it("mavjud bo'lmagan email bilan xato qaytarish kerak", async () => {
       const error = new Error('User not found');
       (error as any).code = 'auth/user-not-found';
       (sendPasswordResetEmail as jest.Mock).mockRejectedValue(error);
@@ -188,17 +188,17 @@ describe('FirebaseAuthService', () => {
       expect(confirmPasswordReset).toHaveBeenCalledWith(
         auth,
         'valid-code',
-        'newpassword123'
+        'newpassword123',
       );
     });
 
-    it('noto\'g\'ri yoki muddati o\'tgan kod bilan xato qaytarish kerak', async () => {
+    it("noto'g'ri yoki muddati o'tgan kod bilan xato qaytarish kerak", async () => {
       const error = new Error('Invalid code');
       (error as any).code = 'auth/invalid-action-code';
       (confirmPasswordReset as jest.Mock).mockRejectedValue(error);
 
       await expect(
-        confirmResetPassword('invalid-code', 'newpassword')
+        confirmResetPassword('invalid-code', 'newpassword'),
       ).rejects.toThrow();
     });
 
@@ -207,14 +207,12 @@ describe('FirebaseAuthService', () => {
       (error as any).code = 'auth/weak-password';
       (confirmPasswordReset as jest.Mock).mockRejectedValue(error);
 
-      await expect(
-        confirmResetPassword('valid-code', '123')
-      ).rejects.toThrow();
+      await expect(confirmResetPassword('valid-code', '123')).rejects.toThrow();
     });
   });
 
   describe('getUserData', () => {
-    it('foydalanuvchi ma\'lumotlarini olish kerak', async () => {
+    it("foydalanuvchi ma'lumotlarini olish kerak", async () => {
       const mockUserData = {
         email: 'test@example.com',
         fullName: 'Test User',
@@ -239,7 +237,7 @@ describe('FirebaseAuthService', () => {
       expect(result?.fullName).toBe('Test User');
     });
 
-    it('mavjud bo\'lmagan user uchun null qaytarish kerak', async () => {
+    it("mavjud bo'lmagan user uchun null qaytarish kerak", async () => {
       const mockDoc = {
         exists: () => false,
       };
@@ -258,7 +256,7 @@ describe('FirebaseAuthService', () => {
       await expect(getUserData('test-uid')).rejects.toThrow('Firestore error');
     });
 
-    it('createdAt va updatedAt Timestamp\'dan Date\'ga konvertatsiya qilish kerak', async () => {
+    it("createdAt va updatedAt Timestamp'dan Date'ga konvertatsiya qilish kerak", async () => {
       const mockDate = new Date('2024-01-15');
       const mockUserData = {
         email: 'test@example.com',
@@ -282,7 +280,7 @@ describe('FirebaseAuthService', () => {
   });
 
   describe('checkFirebaseConfig', () => {
-    it('Firebase konfiguratsiyasi bo\'lmasa xato tashlash kerak', async () => {
+    it("Firebase konfiguratsiyasi bo'lmasa xato tashlash kerak", async () => {
       // Mock qilingan auth va db null bo'lganda xatolik qaytishi kerak
       // Bu test qismi skip qilinmoqda, chunki auth va db readonly
       // va ularni test muhitida null qilib o'rnatish mumkin emas
@@ -291,4 +289,3 @@ describe('FirebaseAuthService', () => {
     });
   });
 });
-

@@ -1,0 +1,14 @@
+{
+  "role": "test.reporter",
+  "description": "Test natijalarini markdown formatida formatlab, hisobot yaratadi. Jest coverage va test natijalarini ko'rsatadi.",
+  "command": "pnpm test --coverage --json --outputFile=test-report.json",
+  "format": "markdown",
+  "include": [
+    "test summary",
+    "coverage report",
+    "failed tests details",
+    "test execution time"
+  ],
+  "outputFile": "test-report-{timestamp}.md",
+  "notes": "Bu role test natijalarini chiroyli markdown formatida yaratadi va coverage ma'lumotlarini ko'rsatadi."
+}

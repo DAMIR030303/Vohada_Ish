@@ -54,10 +54,14 @@ export const mockFirestore = {
       delete: jest.fn().mockResolvedValue(undefined),
       onSnapshot: jest.fn((callback) => {
         // Simulate real-time update
-        setTimeout(() => callback({
-          exists: true,
-          data: () => ({ name: 'Test Data' }),
-        }), 0);
+        setTimeout(
+          () =>
+            callback({
+              exists: true,
+              data: () => ({ name: 'Test Data' }),
+            }),
+          0,
+        );
         return jest.fn(); // unsubscribe function
       }),
     })),
@@ -72,14 +76,18 @@ export const mockFirestore = {
         ],
       }),
       onSnapshot: jest.fn((callback) => {
-        setTimeout(() => callback({
-          docs: [
-            {
-              id: 'test-doc-1',
-              data: () => ({ title: 'Test Job 1' }),
-            },
-          ],
-        }), 0);
+        setTimeout(
+          () =>
+            callback({
+              docs: [
+                {
+                  id: 'test-doc-1',
+                  data: () => ({ title: 'Test Job 1' }),
+                },
+              ],
+            }),
+          0,
+        );
         return jest.fn();
       }),
     })),
@@ -163,7 +171,7 @@ export const mockLottie = {
 export const mockExpoModules = {
   // Expo Haptics
   Haptics: mockHaptics,
-  
+
   // Expo AV
   Audio: {
     setAudioModeAsync: jest.fn().mockResolvedValue(undefined),
@@ -178,7 +186,7 @@ export const mockExpoModules = {
       }),
     },
   },
-  
+
   // Expo Constants
   Constants: {
     expoConfig: {
@@ -190,7 +198,7 @@ export const mockExpoModules = {
       android: {},
     },
   },
-  
+
   // Expo Status Bar
   StatusBar: {
     setStatusBarStyle: jest.fn(),
@@ -231,7 +239,10 @@ export const setupMocks = () => {
   });
 
   // Mock AsyncStorage
-  jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
+  jest.mock(
+    '@react-native-async-storage/async-storage',
+    () => mockAsyncStorage,
+  );
 
   // Mock Expo Haptics
   jest.mock('expo-haptics', () => mockHaptics);

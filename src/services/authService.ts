@@ -1,6 +1,6 @@
 /**
  * Autentifikatsiya servisi
- * 
+ *
  * Firebase yoqilgan bo'lsa Firebase versiyasini, aks holda Mock versiyasini ishlatadi
  */
 
@@ -22,6 +22,10 @@ export const register = authService.register;
 export const resetPassword = authService.resetPassword;
 
 // confirmResetPassword faqat Firebase mode'da mavjud
-export const confirmResetPassword = useFirebase 
-  ? (firebaseAuth as typeof firebaseAuth & { confirmResetPassword: typeof firebaseAuth.confirmResetPassword }).confirmResetPassword
+export const confirmResetPassword = useFirebase
+  ? (
+      firebaseAuth as typeof firebaseAuth & {
+        confirmResetPassword: typeof firebaseAuth.confirmResetPassword;
+      }
+    ).confirmResetPassword
   : undefined;

@@ -3,11 +3,12 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text } from 'react-native';
 
-import { AnimatedIcons } from './LottieIcon';
 import { useTheme } from '../context/ThemeContext';
 import { fontSize } from '../utils/responsive';
+
+import { AnimatedIcons } from './LottieIcon';
 
 interface LottieLoadingScreenProps {
   visible: boolean;
@@ -93,9 +94,7 @@ export const LottieLoadingScreen: React.FC<LottieLoadingScreenProps> = ({
         ]}
       >
         <AnimatedIcons.Loading size={80} />
-        <Text style={[styles.message, dynamicStyles.message]}>
-          {message}
-        </Text>
+        <Text style={[styles.message, dynamicStyles.message]}>{message}</Text>
       </Animated.View>
     </Animated.View>
   );

@@ -6,7 +6,7 @@ import LottieView from 'lottie-react-native';
 import React, { useRef, useEffect, useState } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 
-export type LottieIconType = 
+export type LottieIconType =
   | 'loading'
   | 'success'
   | 'error'
@@ -105,55 +105,55 @@ export const AnimatedIcons = {
   Loading: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="loading" loop={true} {...props} />
   ),
-  
+
   Success: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="success" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Error: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="error" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Heart: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="heart" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Bookmark: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="bookmark" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Search: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="search" loop={true} {...props} />
   ),
-  
+
   Notification: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="notification" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Refresh: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="refresh" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Empty: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="empty" loop={true} size={120} {...props} />
   ),
-  
+
   Checkmark: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="checkmark" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Warning: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="warning" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Location: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="location" loop={true} {...props} />
   ),
-  
+
   Send: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="send" loop={false} autoPlay={false} {...props} />
   ),
-  
+
   Download: (props: Omit<LottieIconProps, 'type'>) => (
     <LottieIcon type="download" loop={false} autoPlay={false} {...props} />
   ),

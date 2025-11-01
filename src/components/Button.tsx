@@ -3,7 +3,15 @@
  */
 
 import React from 'react';
-import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
 import { colors } from '../constants/colors';
 import { fontSize } from '../utils/responsive';
 
@@ -116,7 +124,9 @@ export const Button: React.FC<ButtonProps> = ({
       style={[
         styles.button,
         {
-          backgroundColor: isDisabled ? colors.textDisabled : variantStyles.backgroundColor,
+          backgroundColor: isDisabled
+            ? colors.textDisabled
+            : variantStyles.backgroundColor,
           borderColor: variantStyles.borderColor,
           borderWidth: variant === 'outline' ? 2 : 0,
           paddingVertical: sizeStyles.paddingVertical,
@@ -132,7 +142,9 @@ export const Button: React.FC<ButtonProps> = ({
         {loading ? (
           <ActivityIndicator
             size="small"
-            color={variant === 'outline' ? colors.primary : variantStyles.textColor}
+            color={
+              variant === 'outline' ? colors.primary : variantStyles.textColor
+            }
             style={styles.loader}
           />
         ) : (
@@ -142,7 +154,10 @@ export const Button: React.FC<ButtonProps> = ({
               style={[
                 styles.text,
                 {
-                  color: variant === 'outline' ? variantStyles.textColor : variantStyles.textColor,
+                  color:
+                    variant === 'outline'
+                      ? variantStyles.textColor
+                      : variantStyles.textColor,
                   fontSize: sizeStyles.fontSize,
                   fontWeight: '700',
                 },
@@ -187,4 +202,3 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
 });
-

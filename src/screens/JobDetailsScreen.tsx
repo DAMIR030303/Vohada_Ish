@@ -2,14 +2,22 @@
  * Ish tafsilotlari ekrani - Zamonaviy dizayn
  */
 
-import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { Alert, Linking, Platform, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  Linking,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
 import { colors } from '../constants/colors';
-import { useTheme } from '../context/ThemeContext';
 import { getJob } from '../services/jobService';
 import { Job } from '../types';
 import { formatCurrency, formatRelativeTime } from '../utils/formatters';
@@ -24,7 +32,7 @@ export const JobDetailsScreen: React.FC = () => {
   const jobId = route.params?.jobId;
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
-  const { colors: themeColors } = useTheme();
+  // const { colors: themeColors } = useTheme();
 
   useEffect(() => {
     if (jobId) {
@@ -40,7 +48,7 @@ export const JobDetailsScreen: React.FC = () => {
       const jobData = await getJob(jobId);
       setJob(jobData);
     } catch (error) {
-      Alert.alert('Xatolik', 'Ish e\'loni yuklanmadi');
+      Alert.alert('Xatolik', "Ish e'loni yuklanmadi");
       console.error(error);
     } finally {
       setLoading(false);
@@ -62,13 +70,13 @@ export const JobDetailsScreen: React.FC = () => {
   // Gradient ranglarni tanlash
   const getGradientColors = (): [string, string] => {
     if (job?.category === 'IT') {
-      return [colors.primary, colors.accent];
+      return ['#1B4332', '#40916C']; // to'q yashildan yorqin yashilga
     } else if (job?.category === 'Dizayn') {
-      return [colors.primaryDark, colors.primary];
+      return ['#0F2419', '#1B4332']; // quyuq yashildan to'q yashilga
     } else if (job?.category === 'Marketing') {
-      return [colors.accent, colors.accentLight];
+      return ['#40916C', '#52B788']; // yorqin yashildan ochroq yashilga
     }
-    return [colors.primaryLight, colors.accent];
+    return ['#2D5A3D', '#40916C']; // o'rtacha yashildan yorqin yashilga
   };
 
   if (loading) {
@@ -90,8 +98,8 @@ export const JobDetailsScreen: React.FC = () => {
   const gradientColors = getGradientColors();
 
   return (
-    <ScrollView 
-      style={styles.container} 
+    <ScrollView
+      style={styles.container}
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
@@ -107,9 +115,13 @@ export const JobDetailsScreen: React.FC = () => {
           <View style={styles.categoryIconContainer}>
             <MaterialCommunityIcons
               name={
-                job.category === 'IT' ? 'laptop' :
-                job.category === 'Dizayn' ? 'palette' :
-                job.category === 'Marketing' ? 'bullhorn' : 'briefcase'
+                job.category === 'IT'
+                  ? 'laptop'
+                  : job.category === 'Dizayn'
+                    ? 'palette'
+                    : job.category === 'Marketing'
+                      ? 'bullhorn'
+                      : 'briefcase'
               }
               size={32}
               color="#FFFFFF"
@@ -193,9 +205,7 @@ export const JobDetailsScreen: React.FC = () => {
             />
             <Text style={styles.sectionTitle}>Tavsif</Text>
           </View>
-          <Text style={styles.description}>
-            {job.description}
-          </Text>
+          <Text style={styles.description}>{job.description}</Text>
         </View>
 
         {/* Job Details Card */}
@@ -208,7 +218,7 @@ export const JobDetailsScreen: React.FC = () => {
             />
             <Text style={styles.sectionTitle}>Ish Tafsilotlari</Text>
           </View>
-          
+
           <View style={styles.detailRow}>
             <MaterialCommunityIcons
               name="briefcase-variant"
@@ -282,7 +292,7 @@ export const JobDetailsScreen: React.FC = () => {
         {(job.contactPhone || job.contactEmail) && (
           <View style={styles.actionsCard}>
             <Text style={styles.actionsTitle}>Bog'lanish</Text>
-            
+
             {job.contactPhone && (
               <TouchableOpacity
                 style={[styles.actionButton, styles.primaryButton]}
@@ -290,7 +300,7 @@ export const JobDetailsScreen: React.FC = () => {
                 activeOpacity={0.8}
               >
                 <LinearGradient
-                  colors={[colors.accent, colors.accentLight]}
+                  colors={['#40916C', '#52B788']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   style={styles.buttonGradient}
@@ -318,9 +328,7 @@ export const JobDetailsScreen: React.FC = () => {
                   size={24}
                   color={colors.primary}
                 />
-                <Text style={styles.secondaryButtonText}>
-                  Email yuborish
-                </Text>
+                <Text style={styles.secondaryButtonText}>Email yuborish</Text>
               </TouchableOpacity>
             )}
           </View>

@@ -6,39 +6,39 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
-import { AnimatedTouchable } from './AnimatedComponents';
 import { useTheme, ThemeMode } from '../context/ThemeContext';
 import { fontSize } from '../utils/responsive';
+
+import { AnimatedTouchable } from './AnimatedComponents';
 
 export const ThemeSelector: React.FC = () => {
   const { themeMode, setThemeMode, colors } = useTheme();
 
   const themeOptions: { mode: ThemeMode; label: string; icon: string }[] = [
-    { mode: 'light', label: 'Yorug\'', icon: 'white-balance-sunny' },
-    { mode: 'dark', label: 'Qorong\'u', icon: 'moon-waning-crescent' },
+    { mode: 'light', label: "Yorug'", icon: 'white-balance-sunny' },
+    { mode: 'dark', label: "Qorong'u", icon: 'moon-waning-crescent' },
     { mode: 'system', label: 'Tizim', icon: 'cellphone' },
   ];
 
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
-      <Text style={[styles.title, { color: colors.text }]}>
-        Mavzu tanlash
-      </Text>
+      <Text style={[styles.title, { color: colors.text }]}>Mavzu tanlash</Text>
       <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
         Ilovaning ko'rinishini o'zgartiring
       </Text>
-      
+
       <View style={styles.optionsContainer}>
         {themeOptions.map((option) => (
           <AnimatedTouchable
             key={option.mode}
             style={[
               styles.option,
-              { 
+              {
                 backgroundColor: colors.background,
-                borderColor: themeMode === option.mode ? colors.primary : colors.border,
+                borderColor:
+                  themeMode === option.mode ? colors.primary : colors.border,
                 borderWidth: themeMode === option.mode ? 2 : 1,
-              }
+              },
             ]}
             onPress={() => setThemeMode(option.mode)}
             scaleValue={0.96}
@@ -46,15 +46,22 @@ export const ThemeSelector: React.FC = () => {
             <MaterialCommunityIcons
               name={option.icon as any}
               size={24}
-              color={themeMode === option.mode ? colors.primary : colors.textSecondary}
-            />
-            <Text style={[
-              styles.optionText,
-              { 
-                color: themeMode === option.mode ? colors.primary : colors.text,
-                fontWeight: themeMode === option.mode ? '600' : '500',
+              color={
+                themeMode === option.mode
+                  ? colors.primary
+                  : colors.textSecondary
               }
-            ]}>
+            />
+            <Text
+              style={[
+                styles.optionText,
+                {
+                  color:
+                    themeMode === option.mode ? colors.primary : colors.text,
+                  fontWeight: themeMode === option.mode ? '600' : '500',
+                },
+              ]}
+            >
               {option.label}
             </Text>
             {themeMode === option.mode && (

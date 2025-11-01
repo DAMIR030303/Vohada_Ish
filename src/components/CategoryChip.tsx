@@ -5,9 +5,9 @@
 import React from 'react';
 import { StyleSheet, Text, Platform } from 'react-native';
 
-import { AnimatedTouchable, SlideInRight } from './AnimatedComponents';
-
 import { colors } from '../constants/colors';
+
+import { AnimatedTouchable, SlideInRight } from './AnimatedComponents';
 
 interface Category {
   id: string;
@@ -26,7 +26,7 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({
   selected = false,
   onPress,
 }) => {
-  const accessibilityLabel = selected 
+  const accessibilityLabel = selected
     ? `${category.name} kategoriyasi tanlangan. Tanlovni bekor qilish uchun bosing`
     : `${category.name} kategoriyasini tanlash uchun bosing`;
 
@@ -46,13 +46,10 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({
         accessibilityState={{ selected }}
         accessibilityHint="Kategoriya bo'yicha ish e'lonlarini filtrlash uchun"
       >
-        <Text 
-          style={styles.icon}
-          accessible={false}
-        >
+        <Text style={styles.icon} accessible={false}>
           {category.icon}
         </Text>
-        <Text 
+        <Text
           style={[styles.text, selected && styles.textSelected]}
           accessible={false}
         >
@@ -117,4 +114,3 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
-

@@ -5,15 +5,15 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useRef, useEffect } from 'react';
 import { Animated, Platform, StyleSheet, Text, View } from 'react-native';
-import { 
-  PanGestureHandler, 
+import {
+  PanGestureHandler,
   PanGestureHandlerGestureEvent,
-  State 
+  State,
 } from 'react-native-gesture-handler';
 
 import { useTheme } from '../context/ThemeContext';
-import { fontSize } from '../utils/responsive';
 import { hapticFeedback } from '../utils/haptics';
+import { fontSize } from '../utils/responsive';
 import { soundEffects } from '../utils/soundEffects';
 
 interface PullToRefreshProps {
@@ -35,7 +35,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
   const pullDistance = useRef(new Animated.Value(0)).current;
   const rotation = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(0)).current;
-  
+
   const hasTriggeredHaptic = useRef(false);
   const isRefreshing = useRef(false);
 
@@ -55,14 +55,14 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
         toValue: 1,
         duration: 1000,
         useNativeDriver: true,
-      })
+      }),
     ).start();
   };
 
   const endRefreshAnimation = () => {
     rotation.stopAnimation();
     rotation.setValue(0);
-    
+
     Animated.parallel([
       Animated.spring(translateY, {
         toValue: 0,
@@ -80,16 +80,16 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
 
   const onGestureEvent = Animated.event(
     [{ nativeEvent: { translationY: translateY } }],
-    { 
+    {
       useNativeDriver: true,
       listener: (event: PanGestureHandlerGestureEvent) => {
         const { translationY } = event.nativeEvent;
-        
+
         if (translationY > 0) {
           const progress = Math.min(translationY / PULL_THRESHOLD, 1);
           pullDistance.setValue(Math.min(translationY, MAX_PULL_DISTANCE));
           opacity.setValue(progress);
-          
+
           // Haptic feedback at threshold
           if (translationY >= PULL_THRESHOLD && !hasTriggeredHaptic.current) {
             hasTriggeredHaptic.current = true;
@@ -99,14 +99,14 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
             hasTriggeredHaptic.current = false;
           }
         }
-      }
-    }
+      },
+    },
   );
 
   const onHandlerStateChange = (event: PanGestureHandlerGestureEvent) => {
     if (event.nativeEvent.state === State.END) {
       const { translationY } = event.nativeEvent;
-      
+
       if (translationY >= PULL_THRESHOLD && !refreshing) {
         // Trigger refresh
         hapticFeedback.success();
@@ -128,7 +128,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
           }),
         ]).start();
       }
-      
+
       hasTriggeredHaptic.current = false;
     }
   };
@@ -206,9 +206,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
         activeOffsetY={[0, 10]}
         failOffsetY={-5}
       >
-        <Animated.View style={styles.content}>
-          {children}
-        </Animated.View>
+        <Animated.View style={styles.content}>{children}</Animated.View>
       </PanGestureHandler>
     </View>
   );

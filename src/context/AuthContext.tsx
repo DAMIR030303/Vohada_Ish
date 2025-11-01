@@ -5,7 +5,13 @@
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { getUserData, login, logout, register, resetPassword } from '../services/authService';
+import {
+  getUserData,
+  login,
+  logout,
+  register,
+  resetPassword,
+} from '../services/authService';
 import { auth } from '../services/firebase';
 import { getCurrentUser } from '../services/mockAuthService';
 import { User } from '../types';
@@ -26,6 +32,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  updateUserProfile: (updates: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -61,14 +68,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               const fallbackUser = {
                 id: fbUser.uid,
                 email: fbUser.email || '',
-                fullName: fbUser.displayName || fbUser.email?.split('@')[0] || 'User',
+                fullName:
+                  fbUser.displayName || fbUser.email?.split('@')[0] || 'User',
                 phone: fbUser.phoneNumber || undefined,
                 createdAt: new Date(),
                 updatedAt: new Date(),
               };
               setUser(fallbackUser);
               if (__DEV__) {
-                console.log('User data created from Firebase Auth:', fallbackUser.email);
+                console.log(
+                  'User data created from Firebase Auth:',
+                  fallbackUser.email,
+                );
               }
             }
           } catch (error) {
@@ -77,7 +88,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             const fallbackUser = {
               id: fbUser.uid,
               email: fbUser.email || '',
-              fullName: fbUser.displayName || fbUser.email?.split('@')[0] || 'User',
+              fullName:
+                fbUser.displayName || fbUser.email?.split('@')[0] || 'User',
               phone: fbUser.phoneNumber || undefined,
               createdAt: new Date(),
               updatedAt: new Date(),
@@ -158,6 +170,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     await resetPassword(email);
   };
 
+  const handleUpdateUserProfile = async (updates: Partial<User>) => {
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Local state yangilash
+    const updatedUser = { ...user, ...updates, updatedAt: new Date() };
+    setUser(updatedUser);
+
+    // Firestore'ga saqlash (keyinchalik implement qilamiz)
+    // Faqat local state yangilaymiz hozircha
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -168,6 +193,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         login: handleLogin,
         logout: handleLogout,
         resetPassword: handleResetPassword,
+        updateUserProfile: handleUpdateUserProfile,
       }}
     >
       {children}
@@ -182,4 +208,3 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
-

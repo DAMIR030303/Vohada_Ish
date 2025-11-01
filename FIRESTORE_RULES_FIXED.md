@@ -1,7 +1,9 @@
 # Firestore Rules - Tuzatilgan versiya
 
 ## Muammo
+
 "Missing or insufficient permissions" xatosi chiqmoqda. Bu quyidagi sabablarga ko'ra bo'lishi mumkin:
+
 1. Rules hali publish qilinmagan
 2. Query'lar index talab qilishi mumkin
 3. Rules'da `resource.data` yangi yaratilayotgan dokumentlar uchun mavjud emas
@@ -18,18 +20,18 @@ service cloud.firestore {
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
-    
+
     // Jobs collection - Development uchun yanada moslashuvchan
     match /jobs/{jobId} {
       // O'qish - barcha autentifikatsiya qilingan foydalanuvchilar
       allow read: if request.auth != null;
-      
+
       // Yaratish - barcha autentifikatsiya qilingan foydalanuvchilar
-      allow create: if request.auth != null && 
+      allow create: if request.auth != null &&
         request.resource.data.postedBy == request.auth.uid;
-      
+
       // Yangilash va o'chirish - faqat egasi
-      allow update, delete: if request.auth != null && 
+      allow update, delete: if request.auth != null &&
         resource.data.postedBy == request.auth.uid;
     }
   }
@@ -65,6 +67,6 @@ service cloud.firestore {
 ## Tekshirish
 
 Rules to'g'ri ishlayotganini tekshirish uchun:
+
 - Firebase Console → Firestore Database → Rules → "Develop & Test" tugmasini bosing
 - Test query'larni yuborib ko'ring
-

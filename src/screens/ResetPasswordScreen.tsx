@@ -5,7 +5,14 @@
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
 import { colors } from '../constants/colors';
@@ -29,7 +36,7 @@ export const ResetPasswordScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteProp<RouteParams, 'ResetPassword'>>();
   const oobCode = route.params?.oobCode || '';
-  
+
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,7 +48,10 @@ export const ResetPasswordScreen: React.FC = () => {
     }
 
     if (!isValidPassword(newPassword)) {
-      Alert.alert('Xatolik', 'Parol kamida 6 belgidan iborat bo&apos;lishi kerak');
+      Alert.alert(
+        'Xatolik',
+        'Parol kamida 6 belgidan iborat bo&apos;lishi kerak',
+      );
       return;
     }
 
@@ -69,7 +79,10 @@ export const ResetPasswordScreen: React.FC = () => {
         ],
       );
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Parolni yangilashda xatolik yuz berdi';
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Parolni yangilashda xatolik yuz berdi';
       Alert.alert('Xatolik', message);
     } finally {
       setLoading(false);
@@ -165,4 +178,3 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
 });
-

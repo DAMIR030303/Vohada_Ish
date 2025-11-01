@@ -1,0 +1,25 @@
+
+> vohadaish@1.0.0 typecheck /home/damir/Desktop/Vohada_Ish/VohadaIsh
+> tsc --noEmit
+
+src/screens/ChatScreen.tsx(92,26): error TS2448: Block-scoped variable 'handleDeleteConversation' used before its declaration.
+src/screens/ChatScreen.tsx(92,26): error TS2454: Variable 'handleDeleteConversation' is used before being assigned.
+src/screens/MessagesScreen.tsx(20,10): error TS2305: Module '"../context/LanguageContext"' has no exported member 'useTranslation'.
+src/screens/MessagesScreen.tsx(28,62): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/screens/MessagesScreen.tsx(74,11): error TS2322: Type '{ message: any; subtitle: any; }' is not assignable to type 'IntrinsicAttributes & LottieEmptyStateProps'.
+  Property 'message' does not exist on type 'IntrinsicAttributes & LottieEmptyStateProps'.
+src/screens/MessagesScreen.tsx(99,29): error TS2339: Property 'card' does not exist on type '{ readonly primary: "#1B4332"; readonly primaryDark: "#0F2419"; readonly primaryLight: "#2D5A3D"; readonly secondary: "#D4A574"; readonly secondaryDark: "#B8956A"; readonly secondaryLight: "#E0B885"; ... 13 more ...; readonly dark: { ...; }; }'.
+src/screens/SearchScreen.tsx(93,11): error TS2322: Type '{ value: string; onChangeText: Dispatch<SetStateAction<string>>; placeholder: string; onFilterPress: () => void; }' is not assignable to type 'IntrinsicAttributes & SearchBarProps'.
+  Property 'value' does not exist on type 'IntrinsicAttributes & SearchBarProps'.
+src/screens/SearchScreen.tsx(105,15): error TS2322: Type '{ job: Job; onPress: () => void; }' is not assignable to type 'IntrinsicAttributes & JobCardProps'.
+  Property 'onPress' does not exist on type 'IntrinsicAttributes & JobCardProps'.
+src/screens/SearchScreen.tsx(105,50): error TS2345: Argument of type '[string, { jobId: string; }]' is not assignable to parameter of type 'never'.
+src/screens/SearchScreen.tsx(114,17): error TS2322: Type '{ title: string; message: string; buttonText: string; onButtonPress: () => void; animationType: "search" | "empty"; }' is not assignable to type 'IntrinsicAttributes & LottieEmptyStateProps'.
+  Property 'message' does not exist on type 'IntrinsicAttributes & LottieEmptyStateProps'.
+src/services/firebaseChatService.ts(148,13): error TS2322: Type '{ id: string; conversationId: any; senderId: any; receiverId: any; content: any; read: any; createdAt: any; }[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; conversationId: any; senderId: any; receiverId: any; content: any; read: any; createdAt: any; }' is missing the following properties from type 'Message': senderName, type
+src/services/firebaseChatService.ts(303,3): error TS2322: Type '{ id: string; conversationId: any; senderId: any; receiverId: any; content: any; read: any; createdAt: any; }[]' is not assignable to type 'Message[]'.
+  Type '{ id: string; conversationId: any; senderId: any; receiverId: any; content: any; read: any; createdAt: any; }' is missing the following properties from type 'Message': senderName, type
+src/utils/screenTransitions.ts(6,15): error TS2724: '"@react-navigation/stack"' has no exported member named 'CardStyleInterpolator'. Did you mean 'CardStyleInterpolators'?
+ ELIFECYCLE  Command failed with exit code 2.

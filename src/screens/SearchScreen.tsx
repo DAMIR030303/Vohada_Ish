@@ -1,155 +1,141 @@
 /**
- * Qidiruv va filtr ekrani
+ * Qidiruv ekrani
  */
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { FlatList, Platform, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { CategoryChip } from '../components/CategoryChip';
 import { FilterModal } from '../components/FilterModal';
 import { JobCard } from '../components/JobCard';
-import { SearchBar } from '../components/SearchBar';
-import { JobCardSkeleton, CategoryChipsSkeleton } from '../components/SkeletonLoader';
 import { LottieEmptyState } from '../components/LottieEmptyState';
-import { categories } from '../constants/categories';
+import { SearchBar } from '../components/SearchBar';
 import { colors } from '../constants/colors';
 import { useJobs } from '../context/JobContext';
-import { fontSize, horizontalPadding } from '../utils/responsive';
+import { FilterOptions } from '../types';
+import { wp, hp } from '../utils/responsive';
 
 export const SearchScreen: React.FC = () => {
-  const { jobs, loading, filters, setFilters, refreshJobs } = useJobs();
+  const navigation = useNavigation();
+  const { jobs, loading } = useJobs();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState<FilterOptions>({});
   const [showFilterModal, setShowFilterModal] = useState(false);
 
-  // Tab bar balandligi: iOS 88px, Android 60px
-  const tabBarHeight = Platform.OS === 'ios' ? 88 : 60;
-
-  const handleCategoryPress = (categoryId: string) => {
-    setFilters({
-      ...filters,
-      category: filters.category === categoryId ? undefined : categoryId,
-    });
-  };
+  // Qidiruv so'zini filters'ga qo'shish
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      searchQuery: searchQuery.trim() || undefined,
+    }));
+  }, [searchQuery]);
 
   // Filtrlangan ishlar
-  const filteredJobs = jobs.filter(job => {
-    // Category filter
-    if (filters.category && job.category !== filters.category) {
-      return false;
-    }
-    
-    // Search query filter
-    if (filters.searchQuery) {
-      const query = filters.searchQuery.toLowerCase();
-      return (
-        job.title.toLowerCase().includes(query) ||
-        job.description.toLowerCase().includes(query) ||
-        job.companyName?.toLowerCase().includes(query) ||
-        job.region.toLowerCase().includes(query)
-      );
-    }
-    
-    return true;
-  });
+  const filteredJobs = useMemo(() => {
+    return jobs.filter((job) => {
+      // Kategoriya filtri
+      if (filters.category && job.category !== filters.category) {
+        return false;
+      }
 
-  // Empty state component
-  const EmptySearchResults = () => {
-    const emptyMessage = filters.searchQuery || filters.category 
-      ? 'Qidiruv bo\'yicha hech narsa topilmadi. Boshqa so\'zlar bilan qidiring yoki filtrlarni o\'zgartiring.' 
-      : 'Hozircha ish e\'lonlari mavjud emas. Sahifani yangilash uchun pastga torting.';
+      // Hudud filtri
+      if (filters.region && job.region !== filters.region) {
+        return false;
+      }
 
-    return (
-      <View 
-        style={styles.emptyContainer}
-        accessible={true}
-        accessibilityRole="text"
-        accessibilityLabel={loading ? 'Qidirilmoqda, iltimos kuting' : emptyMessage}
-      >
-        {!loading && (
-          <MaterialCommunityIcons
-            name="magnify-remove-outline"
-            size={64}
-            color={colors.textDisabled}
-            style={styles.emptyIcon}
-            accessible={false}
-          />
-        )}
-        <Text 
-          style={styles.emptyTitle}
-          accessible={false}
-        >
-          {loading ? 'Qidirilmoqda...' : 'Hech narsa topilmadi'}
-        </Text>
-        {!loading && (
-          <Text 
-            style={styles.emptySubtitle}
-            accessible={false}
-          >
-            {filters.searchQuery || filters.category 
-              ? 'Qidiruv shartlaringizni o\'zgartiring' 
-              : 'Hozircha ish e\'lonlari mavjud emas'}
-          </Text>
-        )}
-      </View>
-    );
-  };
+      // Tuman filtri
+      if (filters.district && job.district !== filters.district) {
+        return false;
+      }
+
+      // Ish turi filtri
+      if (
+        filters.employmentType &&
+        job.employmentType !== filters.employmentType
+      ) {
+        return false;
+      }
+
+      // Maosh filtri
+      if (
+        filters.salaryMin &&
+        job.salary?.min &&
+        job.salary.min < filters.salaryMin
+      ) {
+        return false;
+      }
+
+      if (
+        filters.salaryMax &&
+        job.salary?.max &&
+        job.salary.max > filters.salaryMax
+      ) {
+        return false;
+      }
+
+      // Qidiruv so'zi filtri
+      if (filters.searchQuery) {
+        const query = filters.searchQuery.toLowerCase();
+        const searchableText = [
+          job.title,
+          job.description,
+          job.companyName || '',
+          ...(job.requirements || []),
+          ...(job.benefits || []),
+        ]
+          .join(' ')
+          .toLowerCase();
+
+        if (!searchableText.includes(query)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [jobs, filters]);
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['left', 'right', 'top']}>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.container}>
-        <SearchBar />
-        
-        {/* Categories */}
-        {loading ? (
-          <CategoryChipsSkeleton />
-        ) : (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.categoriesContainer}
-            contentContainerStyle={styles.categoriesContent}
-          >
-            {categories.map((category) => (
-              <CategoryChip
-                key={category.id}
-                category={category}
-                selected={filters.category === category.id}
-                onPress={() => handleCategoryPress(category.id)}
-              />
-            ))}
-          </ScrollView>
-        )}
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Ish qidirish..."
+          onFilterPress={() => setShowFilterModal(true)}
+        />
 
-        {/* Jobs List */}
         <FlatList
-          data={loading ? Array(5).fill({}) : filteredJobs}
-          renderItem={({ item, index }) => 
-            loading ? <JobCardSkeleton key={index} /> : <JobCard job={item} />
-          }
-          keyExtractor={(item, index) => loading ? `skeleton-${index}` : item.id}
-          refreshControl={
-            <RefreshControl refreshing={loading} onRefresh={refreshJobs} />
-          }
-          contentContainerStyle={[
-            styles.jobsContent, 
-            { paddingBottom: tabBarHeight + 20 },
-            !loading && filteredJobs.length === 0 && styles.emptyListContent
-          ]}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={!loading ? (
-            <LottieEmptyState
-              title={filters.searchQuery || filters.category ? 'Hech narsa topilmadi' : 'Ish e\'lonlari yo\'q'}
-              subtitle={
-                filters.searchQuery || filters.category 
-                  ? 'Qidiruv shartlaringizni o\'zgartiring yoki boshqa kategoriyani tanlang' 
-                  : 'Hozircha ish e\'lonlari mavjud emas. Tez orada yangilar qo\'shiladi.'
+          data={filteredJobs}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <JobCard
+              job={item}
+              onPress={() =>
+                navigation.navigate('JobDetails', { jobId: item.id })
               }
-              actionText="Filtrlarni tozalash"
-              onAction={() => setFilters({})}
-              animationType={filters.searchQuery || filters.category ? 'search' : 'empty'}
             />
-          ) : null}
+          )}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            !loading ? (
+              <LottieEmptyState
+                title="Hech narsa topilmadi"
+                subtitle={
+                  filters.searchQuery || filters.category
+                    ? "Qidiruv bo'yicha hech narsa topilmadi. Boshqa so'zlar bilan qidiring yoki filtrlarni o'zgartiring."
+                    : "Hozircha ish e'lonlari mavjud emas. Sahifani yangilash uchun pastga torting."
+                }
+                actionText="Filtrlarni tozalash"
+                onAction={() => setFilters({})}
+                animationType={
+                  filters.searchQuery || filters.category ? 'search' : 'empty'
+                }
+              />
+            ) : null
+          }
         />
 
         <FilterModal
@@ -170,64 +156,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    paddingHorizontal: wp(4),
   },
-  categoriesContainer: {
-    maxHeight: 60,
-    backgroundColor: colors.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    // Shadow qo'shish
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 1,
-        },
-        shadowOpacity: 0.08,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
-  },
-  categoriesContent: {
-    paddingHorizontal: horizontalPadding(16),
-    paddingVertical: 8,
-  },
-  jobsContent: {
-    padding: horizontalPadding(16),
-  },
-  emptyListContent: {
+  listContainer: {
+    paddingBottom: hp(16),
     flexGrow: 1,
-    justifyContent: 'center',
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 80,
-    paddingHorizontal: 32,
-  },
-  emptyIcon: {
-    marginBottom: 20,
-    opacity: 0.6,
-  },
-  emptyTitle: {
-    fontSize: fontSize(18),
-    fontWeight: '600',
-    color: colors.text,
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  emptySubtitle: {
-    fontSize: fontSize(14),
-    color: colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: 20,
-    maxWidth: 280,
   },
 });
-

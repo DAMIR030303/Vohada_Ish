@@ -3,7 +3,12 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import {
+  Animated,
+  Easing,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
 
 import { hapticFeedback } from '../utils/haptics';
 import { soundEffects } from '../utils/soundEffects';
@@ -69,7 +74,7 @@ export const AnimatedTouchable: React.FC<AnimatedTouchableProps> = ({
       tension: 300,
       friction: 10,
     }).start();
-    
+
     onPressIn?.(event);
   };
 
@@ -80,7 +85,7 @@ export const AnimatedTouchable: React.FC<AnimatedTouchableProps> = ({
       tension: 300,
       friction: 10,
     }).start();
-    
+
     onPressOut?.(event);
   };
 

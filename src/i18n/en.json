@@ -1,4 +1,28 @@
 {
+  "home": {
+    "title": "Home",
+    "welcome": "Hello, {name}!",
+    "welcomeGuest": "Hello!",
+    "noJobs": "No jobs found",
+    "searchPlaceholder": "Search jobs...",
+    "totalJobs": "Total Jobs",
+    "newToday": "New Today",
+    "companies": "Companies",
+    "categories": "Categories",
+    "viewAll": "View All",
+    "recommended": "For You",
+    "popularCompanies": "Popular Companies",
+    "quickFilters": "Quick Filters",
+    "allRegions": "All Regions",
+    "allTypes": "All Types",
+    "featuredJobs": "Featured Jobs",
+    "allJobs": "All Jobs",
+    "activeJobs": "Active Jobs",
+    "selectCategory": "Select Category",
+    "selectRegion": "Select Region",
+    "employmentType": "Employment Type",
+    "login": "Login"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
@@ -28,7 +52,25 @@
   "home": {
     "title": "Home",
     "noJobs": "No job listings found",
-    "searchPlaceholder": "Search for jobs..."
+    "searchPlaceholder": "Search for jobs...",
+    "welcome": "Welcome, {{name}}!",
+    "welcomeGuest": "Home",
+    "totalJobs": "Active Jobs",
+    "newToday": "New Today",
+    "companies": "Companies",
+    "categories": "Categories",
+    "allCategories": "All Categories",
+    "viewAll": "View All",
+    "recommended": "For You",
+    "popularCompanies": "Popular Companies",
+    "quickFilters": "Quick Filters",
+    "allRegions": "All Regions",
+    "allTypes": "All Types",
+    "featuredJobs": "Featured Jobs",
+    "allJobs": "All Jobs",
+    "selectRegion": "Select Region",
+    "selectType": "Select Job Type",
+    "jobsCount": "{{count}} jobs"
   },
   "job": {
     "title": "Job Title",
@@ -45,10 +87,26 @@
     "postJob": "Post Job",
     "myJobs": "My Jobs"
   },
+  "messages": {
+    "title": "Messages",
+    "noConversations": "No messages",
+    "noConversationsDesc": "You haven't messaged anyone yet",
+    "startMessaging": "Apply to job listings to start messaging",
+    "typing": "typing...",
+    "online": "Online",
+    "offline": "Offline",
+    "lastSeen": "Last seen",
+    "messageInput": "Type a message...",
+    "send": "Send",
+    "delivered": "Delivered",
+    "read": "Read",
+    "unread": "Unread",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
   "profile": {
     "title": "Profile",
     "information": "Information",
     "registeredDate": "Registration Date"
   }
 }
-

@@ -12,27 +12,14 @@ import {
   getDocs,
   query,
   where,
-  orderBy,
   limit,
   Timestamp,
 } from 'firebase/firestore';
 
 import { Job, FilterOptions } from '../types';
+import { checkFirebaseConfig } from '../utils/firebaseHelpers';
 
 import { db } from './firebase';
-
-/**
- * Firebase konfiguratsiyasini tekshirish
- */
-const checkFirebaseConfig = () => {
-  if (!db) {
-    throw new Error(
-      'Firebase konfiguratsiyasi topilmadi. ' +
-      'Iltimos, .env faylida EXPO_PUBLIC_FIREBASE_* o\'zgaruvchilarini to\'ldiring ' +
-      'va Expo server\'ni qayta ishga tushiring: npm start -- --clear'
-    );
-  }
-};
 
 /**
  * Yangi ish e'lonini yaratish
@@ -117,7 +104,7 @@ export const getJobs = async (
     // Firestore composite index talab qilmasligi uchun query'ni optimallashtirish
     // Avval orderBy, keyin where - bu index talab qilmaydi
     // Yoki index yaratish kerak: status == 'active' + orderBy('createdAt')
-    
+
     // Yondashuv 1: OrderBy'ni olib tashlash va client-side sorting
     let q = query(collection(db!, 'jobs'), where('status', '==', 'active'));
 
@@ -151,8 +138,10 @@ export const getJobs = async (
 
     // Client-side sorting (createdAt bo'yicha)
     jobs.sort((a, b) => {
-      const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
-      const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
+      const dateA =
+        a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
+      const dateB =
+        b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
       return dateB.getTime() - dateA.getTime();
     });
 
@@ -176,18 +165,21 @@ export const getJobs = async (
     if (error?.code === 'permission-denied') {
       console.error(
         'Firestore permissions xatosi. ' +
-        'Firebase Console\'da Firestore Rules\'ni tekshiring. ' +
-        'Test mode\'da qo\'shib ko\'ring yoki authenticated users uchun ruxsat bering.',
+          "Firebase Console'da Firestore Rules'ni tekshiring. " +
+          "Test mode'da qo'shib ko'ring yoki authenticated users uchun ruxsat bering.",
       );
       // Demo mode'ga o'tish yoki bo'sh ro'yxat qaytarish
       return [];
     }
     // Firestore index xatosi bo'lsa, foydalanuvchiga tushuntirish
-    if (error?.code === 'failed-precondition' || error?.message?.includes('index')) {
+    if (
+      error?.code === 'failed-precondition' ||
+      error?.message?.includes('index')
+    ) {
       console.warn(
         'Firestore index xatosi. ' +
-        'Firebase Console\'da index yaratish kerak yoki query\'ni optimallashtirish. ' +
-        'Hozir client-side sorting ishlatilmoqda.',
+          "Firebase Console'da index yaratish kerak yoki query'ni optimallashtirish. " +
+          'Hozir client-side sorting ishlatilmoqda.',
       );
       // Client-side sorting bilan davom etish
       return [];
@@ -224,8 +216,10 @@ export const getUserJobs = async (userId: string): Promise<Job[]> => {
 
     // Client-side sorting (createdAt bo'yicha - eng yangisi birinchi)
     jobs.sort((a, b) => {
-      const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
-      const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
+      const dateA =
+        a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
+      const dateB =
+        b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
       return dateB.getTime() - dateA.getTime();
     });
 
@@ -235,19 +229,21 @@ export const getUserJobs = async (userId: string): Promise<Job[]> => {
     if (error?.code === 'permission-denied') {
       console.error(
         'Firestore permissions xatosi. ' +
-        'Firebase Console\'da Firestore Rules\'ni tekshiring.',
+          "Firebase Console'da Firestore Rules'ni tekshiring.",
       );
       return [];
     }
     // Firestore index xatosi bo'lsa (eski kod uchun)
-    if (error?.code === 'failed-precondition' || error?.message?.includes('index')) {
+    if (
+      error?.code === 'failed-precondition' ||
+      error?.message?.includes('index')
+    ) {
       console.warn(
         'Firestore index xatosi. ' +
-        'Client-side sorting ishlatilmoqda, lekin index yaratish tavsiya etiladi.',
+          'Client-side sorting ishlatilmoqda, lekin index yaratish tavsiya etiladi.',
       );
       return [];
     }
     throw error;
   }
 };
-
