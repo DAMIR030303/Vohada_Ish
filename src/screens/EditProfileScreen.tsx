@@ -95,7 +95,7 @@ export const EditProfileScreen: React.FC = () => {
   };
 
   const renderAvatar = () => {
-    if (uploadingAvatar) {
+    if (loading) {
       return (
         <View style={styles.avatarContainer}>
           <View style={styles.avatar}>

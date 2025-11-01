@@ -3,7 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "moduleResolution": "bundler",
-    "types": ["jest", "@testing-library/jest-native"],
+    "types": ["jest", "@testing-library/jest-native", "node"],
     "paths": {
       "@/*": ["./src/*"]
     }

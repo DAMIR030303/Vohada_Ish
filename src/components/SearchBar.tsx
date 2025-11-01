@@ -19,27 +19,49 @@ import { horizontalPadding } from '../utils/responsive';
 
 export interface SearchBarProps {
   compact?: boolean;
+  value?: string;
+  onChangeText?: (text: string) => void;
+  placeholder?: string;
+  onFilterPress?: () => void;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ compact = false }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({
+  compact = false,
+  value,
+  onChangeText,
+  placeholder = 'Ish qidirish...',
+  onFilterPress: _onFilterPress,
+}) => {
   const { filters, setFilters } = useJobs();
   const [searchQuery, setSearchQuery] = useState(filters.searchQuery || '');
   const insets = useSafeAreaInsets();
 
+  // Use controlled or uncontrolled mode
+  const isControlled = value !== undefined;
+  const currentValue = isControlled ? value : searchQuery;
+
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    setFilters({
-      ...filters,
-      searchQuery: query || undefined,
-    });
+    if (isControlled && onChangeText) {
+      onChangeText(query);
+    } else {
+      setSearchQuery(query);
+      setFilters({
+        ...filters,
+        searchQuery: query || undefined,
+      });
+    }
   };
 
   const handleClear = () => {
-    setSearchQuery('');
-    setFilters({
-      ...filters,
-      searchQuery: undefined,
-    });
+    if (isControlled && onChangeText) {
+      onChangeText('');
+    } else {
+      setSearchQuery('');
+      setFilters({
+        ...filters,
+        searchQuery: undefined,
+      });
+    }
   };
 
   // Status bar va notch uchun padding
@@ -63,9 +85,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ compact = false }) => {
     >
       <View style={styles.searchContainer}>
         <Searchbar
-          placeholder="Ish qidirish..."
+          placeholder={placeholder}
           onChangeText={handleSearch}
-          value={searchQuery}
+          value={currentValue}
           style={[styles.searchbar, { height: searchHeight }]}
           inputStyle={styles.searchInput}
           iconColor={colors.primary}
@@ -75,7 +97,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ compact = false }) => {
           accessibilityLabel="Ish e'lonlarini qidirish"
           accessibilityHint="Ish nomi, kompaniya yoki joylashuv bo'yicha qidiring"
           clearIcon={() =>
-            searchQuery ? (
+            currentValue ? (
               <TouchableOpacity
                 onPress={handleClear}
                 activeOpacity={0.7}

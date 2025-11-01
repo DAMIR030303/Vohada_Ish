@@ -111,7 +111,7 @@ export const slideFromLeft: StackCardStyleInterpolator = ({
 /**
  * Slide from bottom (modal style)
  */
-export const slideFromBottom: StackStackCardStyleInterpolator = ({
+export const slideFromBottom: StackCardStyleInterpolator = ({
   current,
   layouts,
 }: StackCardInterpolationProps): StackCardInterpolatedStyle => {

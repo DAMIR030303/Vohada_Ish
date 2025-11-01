@@ -17,7 +17,8 @@ import { FilterOptions } from '../types';
 import { wp, hp } from '../utils/responsive';
 
 export const SearchScreen: React.FC = () => {
-  const navigation = useNavigation();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const navigation = useNavigation<any>();
   const { jobs, loading } = useJobs();
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<FilterOptions>({});

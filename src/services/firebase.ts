@@ -9,7 +9,7 @@ import { getStorage } from 'firebase/storage';
 
 // Firebase v12'da AsyncStorage persistence avtomatik qo'llaniladi
 // Expo muhitida @react-native-async-storage/async-storage avtomatik ishlatiladi
-// Warning chiqishi mumkin, lekin bu normal va auth state saqlanadi
+// getAuth bilan avtomatik persistence ishlaydi
 
 // Firebase konfiguratsiyasi
 const firebaseConfig = {
@@ -76,15 +76,8 @@ let storage: ReturnType<typeof getStorage> | null = null;
 
 if (app && isFirebaseConfigured) {
   try {
-    // Firebase Auth'ni AsyncStorage persistence bilan initialize qilish
-    try {
-      auth = initializeAuth(app, {
-        persistence: getReactNativePersistence(AsyncStorage),
-      });
-    } catch (error) {
-      // Auth allaqachon initialize qilingan bo'lsa, getAuth ishlatamiz
-      auth = getAuth(app);
-    }
+    // Firebase v12 da getAuth avtomatik AsyncStorage bilan ishlaydi
+    auth = getAuth(app);
 
     db = getFirestore(app);
     storage = getStorage(app);

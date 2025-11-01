@@ -28,13 +28,18 @@ type NavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface JobCardProps {
   job: Job;
+  onPress?: () => void;
 }
 
-export const JobCard: React.FC<JobCardProps> = ({ job }) => {
+export const JobCard: React.FC<JobCardProps> = ({ job, onPress }) => {
   const navigation = useNavigation<NavigationProp>();
 
   const handlePress = () => {
-    navigation.navigate('JobDetails', { jobId: job.id });
+    if (onPress) {
+      onPress();
+    } else {
+      navigation.navigate('JobDetails', { jobId: job.id });
+    }
   };
 
   // Kategoriya bo'yicha gradient ranglar va icon - Logo ranglaridan foydalanish
