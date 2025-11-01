@@ -21,7 +21,8 @@
     "precommit": "npm run lint && npm run typecheck && npm test",
     "prepare": "husky",
     "test:full": "bash scripts/test-and-start.sh",
-    "qa:check": "bash scripts/test-and-start.sh"
+    "qa:check": "bash scripts/test-and-start.sh",
+    "test:all": "bash scripts/run-tests.sh"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
