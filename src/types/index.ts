@@ -50,6 +50,15 @@ export interface Message {
   mediaUrl?: string; // Rasm yoki fayl URL
   read: boolean;
   createdAt: Date;
+  // New fields for modern messaging
+  replyTo?: {
+    id: string;
+    content: string;
+    senderName: string;
+  };
+  reactions?: Record<string, string[]>; // emoji -> userIds
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'failed';
+  editedAt?: Date;
 }
 
 export interface Conversation {
@@ -74,6 +83,9 @@ export interface Conversation {
   typing?: Record<string, boolean>; // Har bir user yozayaptimi
   createdAt: Date;
   updatedAt: Date;
+  // New fields for modern messaging
+  isPinned?: boolean;
+  isArchived?: boolean;
 }
 
 export interface FilterOptions {

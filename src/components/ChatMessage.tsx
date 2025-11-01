@@ -174,20 +174,44 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             ]}
           >
             {formatTime(message.createdAt)}
+            {message.editedAt && (
+              <Text style={styles.editedLabel}> (edited)</Text>
+            )}
           </Text>
           {isOwnMessage && (
             <Text
               style={[
                 styles.readIndicator,
                 {
-                  color: message.read ? '#4CAF50' : 'rgba(255, 255, 255, 0.5)',
+                  color:
+                    message.status === 'read'
+                      ? '#4CAF50'
+                      : message.status === 'delivered'
+                        ? '#2196F3'
+                        : 'rgba(255, 255, 255, 0.5)',
                 },
               ]}
             >
-              {message.read ? '✓✓' : '✓'}
+              {message.status === 'read' || message.read
+                ? '✓✓'
+                : message.status === 'delivered'
+                  ? '✓✓'
+                  : '✓'}
             </Text>
           )}
         </View>
+
+        {/* Reactions */}
+        {message.reactions && Object.keys(message.reactions).length > 0 && (
+          <View style={styles.reactionsContainer}>
+            {Object.entries(message.reactions).map(([emoji, userIds]) => (
+              <View key={emoji} style={styles.reactionBubble}>
+                <Text style={styles.reactionEmoji}>{emoji}</Text>
+                <Text style={styles.reactionCount}>{userIds.length}</Text>
+              </View>
+            ))}
+          </View>
+        )}
       </View>
     </View>
   );
@@ -276,5 +300,32 @@ const styles = StyleSheet.create({
   readIndicator: {
     fontSize: moderateScale(12),
     fontWeight: 'bold',
+  },
+  editedLabel: {
+    fontSize: moderateScale(10),
+    fontStyle: 'italic',
+  },
+  reactionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: scale(4),
+    gap: scale(4),
+  },
+  reactionBubble: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: moderateScale(12),
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(4),
+  },
+  reactionEmoji: {
+    fontSize: moderateScale(14),
+    marginRight: scale(2),
+  },
+  reactionCount: {
+    fontSize: moderateScale(12),
+    fontWeight: '600',
+    color: '#666',
   },
 });

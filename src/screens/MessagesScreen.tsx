@@ -3,7 +3,7 @@
  */
 
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
   FlatList,
   SafeAreaView,
   ActivityIndicator,
+  TextInput,
+  RefreshControl,
 } from 'react-native';
 
 import { ConversationItem } from '../components/ConversationItem';
@@ -26,6 +28,41 @@ export const MessagesScreen: React.FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { conversations, loading, error } = useConversations(user?.id || '');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Search filter
+  const filteredConversations = useMemo(() => {
+    if (!searchQuery.trim()) return conversations;
+
+    const query = searchQuery.toLowerCase();
+    return conversations.filter((conv) => {
+      const otherUserId = conv.participants.find((id) => id !== user?.id);
+      const otherUser = otherUserId
+        ? conv.participantDetails?.[otherUserId]
+        : null;
+
+      // Search by name
+      if (otherUser?.name && otherUser.name.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      // Search by job title
+      if (conv.jobTitle && conv.jobTitle.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      // Search by last message
+      if (
+        conv.lastMessage &&
+        conv.lastMessage.content.toLowerCase().includes(query)
+      ) {
+        return true;
+      }
+
+      return false;
+    });
+  }, [conversations, searchQuery, user?.id]);
 
   const handleConversationPress = (conversation: Conversation) => {
     // ChatScreen'ga o'tish
@@ -34,6 +71,14 @@ export const MessagesScreen: React.FC = () => {
       conversationId: conversation.id,
       otherUserId: conversation.participants.find((id) => id !== user?.id),
     });
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    // Refresh logic here
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
   };
 
   const renderItem = ({ item }: { item: Conversation }) => (
@@ -68,19 +113,45 @@ export const MessagesScreen: React.FC = () => {
         <Text style={styles.headerTitle}>{t('messages.title')}</Text>
       </View>
 
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Xabarlarni qidirish..."
+          placeholderTextColor={colors.textSecondary}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
+
       {/* Conversations List */}
-      {conversations.length === 0 ? (
+      {filteredConversations.length === 0 && !loading ? (
         <LottieEmptyState
-          title={t('messages.noConversations')}
-          subtitle={t('messages.startMessaging')}
+          title={
+            searchQuery
+              ? t('messages.noResults')
+              : t('messages.noConversations')
+          }
+          subtitle={
+            searchQuery
+              ? t('messages.tryDifferentSearch')
+              : t('messages.startMessaging')
+          }
         />
       ) : (
         <FlatList
-          data={conversations}
+          data={filteredConversations}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              tintColor={colors.primary}
+            />
+          }
         />
       )}
     </SafeAreaView>
@@ -102,6 +173,23 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.text,
+  },
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  searchInput: {
+    backgroundColor: colors.background,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    fontSize: 14,
+    color: colors.text,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   listContent: {
     flexGrow: 1,

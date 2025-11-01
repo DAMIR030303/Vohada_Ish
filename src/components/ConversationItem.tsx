@@ -108,16 +108,23 @@ export const ConversationItem: React.FC<ConversationItemProps> = ({
       <View style={styles.content}>
         {/* Name va Timestamp */}
         <View style={styles.header}>
-          <Text
-            style={[
-              styles.name,
-              { color: theme.text },
-              unreadCount > 0 && styles.nameUnread,
-            ]}
-            numberOfLines={1}
-          >
-            {otherUser?.name || 'Unknown User'}
-          </Text>
+          <View style={styles.nameContainer}>
+            {conversation.isPinned && (
+              <Text style={styles.pinIcon} testID="pin-icon">
+                📌
+              </Text>
+            )}
+            <Text
+              style={[
+                styles.name,
+                { color: theme.text },
+                unreadCount > 0 && styles.nameUnread,
+              ]}
+              numberOfLines={1}
+            >
+              {otherUser?.name || 'Unknown User'}
+            </Text>
+          </View>
           {conversation.lastMessage && (
             <Text style={[styles.timestamp, { color: theme.textSecondary }]}>
               {formatDistanceToNow(conversation.lastMessage.createdAt)}
@@ -248,11 +255,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: scale(4),
   },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: scale(8),
+  },
+  pinIcon: {
+    fontSize: moderateScale(14),
+    marginRight: scale(4),
+  },
   name: {
     fontSize: moderateScale(16),
     fontWeight: '600',
     flex: 1,
-    marginRight: scale(8),
   },
   nameUnread: {
     fontWeight: 'bold',
